@@ -2,6 +2,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface SidebarLinkProps {
   icon: string;
@@ -22,7 +23,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
   return (
     <Link
       to={to}
-      className={`flex items-center gap-4 mt-6 rounded-[5px] px-3 py-2 cursor-pointer hover:text-white transition-colors ${
+      className={`flex items-center gap-4 py-2 px-3 cursor-pointer hover:text-white transition-colors ${
         isActive ? "text-white font-bold" : "text-[rgba(202,179,255,1)]"
       }`}
     >
@@ -121,17 +122,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
       </div>
-      <div className={`flex flex-col py-4 px-2 mt-6 ${collapsed ? "items-center" : ""}`}>
-        {sidebarLinks.map((link, index) => (
-          <SidebarLink
-            key={index}
-            icon={link.icon}
-            label={link.label}
-            to={link.to}
-            collapsed={collapsed}
-          />
-        ))}
-      </div>
+      <ScrollArea className="h-[calc(100vh-100px)] mt-6">
+        <div className={`flex flex-col py-2 px-2 ${collapsed ? "items-center" : ""}`}>
+          {sidebarLinks.map((link, index) => (
+            <SidebarLink
+              key={index}
+              icon={link.icon}
+              label={link.label}
+              to={link.to}
+              collapsed={collapsed}
+            />
+          ))}
+        </div>
+      </ScrollArea>
     </div>
   );
 };
