@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
@@ -9,10 +8,13 @@ export const MainLayout: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-[rgba(245,247,250,1)] overflow-hidden">
-      <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-      <div 
+      <Sidebar
+        collapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+      />
+      <div
         className={`flex flex-col w-full transition-all duration-300 ease-in-out ${
-          sidebarCollapsed ? "ml-[70px]" : "ml-0 md:ml-[22%]"
+          sidebarCollapsed ? "ml-[70px]" : "ml-[280px]"
         }`}
       >
         <Header />

@@ -1,11 +1,10 @@
-
 import React, { useState, useRef, useEffect } from "react";
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 
@@ -22,9 +21,11 @@ export const Header: React.FC = () => {
             className="aspect-[1] object-contain w-[40px]"
             alt="Notifications"
           />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            3
+          </span>
         </button>
-        
+
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-1.5 outline-none">
             <img
@@ -36,12 +37,20 @@ export const Header: React.FC = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <div className="px-2 py-1.5 text-sm font-medium">Chioma Ike</div>
-            <div className="px-2 pb-2 text-xs text-gray-500">chioma@orbitngos.org</div>
+            <div className="px-2 pb-2 text-xs text-gray-500">
+              chioma@orbitngos.org
+            </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">Settings</DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              Settings
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer text-red-500">Logout</DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer text-red-500">
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
