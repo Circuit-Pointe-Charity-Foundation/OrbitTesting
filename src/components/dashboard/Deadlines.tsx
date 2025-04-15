@@ -1,3 +1,4 @@
+
 import React from "react";
 
 interface DeadlineProps {
@@ -66,17 +67,17 @@ export const Deadlines: React.FC = () => {
       <div className="self-center flex w-[258px] max-w-full items-stretch gap-[18px] mt-6">
         <div className="text-xs text-[rgba(88,88,88,1)] font-medium whitespace-nowrap leading-none mt-[26px] max-md:hidden">
           <div className="w-full">
-            <div className="bg-white border w-7 h-7 px-[11px] rounded-[50%] border-[rgba(233,233,233,1)] border-solid">
+            <div className="bg-white border w-7 h-7 flex items-center justify-center rounded-[50%] border-[rgba(233,233,233,1)] border-solid">
               1
             </div>
           </div>
           <div className="w-full mt-[132px] max-md:mt-10">
-            <div className="bg-white border w-7 h-7 px-2.5 rounded-[50%] border-[rgba(233,233,233,1)] border-solid">
+            <div className="bg-white border w-7 h-7 flex items-center justify-center rounded-[50%] border-[rgba(233,233,233,1)] border-solid">
               2
             </div>
           </div>
           <div className="w-full mt-[132px] max-md:mt-10">
-            <div className="bg-white border w-7 h-7 px-2.5 rounded-[50%] border-[rgba(233,233,233,1)] border-solid">
+            <div className="bg-white border w-7 h-7 flex items-center justify-center rounded-[50%] border-[rgba(233,233,233,1)] border-solid">
               3
             </div>
           </div>
