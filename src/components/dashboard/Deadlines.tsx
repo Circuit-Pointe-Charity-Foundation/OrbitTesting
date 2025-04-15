@@ -1,56 +1,62 @@
-
 import React from "react";
 
-interface DeadlineProps {
-  number: string;
+interface DeadlineItem {
+  id: string;
   title: string;
   organization: string;
   dueDate: string;
   status: "Urgent" | "Due Soon" | "Upcoming";
-  bgColor: string;
 }
 
-const Deadline: React.FC<DeadlineProps> = ({
-  number,
-  title,
-  organization,
-  dueDate,
-  status,
-  bgColor,
-}) => {
-  const getStatusColor = () => {
-    switch (status) {
-      case "Urgent":
-        return "bg-red-600";
-      case "Due Soon":
-        return "bg-orange-600";
-      case "Upcoming":
-        return "bg-green-600";
-      default:
-        return "bg-gray-600";
-    }
+const deadlinesData: DeadlineItem[] = [
+  {
+    id: "1",
+    title: 'Proposal: "Youth Empowerment Plan"',
+    organization: "UNICEF",
+    dueDate: "Due: Today",
+    status: "Urgent",
+  },
+  {
+    id: "2",
+    title: 'Opportunity: "Community Health Grant"',
+    organization: "WUO",
+    dueDate: "Due in 2 days",
+    status: "Due Soon",
+  },
+  {
+    id: "3",
+    title: 'Proposal: "Water for All"',
+    organization: "WaterAid",
+    dueDate: "Due in 1 week",
+    status: "Upcoming",
+  },
+];
+
+interface DeadlineProps {
+  item: DeadlineItem;
+}
+
+const Deadline: React.FC<DeadlineProps> = ({ item }) => {
+  const statusColors = {
+    Urgent: "bg-red-100 border-red-200 text-red-800",
+    "Due Soon": "bg-orange-100 border-orange-200 text-orange-800",
+    Upcoming: "bg-green-100 border-green-200 text-green-800",
   };
 
   return (
-    <div className="w-full">
-      <div
-        className={`${bgColor} flex flex-col items-stretch justify-center px-4 py-5 rounded-[10px]`}
-      >
-        <div className="w-full">
-          <div className="w-full font-normal">
-            <div className="text-black text-sm">{title}</div>
-            <div className="text-black text-xs mt-3">{organization}</div>
-          </div>
-          <div className="flex w-full gap-8 mt-1">
-            <div className="text-black text-sm font-normal">{dueDate}</div>
-            <div className="text-[10px] text-white font-semibold whitespace-nowrap w-[72px]">
-              <div
-                className={`${getStatusColor()} px-[7px] py-1.5 rounded-[5px]`}
-              >
-                {status}
-              </div>
-            </div>
-          </div>
+    <div className="p-4 rounded-lg border border-gray-100 hover:border-gray-200 bg-white mb-3 transition-colors">
+      <div className="flex flex-col gap-2">
+        <h4 className="text-sm font-medium text-gray-800">{item.title}</h4>
+        <p className="text-xs text-gray-600">{item.organization}</p>
+        <div className="flex items-center justify-between mt-2">
+          <span className="text-xs text-gray-500">{item.dueDate}</span>
+          <span
+            className={`${
+              statusColors[item.status]
+            } text-xs px-2 py-1 rounded-full`}
+          >
+            {item.status}
+          </span>
         </div>
       </div>
     </div>
@@ -59,61 +65,37 @@ const Deadline: React.FC<DeadlineProps> = ({
 
 export const Deadlines: React.FC = () => {
   return (
-    <div>
-      <div className="text-black text-sm font-normal leading-none mt-10">
-        Upcoming Deadlines
+    <div className="w-full">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-gray-800">
+          Upcoming Deadlines
+        </h3>
       </div>
-      <div className="border shrink-0 h-px mt-[7px] border-[rgba(233,233,233,1)] border-solid" />
-      <div className="self-center flex w-[258px] max-w-full items-stretch gap-[18px] mt-6">
-        <div className="text-xs text-[rgba(88,88,88,1)] font-medium whitespace-nowrap leading-none mt-[26px] max-md:hidden">
-          <div className="w-full">
-            <div className="bg-white border w-7 h-7 flex items-center justify-center rounded-[50%] border-[rgba(233,233,233,1)] border-solid">
-              1
-            </div>
+      <div className="border-b border-gray-200 mb-4" />
+      <div className="h-[300px] overflow-y-auto pr-2">
+        <div className="flex gap-4">
+          {/* Numbered List */}
+          <div className="flex flex-col items-center">
+            {deadlinesData.map((_, index) => (
+              <div key={index} className="relative">
+                <div className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-full text-xs font-medium text-gray-600">
+                  {index + 1}
+                </div>
+                {index < deadlinesData.length - 1 && (
+                  <div className="h-[100px] w-px bg-gray-200 my-2" />
+                )}
+              </div>
+            ))}
           </div>
-          <div className="w-full mt-[132px] max-md:mt-10">
-            <div className="bg-white border w-7 h-7 flex items-center justify-center rounded-[50%] border-[rgba(233,233,233,1)] border-solid">
-              2
-            </div>
-          </div>
-          <div className="w-full mt-[132px] max-md:mt-10">
-            <div className="bg-white border w-7 h-7 flex items-center justify-center rounded-[50%] border-[rgba(233,233,233,1)] border-solid">
-              3
-            </div>
-          </div>
-        </div>
-        <div>
-          <Deadline
-            number="1"
-            title='Proposal: "Youth Empowerment Plan"'
-            organization="UNICEF"
-            dueDate="Due: Today"
-            status="Urgent"
-            bgColor="bg-red-100"
-          />
-          <div className="mt-8">
-            <Deadline
-              number="2"
-              title='Opportunity: "Community Health Grant"'
-              organization="WUO"
-              dueDate="Due in 2 days"
-              status="Due Soon"
-              bgColor="bg-orange-100"
-            />
-          </div>
-          <div className="mt-8">
-            <Deadline
-              number="3"
-              title='Proposal: "Water for All"'
-              organization="WaterAid"
-              dueDate="Due in 1 week"
-              status="Upcoming"
-              bgColor="bg-green-100"
-            />
+
+          {/* Deadlines List */}
+          <div className="flex-1">
+            {deadlinesData.map((item) => (
+              <Deadline key={item.id} item={item} />
+            ))}
           </div>
         </div>
       </div>
-      <div className="border shrink-0 h-px mt-[29px] border-[rgba(233,233,233,1)] border-solid" />
     </div>
   );
 };

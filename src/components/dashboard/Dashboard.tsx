@@ -1,4 +1,3 @@
-
 import React from "react";
 import { QuickActions } from "./QuickActions";
 import { StatCards } from "./StatCards";
@@ -19,7 +18,9 @@ export const Dashboard: React.FC = () => {
           </div>
           <div className="w-full lg:w-[30%]">
             <div className="bg-white flex w-full flex-col rounded-lg shadow-sm">
-              <div className="flex flex-col p-6">
+              <div className="flex flex-col p-6 gap-4">
+                {" "}
+                {/* Changed from space-y-6 to gap-4 */}
                 <Notifications />
                 <Deadlines />
               </div>

@@ -9,9 +9,9 @@ interface StatCardProps {
 
 const StatCard: React.FC<StatCardProps> = ({ icon, value, label, bgColor }) => {
   return (
-    <div className="self-stretch w-[174px] my-auto">
+    <div className="self-stretch w-[174px] my-auto transition-all duration-300 hover:scale-[1.03] hover:shadow-md">
       <div
-        className={`${bgColor} flex flex-col items-stretch justify-center px-[17px] py-[27px] rounded-[15px] max-md:px-5`}
+        className={`${bgColor} flex flex-col items-stretch justify-center px-[17px] py-[27px] rounded-[15px] max-md:px-5 h-full`}
       >
         <div className="flex flex-col items-stretch">
           <img
