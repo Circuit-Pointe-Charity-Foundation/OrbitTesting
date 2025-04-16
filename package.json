@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node server.js",
-    "prestart": "npm run build"
+    "prestart": "npm run build",
+    "eject": "react-scripts eject",
+    "start:prod": "node server.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
