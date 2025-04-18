@@ -1,12 +1,20 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import { SearchIcon } from "../icons/SearchIcon";
 
 interface SearchBarProps {
   placeholder: string;
+  onSearch?: (term: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ placeholder }) => {
-  const [searchTerm, setSearchTerm] = React.useState("");
+const SearchBar: React.FC<SearchBarProps> = ({ placeholder, onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (onSearch) {
+      onSearch(searchTerm);
+    }
+  }, [searchTerm, onSearch]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

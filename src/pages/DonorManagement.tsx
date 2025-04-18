@@ -10,7 +10,6 @@ const DonorManagement: React.FC = () => {
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
       />
       <div className="max-w-[1120px] w-full bg-[#F5F7FA] mx-auto my-0 p-8 max-md:max-w-[991px] max-md:p-6 max-sm:max-w-screen-sm max-sm:p-4">
-        <h1 className="text-2xl text-[#383839] mb-4">Donor Management</h1>
         <FundingCycles />
         <DonorList />
       </div>
