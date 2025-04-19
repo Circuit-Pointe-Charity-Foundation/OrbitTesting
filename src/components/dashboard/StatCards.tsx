@@ -9,24 +9,14 @@ interface StatCardProps {
 
 const StatCard: React.FC<StatCardProps> = ({ icon, value, label, bgColor }) => {
   return (
-    <div className="self-stretch w-[174px] my-auto transition-all duration-300 hover:scale-[1.03] hover:shadow-md">
+    <div className="flex-1 min-w-[160px] max-w-[240px] transition-all duration-300 hover:scale-[1.03] hover:shadow-md">
       <div
-        className={`${bgColor} flex flex-col items-stretch justify-center px-[17px] py-[27px] rounded-[15px] max-md:px-5 h-full`}
+        className={`${bgColor} flex flex-col items-center justify-center p-6 rounded-[15px] h-full`}
       >
-        <div className="flex flex-col items-stretch">
-          <img
-            src={icon}
-            className="aspect-[1] object-contain w-[34px] self-center"
-            alt=""
-          />
-          <div className="w-full mt-4">
-            <div className="text-[rgba(56,56,57,1)] text-xl font-semibold">
-              {value}
-            </div>
-            <div className="text-gray-500 text-xs font-normal mt-2">
-              {label}
-            </div>
-          </div>
+        <img src={icon} className="w-9 h-9 object-contain mb-4" alt="" />
+        <div className="text-center">
+          <div className="text-gray-800 text-xl font-semibold">{value}</div>
+          <div className="text-gray-500 text-xs font-normal mt-2">{label}</div>
         </div>
       </div>
     </div>

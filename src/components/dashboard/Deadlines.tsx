@@ -37,23 +37,29 @@ interface DeadlineProps {
 }
 
 const Deadline: React.FC<DeadlineProps> = ({ item }) => {
-  const statusColors = {
-    Urgent: "bg-red-100 border-red-200 text-red-800",
-    "Due Soon": "bg-orange-100 border-orange-200 text-orange-800",
-    Upcoming: "bg-green-100 border-green-200 text-green-800",
+  const cardBgColors = {
+    Urgent: "bg-red-100", // #fee2e2
+    "Due Soon": "bg-orange-100", // #ffedd5
+    Upcoming: "bg-green-100", // #dcfce7
+  };
+
+  const statusBgColors = {
+    Urgent: "bg-red-600", // #dc2626
+    "Due Soon": "bg-orange-600", // #ea580c
+    Upcoming: "bg-green-600", // #16a34a
   };
 
   return (
-    <div className="p-4 rounded-lg border border-gray-100 hover:border-gray-200 bg-white mb-3 transition-colors">
-      <div className="flex flex-col gap-2">
-        <h4 className="text-sm font-medium text-gray-800">{item.title}</h4>
+    <div className={`p-4 rounded-lg ${cardBgColors[item.status]} mb-5`}>
+      <div className="flex flex-col gap-1">
+        <h4 className="text-lg font-medium text-gray-800">{item.title}</h4>
         <p className="text-xs text-gray-600">{item.organization}</p>
         <div className="flex items-center justify-between mt-2">
-          <span className="text-xs text-gray-500">{item.dueDate}</span>
+          <span className="text-sm text-gray-500">{item.dueDate}</span>
           <span
             className={`${
-              statusColors[item.status]
-            } text-xs px-2 py-1 rounded-full`}
+              statusBgColors[item.status]
+            } text-white text-xs px-3 py-1.5 rounded-md font-medium`}
           >
             {item.status}
           </span>
@@ -72,18 +78,23 @@ export const Deadlines: React.FC = () => {
         </h3>
       </div>
       <div className="border-b border-gray-200 mb-4" />
-      <div className="h-[300px] overflow-y-auto pr-2">
+      <div className="h-[300px] overflow-y-auto">
         <div className="flex gap-4">
-          {/* Numbered List */}
-          <div className="flex flex-col items-center">
+          {/* Numbered List - Fixed Version */}
+          <div className="relative" style={{ minWidth: "24px" }}>
+            {/* Vertical line spanning all cards */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gray-300 transform -translate-x-1/2" />
+
+            {/* Number circles positioned along the line */}
             {deadlinesData.map((_, index) => (
-              <div key={index} className="relative">
-                <div className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-full text-xs font-medium text-gray-600">
+              <div
+                key={index}
+                className="absolute"
+                style={{ top: `${index * 120 + 28}px` }} // Adjust 120px per card, 28px offset
+              >
+                <div className="w-6 h-6 flex items-center justify-center bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-600 z-10 transform -translate-x-1/2 ml-3">
                   {index + 1}
                 </div>
-                {index < deadlinesData.length - 1 && (
-                  <div className="h-[100px] w-px bg-gray-200 my-2" />
-                )}
               </div>
             ))}
           </div>
