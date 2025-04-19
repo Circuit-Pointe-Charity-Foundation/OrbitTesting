@@ -9,7 +9,7 @@ const DonorManagement: React.FC = () => {
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
       />
-      <div className="max-w-[1120px] w-full bg-[#F5F7FA] mx-auto my-0 p-8 max-md:max-w-[991px] max-md:p-6 max-sm:max-w-screen-sm max-sm:p-4">
+      <div className="max-w-[1120px] w-full bg-[#F5F7FA] mx-auto my-0 p-2 max-md:max-w-[991px] max-md:p-6 max-sm:max-w-screen-sm max-sm:p-4">
         <FundingCycles />
         <DonorList />
       </div>
