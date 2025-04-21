@@ -18,6 +18,9 @@ export default defineConfig({
   },
   base: '/', // Explicit base path
   server: {
-    port: 8080
+    port: 8080,
+    allowedHosts: [
+      '24b99f1a-5229-4600-b01f-5b27c2da57e5.lovableproject.com'
+    ]
   }
 })
