@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +16,7 @@ import InternalWorkflow from "./pages/InternalWorkflow";
 import CalendarPage from "./pages/CalendarPage";
 import FundraisingAnalytics from "./pages/FundraisingAnalytics";
 import Settings from "./pages/Settings";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -27,8 +27,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Index />} />
+            <Route path="/dashboard" element={<Index />} />
             <Route path="/donor-management" element={<DonorManagement />} />
             <Route path="/opportunity-tracking" element={<OpportunityTracking />} />
             <Route path="/proposal-development" element={<ProposalDevelopment />} />
@@ -39,7 +40,6 @@ const App = () => (
             <Route path="/fundraising-analytics" element={<FundraisingAnalytics />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

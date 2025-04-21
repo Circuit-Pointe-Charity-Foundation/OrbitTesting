@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
@@ -7,15 +8,14 @@ export const MainLayout: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[rgba(245,247,250,1)] overflow-hidden">
+    <div className="flex min-h-screen bg-[rgba(245,247,250,1)] overflow-hidden w-full">
       <Sidebar
         collapsed={sidebarCollapsed}
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        onToggle={() => setSidebarCollapsed((prev) => !prev)}
       />
       <div
-        className={`flex flex-col w-full transition-all duration-300 ease-in-out ${
-          sidebarCollapsed ? "ml-[70px]" : "ml-[280px]"
-        }`}
+        className={`flex flex-col w-0 flex-1 transition-all duration-300 ease-in-out`}
+        // Removed left margin entirely to make header flush with sidebar
       >
         <Header />
         <main className="flex-1 px-6 py-4">

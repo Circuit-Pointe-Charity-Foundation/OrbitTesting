@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -22,11 +23,12 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
   return (
     <Link
       to={to}
-      className={`flex items-center gap-4 py-3 px-3 mx-1 rounded-md cursor-pointer hover:text-white transition-colors ${
+      className={`flex items-center gap-4 py-2 px-2 rounded-md cursor-pointer hover:text-white transition-colors ${
         isActive
           ? "text-white font-bold bg-violet-700"
           : "text-[rgba(202,179,255,1)] hover:bg-violet-700/50"
       } ${collapsed ? "justify-center" : ""}`}
+      style={{ minHeight: '44px' }}
     >
       <img
         src={icon}
@@ -52,7 +54,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
       label: "Dashboards",
-      to: "/",
+      to: "/dashboard",
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
@@ -123,13 +125,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
       </div>
-
-      <ScrollArea className="h-[calc(100vh-100px)] mt-6">
-        <div
-          className={`flex flex-col py-2 px-2 ${
-            collapsed ? "items-center" : ""
-          }`}
-        >
+      <div
+        className={`mt-4 flex-1 overflow-y-auto hide-scrollbar`}
+        style={{ maxHeight: "calc(100vh - 100px)" }} // ensures scroll if needed
+      >
+        <div className={`flex flex-col py-1 px-2 gap-0`}>
           {sidebarLinks.map((link, index) => (
             <SidebarLink
               key={index}
@@ -140,7 +140,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
             />
           ))}
         </div>
-      </ScrollArea>
+      </div>
     </div>
   );
 };
