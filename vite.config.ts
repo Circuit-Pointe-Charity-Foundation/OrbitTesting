@@ -14,7 +14,6 @@ export default defineConfig(({ mode }) => ({
     outDir: 'dist',
     emptyOutDir: true,
   },
-  ssr: false,
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
