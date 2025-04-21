@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,13 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Reset state when component mounts
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+    setIsLoading(false);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +50,9 @@ const Login: React.FC = () => {
           Orbit ERP
         </h1>
         <p className="text-gray-300 mb-8 text-center">
-          The all-in-one ERP solution for Non-Governmental Organizations. Streamline your fundraising, manage opportunities, and power your impact.
+          The all-in-one ERP solution for Non-Governmental Organizations.
+          Streamline your fundraising, manage opportunities, and power your
+          impact.
         </p>
         <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit}>
           <div>
@@ -90,9 +99,12 @@ const Login: React.FC = () => {
         </form>
         <div className="mt-6 w-full flex flex-col items-center">
           <span className="text-xs text-gray-400 mb-2">
-            Powered by <span className="text-violet-600 font-bold">Orbit</span> for NGOs
+            Powered by <span className="text-violet-600 font-bold">Orbit</span>{" "}
+            for NGOs
           </span>
-          <span className="text-xs text-gray-300">Module-based ERP | Secure | Scalable</span>
+          <span className="text-xs text-gray-300">
+            Module-based ERP | Secure | Scalable
+          </span>
         </div>
       </div>
     </div>
