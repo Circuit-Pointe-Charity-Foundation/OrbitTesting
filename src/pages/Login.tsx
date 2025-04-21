@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -31,7 +30,7 @@ const Login: React.FC = () => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')",
+          "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')",
       }}
     >
       <div className="max-w-md w-full rounded-xl shadow-xl bg-gradient-to-br from-violet-700 via-violet-800 to-purple-900/95 p-8 flex flex-col items-center">
@@ -101,4 +100,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-
