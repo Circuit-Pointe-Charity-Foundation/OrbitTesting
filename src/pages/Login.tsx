@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -30,7 +31,7 @@ const Login: React.FC = () => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')",
+          "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')",
       }}
     >
       <div className="max-w-md w-full rounded-xl shadow-xl bg-gradient-to-br from-violet-700 via-violet-800 to-purple-900/95 p-8 flex flex-col items-center">
@@ -80,13 +81,13 @@ const Login: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button
+          <Button
             type="submit"
             disabled={isLoading}
             className="mt-2 bg-violet-600 text-white font-semibold rounded-md py-2 hover:bg-violet-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isLoading ? "Signing In..." : "Sign In"}
-          </button>
+          </Button>
         </form>
         <div className="mt-6 w-full flex flex-col items-center">
           <span className="text-xs text-gray-400 mb-2">
