@@ -1,12 +1,36 @@
 
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Login: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // Simulate authentication process
+    setTimeout(() => {
+      setIsLoading(false);
+      if (email && password) {
+        toast.success("Login successful!");
+        navigate("/dashboard");
+      } else {
+        toast.error("Please enter both email and password");
+      }
+    }, 800);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-violet-100 to-blue-50">
-      <div className="max-w-md w-full rounded-xl shadow-xl bg-white p-8 flex flex-col items-center">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" 
+         style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')" }}>
+      <div className="max-w-md w-full rounded-xl shadow-xl bg-white/90 backdrop-blur-sm p-8 flex flex-col items-center">
         <img
-          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/72798c9f03b636536e1534c9b38dd6c314d301c0?placeholderIfAbsent=true"
+          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
           alt="Orbit ERP Logo"
           className="w-24 h-24 mb-4"
         />
@@ -16,7 +40,7 @@ const Login: React.FC = () => {
         <p className="text-gray-500 mb-8 text-center">
           The all-in-one ERP solution for Non-Governmental Organizations. Streamline your fundraising, manage opportunities, and power your impact.
         </p>
-        <form className="w-full flex flex-col gap-5">
+        <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit}>
           <div>
             <label className="block text-gray-700 font-medium mb-1" htmlFor="email">
               Organization Email
@@ -27,6 +51,8 @@ const Login: React.FC = () => {
               autoComplete="email"
               className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-400"
               placeholder="you@yourorg.org"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
@@ -39,13 +65,16 @@ const Login: React.FC = () => {
               autoComplete="current-password"
               className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-400"
               placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button
             type="submit"
-            className="mt-2 bg-violet-600 text-white font-semibold rounded-md py-2 hover:bg-violet-700 transition-all"
+            disabled={isLoading}
+            className="mt-2 bg-violet-600 text-white font-semibold rounded-md py-2 hover:bg-violet-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            Sign In
+            {isLoading ? "Signing In..." : "Sign In"}
           </button>
         </form>
         <div className="mt-6 w-full flex flex-col items-center">
@@ -60,4 +89,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-
