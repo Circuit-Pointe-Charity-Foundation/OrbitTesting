@@ -6,12 +6,12 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-violet-100 to-blue-50">
       <div className="max-w-md w-full rounded-xl shadow-xl bg-white p-8 flex flex-col items-center">
         <img
-          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
+          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/72798c9f03b636536e1534c9b38dd6c314d301c0?placeholderIfAbsent=true"
           alt="Orbit ERP Logo"
-          className="w-20 h-20 mb-2"
+          className="w-24 h-24 mb-4"
         />
-        <h1 className="text-2xl font-bold text-violet-700 mt-2 mb-1 text-center">
-          Welcome to Orbit ERP
+        <h1 className="text-3xl font-extrabold text-violet-700 mb-6 text-center">
+          Orbit ERP
         </h1>
         <p className="text-gray-500 mb-8 text-center">
           The all-in-one ERP solution for Non-Governmental Organizations. Streamline your fundraising, manage opportunities, and power your impact.
@@ -24,9 +24,8 @@ const Login: React.FC = () => {
             <input
               id="email"
               type="email"
-              disabled
-              value=""
-              className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-400 bg-gray-50"
+              autoComplete="email"
+              className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-400"
               placeholder="you@yourorg.org"
             />
           </div>
@@ -37,16 +36,14 @@ const Login: React.FC = () => {
             <input
               id="password"
               type="password"
-              disabled
-              value=""
-              className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-400 bg-gray-50"
+              autoComplete="current-password"
+              className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-400"
               placeholder="********"
             />
           </div>
           <button
-            type="button"
-            disabled
-            className="mt-2 bg-violet-600 text-white font-semibold rounded-md py-2 hover:bg-violet-700 transition-all cursor-not-allowed"
+            type="submit"
+            className="mt-2 bg-violet-600 text-white font-semibold rounded-md py-2 hover:bg-violet-700 transition-all"
           >
             Sign In
           </button>
@@ -63,3 +60,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
