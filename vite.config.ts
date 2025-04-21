@@ -2,9 +2,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+// Add the import for lovable-tagger
+import { componentTagger } from "lovable-tagger";
 
-export default defineConfig({
-  plugins: [react()],
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    react(),
+    mode === 'development' && componentTagger(), // Add componentTagger only in development
+  ].filter(Boolean),
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -23,4 +28,4 @@ export default defineConfig({
       '24b99f1a-5229-4600-b01f-5b27c2da57e5.lovableproject.com'
     ]
   }
-})
+}));
