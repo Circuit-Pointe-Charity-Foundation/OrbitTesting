@@ -14,8 +14,7 @@ export const MainLayout: React.FC = () => {
         onToggle={() => setSidebarCollapsed((prev) => !prev)}
       />
       <div
-        className={`flex flex-col w-0 flex-1 transition-all duration-300 ease-in-out`}
-        // Removed left margin entirely to make header flush with sidebar
+        className={`flex flex-col w-0 flex-1 transition-all duration-300 ease-in-out ml-[var(--sidebar-width)]`}
       >
         <Header />
         <main className="flex-1 px-6 py-4">
