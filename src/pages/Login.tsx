@@ -35,9 +35,9 @@ const Login: React.FC = () => {
     >
       <div className="max-w-md w-full rounded-xl shadow-xl bg-gradient-to-br from-violet-700 via-violet-800 to-purple-900/95 p-8 flex flex-col items-center">
         <img
-          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true"
+          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
           alt="Orbit ERP Logo"
-          className="w-24 h-24 mb-4 brightness-90 invert-[0.06]"
+          className="w-24 h-24 mb-4"
         />
         <h1 className="text-3xl font-extrabold text-white mb-6 text-center">
           Orbit ERP

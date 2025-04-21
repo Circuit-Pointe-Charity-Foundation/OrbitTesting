@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,9 +8,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { ChevronDown, LogOut } from "lucide-react";
+import { toast } from "sonner";
 
 export const Header: React.FC = () => {
+  const [logoutDialogOpen, setLogoutDialogOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    toast.success("Logged out successfully");
+    navigate("/");
+  };
+
   return (
     <div className="bg-white w-full flex items-center justify-between px-6 py-4 shadow-sm">
       <div className="text-[rgba(56,56,57,1)] text-sm font-medium">
@@ -48,11 +69,30 @@ export const Header: React.FC = () => {
               Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer text-red-500">
+            <DropdownMenuItem 
+              className="cursor-pointer text-red-500 flex items-center gap-2"
+              onClick={() => setLogoutDialogOpen(true)}
+            >
+              <LogOut size={16} />
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <AlertDialog open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+              <AlertDialogDescription>
+                You will be redirected to the login page.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
