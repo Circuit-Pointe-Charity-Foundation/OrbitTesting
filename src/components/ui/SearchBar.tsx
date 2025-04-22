@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { SearchIcon } from "../icons/SearchIcon";
+import { Search } from "lucide-react";
 
 interface SearchBarProps {
   placeholder: string;
@@ -16,19 +16,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder, onSearch }) => {
     }
   }, [searchTerm, onSearch]);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
   return (
-    <div className="flex items-center gap-2 border bg-[#F5F7FA] p-3 rounded-[5px] border-solid border-[#D9D9D9] w-full md:w-auto">
-      <SearchIcon />
+    <div className="flex items-center gap-2 w-full md:w-[320px] bg-white border border-gray-200 rounded-lg px-3 py-2 shadow-sm transition-colors focus-within:border-violet-500 focus-within:ring-1 focus-within:ring-violet-500">
+      <Search className="h-4 w-4 text-gray-400" />
       <input
         type="text"
         placeholder={placeholder}
         value={searchTerm}
-        onChange={handleSearch}
-        className="bg-transparent border-none outline-none text-[15px] text-[#8BA3CB] placeholder-[#8BA3CB] w-full"
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="flex-1 bg-transparent text-sm text-gray-900 placeholder:text-gray-500 border-0 outline-none focus:ring-0"
       />
     </div>
   );

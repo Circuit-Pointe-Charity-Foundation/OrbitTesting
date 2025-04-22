@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "../ui/SearchBar";
 import ActionButton from "../ui/ActionButton";
 import DonorTable from "./DonorTable";
-import { PlusIcon } from "../icons/PlusIcon";
-import { DocumentIcon } from "../icons/DocumentIcon";
+import { UserPlus, FileText } from "lucide-react";
 import AddDonorDialog from "./AddDonorDialog";
 import FocusAreaDialog from "./FocusAreaDialog";
 import { donorData } from "@/data/donorData";
@@ -13,7 +12,6 @@ const DonorList: React.FC = () => {
   const [addDonorOpen, setAddDonorOpen] = useState(false);
   const [focusAreaOpen, setFocusAreaOpen] = useState(false);
 
-  // Filter donors based on search term
   const filteredDonors = donorData.filter(
     (donor) =>
       donor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -29,21 +27,20 @@ const DonorList: React.FC = () => {
 
   return (
     <>
-      <section className="bg-white p-6 rounded-[10px] max-md:p-4 max-sm:p-4">
-        <h2 className="text-lg font-bold text-[#383839] mb-4 max-md:text-base max-sm:text-base">
-          Donor List
-        </h2>
-        <div className="flex justify-between items-center mb-6 max-md:flex-col max-md:gap-4 max-sm:flex-col max-sm:gap-3">
-          <SearchBar placeholder="Search for donors" onSearch={handleSearch} />
-          <div className="flex gap-4 max-md:flex-col max-md:gap-2 max-sm:flex-col max-sm:gap-2">
+      <section className="bg-white rounded-lg p-6 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-900 mb-6">Donor List</h2>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <SearchBar placeholder="Search donors by name, contact, or tags" onSearch={handleSearch} />
+          <div className="flex flex-col sm:flex-row gap-3">
             <ActionButton
-              icon={<PlusIcon />}
+              icon={<UserPlus className="h-4 w-4" />}
               text="New Donor"
+              variant="primary"
               onClick={() => setAddDonorOpen(true)}
             />
             <ActionButton
-              icon={<DocumentIcon />}
-              text="Create New Focus Areas"
+              icon={<FileText className="h-4 w-4" />}
+              text="Create Focus Areas"
               onClick={() => setFocusAreaOpen(true)}
             />
           </div>
@@ -52,7 +49,6 @@ const DonorList: React.FC = () => {
       </section>
 
       <AddDonorDialog open={addDonorOpen} onOpenChange={setAddDonorOpen} />
-
       <FocusAreaDialog open={focusAreaOpen} onOpenChange={setFocusAreaOpen} />
     </>
   );

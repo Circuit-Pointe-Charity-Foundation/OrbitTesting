@@ -99,65 +99,68 @@ const FundingCycles: React.FC = () => {
   };
 
   return (
-    <section className="bg-white mb-6 p-6 rounded-[10px] max-md:p-4 max-sm:p-4">
-      <h2 className="text-lg font-bold text-[#383839] mb-4 max-md:text-base max-sm:text-base">
-        Funding Cycles
-      </h2>
-      
-      <div className="flex justify-between mb-2 max-md:gap-6 max-sm:gap-4 border-b border-gray-200 pb-2">
-        {months.map((month) => (
-          <div key={month} className="text-xs text-[rgba(0,0,0,0.6)]">
-            {month}
-          </div>
-        ))}
-      </div>
+    <section className="bg-white rounded-lg p-6 shadow-sm">
+      <h2 className="text-lg font-semibold text-gray-900 mb-6">Funding Cycles</h2>
       
       <div className="flex">
         {/* Left side for donor names with vertical separator */}
-        <div className="pr-4 border-r border-gray-200 min-w-[120px]">
+        <div className="w-[140px] min-w-[140px] pr-4 border-r border-gray-200">
+          <div className="h-8" /> {/* Spacer for alignment with months */}
           {fundingData.map((fund, index) => (
             <div key={index} className="h-14 flex items-center">
-              <div className="text-xs text-[rgba(0,0,0,0.6)]">{fund.name}</div>
+              <span className="text-sm text-gray-600 font-medium">{fund.name}</span>
             </div>
           ))}
         </div>
 
         {/* Right side for funding cycle bars */}
-        <ScrollArea className="flex-1 h-[310px] overflow-y-auto pr-2">
-          <div className="relative">
-            {fundingData.map((fund, index) => (
-              <div key={index} className="h-14 flex items-center relative">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div 
-                        className={`h-8 ${fund.color} rounded-[3px] absolute hover:opacity-80 transition-opacity cursor-pointer`}
-                        style={getPositionStyle(fund.position, fund.width)}
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs p-2">
-                      <p className="font-medium">{fund.name}</p>
-                      <p className="text-xs mt-1">{fund.description}</p>
-                      <p className="text-xs mt-1">Status: {fund.status}</p>
-                      {fund.startMonth && fund.endMonth && (
-                        <p className="text-xs mt-1">Period: {months[fund.startMonth-1]} - {months[fund.endMonth-1]}</p>
-                      )}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+        <div className="flex-1 overflow-hidden pl-4">
+          <div className="flex justify-between mb-2 px-2">
+            {months.map((month) => (
+              <div key={month} className="text-sm text-gray-500 font-medium">
+                {month}
               </div>
             ))}
           </div>
-        </ScrollArea>
+          
+          <ScrollArea className="h-[310px]">
+            <div className="relative">
+              {fundingData.map((fund, index) => (
+                <div key={index} className="h-14 flex items-center relative">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div 
+                          className={`h-8 ${fund.color} rounded transition-opacity duration-200 absolute hover:opacity-90 cursor-pointer`}
+                          style={getPositionStyle(fund.position, fund.width)}
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent side="right" className="max-w-xs p-3">
+                        <p className="font-medium text-sm">{fund.name}</p>
+                        <p className="text-xs mt-1 text-gray-500">{fund.description}</p>
+                        <p className="text-xs mt-1 font-medium">Status: {fund.status}</p>
+                        {fund.startMonth && fund.endMonth && (
+                          <p className="text-xs mt-1">
+                            Period: {months[fund.startMonth-1]} - {months[fund.endMonth-1]}
+                          </p>
+                        )}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
       </div>
       
-      <Separator className="my-4" />
+      <Separator className="my-6" />
       
-      <div className="flex gap-14 mt-2">
+      <div className="flex gap-8">
         {statusLegend.map((item, index) => (
           <div key={index} className="flex items-center gap-2">
-            <div className={`w-4 h-4 ${item.color} rounded-sm`} />
-            <div className="text-xs text-black">{item.status}</div>
+            <div className={`w-3 h-3 ${item.color} rounded-sm`} />
+            <span className="text-sm text-gray-700">{item.status}</span>
           </div>
         ))}
       </div>
