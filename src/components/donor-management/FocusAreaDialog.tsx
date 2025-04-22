@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { focusAreas, availableInterestTags } from "@/data/donorData";
+import { FocusArea } from "@/types/donor";
 import { EditIcon } from "../icons/EditIcon";
 import { DeleteIcon } from "../icons/DeleteIcon";
 
@@ -18,30 +18,52 @@ interface FocusAreaDialogProps {
 
 const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange }) => {
   const { toast } = useToast();
-  const [focusAreaList, setFocusAreaList] = useState([...focusAreas]);
-  const [editingArea, setEditingArea] = useState<typeof focusAreas[0] | null>(null);
+  const [focusAreaList, setFocusAreaList] = useState<FocusArea[]>([...focusAreas]);
+  const [editingArea, setEditingArea] = useState<FocusArea | null>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const handleSaveSegment = (e: React.FormEvent) => {
     e.preventDefault();
     
+    const focusAreaName = (document.getElementById('focusAreaName') as HTMLInputElement)?.value || "New Focus Area";
+    const donationAmount = (document.getElementById('donationAmount') as HTMLInputElement)?.value || "0";
+    const startDate = (document.getElementById('startDate') as HTMLInputElement)?.value || new Date().toISOString().split('T')[0];
+    const endDate = (document.getElementById('endDate') as HTMLInputElement)?.value || new Date().toISOString().split('T')[0];
+    
     if (editingArea) {
+      const updatedArea: FocusArea = {
+        ...editingArea,
+        name: focusAreaName,
+        amount: donationAmount,
+        startDate: startDate,
+        endDate: endDate,
+        interestTags: selectedTags.length ? selectedTags : editingArea.interestTags,
+        criteriaSummary: `Donation Amount: ${donationAmount}, Interest: ${selectedTags.length ? selectedTags.join(', ') : editingArea.interestTags.join(', ')}, Date: ${startDate} - ${endDate}.`
+      };
+      
       setFocusAreaList(prev => 
-        prev.map(area => area.id === editingArea.id ? editingArea : area)
+        prev.map(area => area.id === editingArea.id ? updatedArea : area)
       );
       setEditingArea(null);
+      setSelectedTags([]);
       toast({
         title: "Focus area updated",
         description: "The focus area has been updated successfully.",
       });
     } else {
-      const newFocusArea = {
+      const newFocusArea: FocusArea = {
         id: (focusAreaList.length + 1).toString(),
-        name: (document.getElementById('focusAreaName') as HTMLInputElement)?.value || "New Focus Area",
-        criteriaSummary: `${(document.getElementById('donationAmount') as HTMLInputElement)?.value || "0"} donation, created on ${new Date().toLocaleDateString()}`,
-        donorCount: "0",
+        name: focusAreaName,
+        amount: donationAmount,
+        interestTags: selectedTags.length ? selectedTags : ["General"],
+        startDate: startDate,
+        endDate: endDate,
+        donorCount: 0,
+        criteriaSummary: `Donation Amount: ${donationAmount}, Interest: ${selectedTags.length ? selectedTags.join(', ') : "General"}, Date: ${startDate} - ${endDate}.`
       };
       
       setFocusAreaList(prev => [...prev, newFocusArea]);
+      setSelectedTags([]);
       
       toast({
         title: "Focus area created",
@@ -51,15 +73,20 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
       // Reset form
       (document.getElementById('focusAreaName') as HTMLInputElement).value = '';
       (document.getElementById('donationAmount') as HTMLInputElement).value = '';
+      (document.getElementById('startDate') as HTMLInputElement).value = '';
+      (document.getElementById('endDate') as HTMLInputElement).value = '';
     }
   };
 
-  const handleEditArea = (area: typeof focusAreas[0]) => {
+  const handleEditArea = (area: FocusArea) => {
     setEditingArea(area);
+    setSelectedTags(area.interestTags);
     // Populate the form with the area data
     setTimeout(() => {
       (document.getElementById('focusAreaName') as HTMLInputElement).value = area.name;
-      (document.getElementById('donationAmount') as HTMLInputElement).value = area.criteriaSummary.split(',')[0];
+      (document.getElementById('donationAmount') as HTMLInputElement).value = area.amount;
+      (document.getElementById('startDate') as HTMLInputElement).value = area.startDate;
+      (document.getElementById('endDate') as HTMLInputElement).value = area.endDate;
     }, 0);
   };
 
@@ -69,6 +96,14 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
       title: "Focus area deleted",
       description: "The focus area has been removed successfully.",
     });
+  };
+
+  const handleTagChange = (tag: string) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(prev => prev.filter(t => t !== tag));
+    } else {
+      setSelectedTags(prev => [...prev, tag]);
+    }
   };
 
   return (
@@ -105,7 +140,7 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="interestTags">Interest Tags</Label>
-                  <Select>
+                  <Select onValueChange={handleTagChange}>
                     <SelectTrigger id="interestTags">
                       <SelectValue placeholder="Select tags" />
                     </SelectTrigger>
@@ -115,6 +150,13 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
                       ))}
                     </SelectContent>
                   </Select>
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {selectedTags.map(tag => (
+                      <span key={tag} className="bg-violet-100 text-violet-800 px-2 py-1 rounded-md text-xs">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="startDate">Start Date</Label>
