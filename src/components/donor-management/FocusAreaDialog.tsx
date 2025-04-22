@@ -1,6 +1,6 @@
 
-import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import React, { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,50 +18,78 @@ interface FocusAreaDialogProps {
 
 const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange }) => {
   const { toast } = useToast();
-
-  const handleSaveChanges = () => {
-    toast({
-      title: "Changes saved",
-      description: "Your focus area changes have been saved successfully.",
-    });
-    onOpenChange(false);
-  };
+  const [focusAreaList, setFocusAreaList] = useState([...focusAreas]);
+  const [editingArea, setEditingArea] = useState<typeof focusAreas[0] | null>(null);
 
   const handleSaveSegment = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (editingArea) {
+      setFocusAreaList(prev => 
+        prev.map(area => area.id === editingArea.id ? editingArea : area)
+      );
+      setEditingArea(null);
+      toast({
+        title: "Focus area updated",
+        description: "The focus area has been updated successfully.",
+      });
+    } else {
+      const newFocusArea = {
+        id: (focusAreaList.length + 1).toString(),
+        name: (document.getElementById('focusAreaName') as HTMLInputElement)?.value || "New Focus Area",
+        criteriaSummary: `${(document.getElementById('donationAmount') as HTMLInputElement)?.value || "0"} donation, created on ${new Date().toLocaleDateString()}`,
+        donorCount: "0",
+      };
+      
+      setFocusAreaList(prev => [...prev, newFocusArea]);
+      
+      toast({
+        title: "Focus area created",
+        description: "The new focus area has been created successfully.",
+      });
+      
+      // Reset form
+      (document.getElementById('focusAreaName') as HTMLInputElement).value = '';
+      (document.getElementById('donationAmount') as HTMLInputElement).value = '';
+    }
+  };
+
+  const handleEditArea = (area: typeof focusAreas[0]) => {
+    setEditingArea(area);
+    // Populate the form with the area data
+    setTimeout(() => {
+      (document.getElementById('focusAreaName') as HTMLInputElement).value = area.name;
+      (document.getElementById('donationAmount') as HTMLInputElement).value = area.criteriaSummary.split(',')[0];
+    }, 0);
+  };
+
+  const handleDeleteArea = (areaId: string) => {
+    setFocusAreaList(prev => prev.filter(area => area.id !== areaId));
     toast({
-      title: "Segment saved",
-      description: "The new focus area has been created successfully.",
+      title: "Focus area deleted",
+      description: "The focus area has been removed successfully.",
     });
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-xl text-white bg-[#A273F2] -m-6 p-4 flex items-center">
+      <DialogContent className="sm:max-w-[700px] h-[80vh] overflow-y-auto p-0">
+        <DialogHeader className="bg-[#A273F2] p-4 text-white">
+          <DialogTitle className="text-xl flex items-center">
             <Button 
               variant="ghost" 
-              className="mr-2 text-white" 
+              className="mr-2 text-white hover:bg-[#9265E6] hover:text-white" 
               onClick={() => onOpenChange(false)}
             >
               ← Back to Donor Management
             </Button>
             <span className="flex-1">Focus Area</span>
-            <div className="flex gap-2">
-              <Button className="bg-white text-[#A273F2] hover:bg-gray-100" onClick={handleSaveChanges}>
-                Save Changes
-              </Button>
-              <Button variant="ghost" className="text-white" onClick={() => onOpenChange(false)}>
-                Cancel
-              </Button>
-            </div>
           </DialogTitle>
         </DialogHeader>
         
-        <div className="mt-4">
-          <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
-            <h3 className="font-medium mb-4">Create New Focus Area</h3>
+        <div className="p-6">
+          <div className="bg-white rounded-lg shadow-sm mb-6 p-6">
+            <h3 className="font-medium mb-4">{editingArea ? 'Edit' : 'Create New'} Focus Area</h3>
             <form onSubmit={handleSaveSegment} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -98,18 +126,15 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
                 </div>
               </div>
 
-              <div className="flex justify-center gap-2 mt-6">
+              <div className="flex justify-center mt-6">
                 <Button type="submit" className="bg-[#A273F2] hover:bg-[#8b5cf6]">
-                  Save Segment
-                </Button>
-                <Button type="button" variant="outline">
-                  Cancel
+                  {editingArea ? 'Update' : 'Save'} Focus Area
                 </Button>
               </div>
             </form>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm">
+          <div className="bg-white rounded-lg shadow-sm p-6">
             <h3 className="font-medium mb-4">Focus Areas List</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -123,15 +148,25 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
                   </tr>
                 </thead>
                 <tbody>
-                  {focusAreas.map((area) => (
+                  {focusAreaList.map((area) => (
                     <tr key={area.id} className="border-b border-gray-100">
                       <td className="py-3 px-2">{area.id}</td>
                       <td className="py-3 px-2">{area.name}</td>
                       <td className="py-3 px-2">{area.criteriaSummary}</td>
                       <td className="py-3 px-2">{area.donorCount}</td>
                       <td className="py-3 px-2 flex gap-2">
-                        <button aria-label="Edit focus area"><EditIcon /></button>
-                        <button aria-label="Delete focus area"><DeleteIcon /></button>
+                        <button 
+                          aria-label="Edit focus area" 
+                          onClick={() => handleEditArea(area)}
+                        >
+                          <EditIcon />
+                        </button>
+                        <button 
+                          aria-label="Delete focus area" 
+                          onClick={() => handleDeleteArea(area.id)}
+                        >
+                          <DeleteIcon />
+                        </button>
                       </td>
                     </tr>
                   ))}

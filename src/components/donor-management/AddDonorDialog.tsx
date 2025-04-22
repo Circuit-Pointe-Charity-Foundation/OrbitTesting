@@ -31,12 +31,12 @@ const AddDonorDialog: React.FC<AddDonorDialogProps> = ({ open, onOpenChange, onS
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add new donor</DialogTitle>
+      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto p-0">
+        <DialogHeader className="bg-[#A273F2] p-4 text-white rounded-t-md">
+          <DialogTitle className="text-xl">Add new donor</DialogTitle>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="space-y-2">
             <Label htmlFor="orgName">Name of Organization</Label>
             <Input id="orgName" placeholder="Enter organization name" />
@@ -102,7 +102,21 @@ const AddDonorDialog: React.FC<AddDonorDialogProps> = ({ open, onOpenChange, onS
             <Label htmlFor="documents">Upload documents</Label>
             <div className="border-2 border-dashed border-gray-300 p-4 rounded-md text-center">
               <p className="text-sm text-gray-500">Drag and drop files here or</p>
-              <Button type="button" variant="outline" size="sm" className="mt-2">Browse</Button>
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm" 
+                className="mt-2"
+                onClick={() => document.getElementById('fileUpload')?.click()}
+              >
+                Browse
+              </Button>
+              <input 
+                id="fileUpload" 
+                type="file" 
+                className="hidden" 
+                multiple 
+              />
             </div>
           </div>
 

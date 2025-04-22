@@ -14,7 +14,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   onClick,
   variant = 'secondary'
 }) => {
-  const baseStyles = "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors";
+  const baseStyles = "flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors";
   const variantStyles = variant === 'primary' 
     ? "bg-violet-600 text-white hover:bg-violet-700" 
     : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50";

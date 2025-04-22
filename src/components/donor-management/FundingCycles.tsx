@@ -15,7 +15,7 @@ const FundingCycles: React.FC = () => {
     { 
       name: "FCDO", 
       width: "w-32", 
-      position: 2, 
+      position: 1, 
       color: "bg-[#F6B93E]", 
       status: "Upcoming",
       startMonth: 2,
@@ -25,7 +25,7 @@ const FundingCycles: React.FC = () => {
     { 
       name: "Global Fund", 
       width: "w-[135px]", 
-      position: 8, 
+      position: 7, 
       color: "bg-[#A7ADB4]", 
       status: "Closed",
       startMonth: 8,
@@ -35,7 +35,7 @@ const FundingCycles: React.FC = () => {
     { 
       name: "UNICEF", 
       width: "w-[262px]", 
-      position: 4, 
+      position: 3, 
       color: "bg-[#3AA072]", 
       status: "Ongoing",
       startMonth: 4,
@@ -45,7 +45,7 @@ const FundingCycles: React.FC = () => {
     { 
       name: "UNISEF", 
       width: "w-[216px]", 
-      position: 6, 
+      position: 5, 
       color: "bg-[#3AA072]", 
       status: "Ongoing",
       startMonth: 6,
@@ -55,7 +55,7 @@ const FundingCycles: React.FC = () => {
     { 
       name: "USAID", 
       width: "w-[321px]", 
-      position: 1, 
+      position: 0, 
       color: "bg-[#F6B93E]", 
       status: "Upcoming",
       startMonth: 1,
@@ -65,7 +65,7 @@ const FundingCycles: React.FC = () => {
     { 
       name: "WHO", 
       width: "w-[180px]", 
-      position: 3, 
+      position: 2, 
       color: "bg-[#3AA072]", 
       status: "Ongoing",
       startMonth: 3,
@@ -75,7 +75,7 @@ const FundingCycles: React.FC = () => {
     { 
       name: "Gates Foundation", 
       width: "w-[200px]", 
-      position: 5, 
+      position: 4, 
       color: "bg-[#F6B93E]", 
       status: "Upcoming",
       startMonth: 5,
@@ -90,11 +90,15 @@ const FundingCycles: React.FC = () => {
     { status: "Closed", color: "bg-[#A7ADB4]" },
   ];
 
-  const getPositionStyle = (position: number, width: string) => {
-    // Calculate position based on month
+  const getPositionStyle = (cycle: FundingCycle) => {
+    // Calculate position based on actual start month (0-indexed)
+    const startMonthIndex = cycle.startMonth - 1;
+    const endMonthIndex = cycle.endMonth - 1;
+    const width = (endMonthIndex - startMonthIndex + 1) * (100/12);
+    
     return {
-      marginLeft: `${(position / 12) * 100}%`,
-      width: width.includes('px') ? width.replace('w-[', '').replace('px]', '') + 'px' : 'auto'
+      left: `${(startMonthIndex / 12) * 100}%`,
+      width: `${width}%`
     };
   };
 
@@ -132,7 +136,7 @@ const FundingCycles: React.FC = () => {
                       <TooltipTrigger asChild>
                         <div 
                           className={`h-8 ${fund.color} rounded transition-opacity duration-200 absolute hover:opacity-90 cursor-pointer`}
-                          style={getPositionStyle(fund.position, fund.width)}
+                          style={getPositionStyle(fund)}
                         />
                       </TooltipTrigger>
                       <TooltipContent side="right" className="max-w-xs p-3">

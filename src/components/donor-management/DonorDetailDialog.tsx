@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { donorData, engagementHistory, monthlyDonationData } from "@/data/donorData";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { useToast } from "@/hooks/use-toast";
 import EditDonorDialog from "./EditDonorDialog";
 import AddEngagementDialog from "./AddEngagementDialog";
 import GivingHistoryDialog from "./GivingHistoryDialog";
@@ -16,9 +18,16 @@ interface DonorDetailDialogProps {
 }
 
 const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChange, donorId }) => {
+  const { toast } = useToast();
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [engagementDialogOpen, setEngagementDialogOpen] = useState(false);
   const [givingHistoryOpen, setGivingHistoryOpen] = useState(false);
+  const [showAddNote, setShowAddNote] = useState(false);
+  const [notes, setNotes] = useState<{user: string, date: string, content: string}[]>([
+    {user: "John Doe", date: new Date().toLocaleDateString(), content: "Initial contact established via email. Donor expressed interest in education projects."},
+    {user: "Jane Smith", date: new Date(Date.now() - 86400000).toLocaleDateString(), content: "Follow-up call scheduled for next week to discuss potential funding opportunities."},
+    {user: "Alex Johnson", date: new Date(Date.now() - 172800000).toLocaleDateString(), content: "Sent proposal document for review. Awaiting feedback."},
+  ]);
 
   const donor = donorData.find(d => d.id === donorId) || donorData[0];
   
@@ -45,11 +54,29 @@ const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChang
     setGivingHistoryOpen(true);
   };
 
+  const handleAddNote = (e: React.FormEvent) => {
+    e.preventDefault();
+    const noteContent = (document.getElementById('noteContent') as HTMLTextAreaElement).value;
+    if (noteContent.trim()) {
+      const newNote = {
+        user: "Current User",
+        date: new Date().toLocaleDateString(),
+        content: noteContent
+      };
+      setNotes([newNote, ...notes]);
+      setShowAddNote(false);
+      toast({
+        title: "Note added",
+        description: "Your note has been added successfully.",
+      });
+    }
+  };
+
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-0">
-          <DialogHeader className="bg-[#A273F2] p-4 text-white">
+          <DialogHeader className="bg-[#A273F2] p-4 text-white sticky top-0 z-10 rounded-t-md">
             <DialogTitle className="flex items-center justify-between">
               <Button 
                 variant="ghost" 
@@ -72,10 +99,10 @@ const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChang
             {/* Profile Info */}
             <div>
               <h3 className="font-bold mb-4">Profile Info</h3>
-              <div className="space-y-3">
+              <div className="space-y-3 overflow-x-hidden">
                 <div className="grid grid-cols-2 gap-2">
                   <p className="text-gray-500">Email:</p>
-                  <p>{donor.email}</p>
+                  <p className="overflow-hidden text-ellipsis">{donor.email}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <p className="text-gray-500">Phone:</p>
@@ -91,7 +118,7 @@ const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChang
                     {donor.interestTags.map((tag, index) => (
                       <span 
                         key={index} 
-                        className="px-2 py-1 text-xs rounded-full bg-gray-100"
+                        className="px-2 py-1 text-xs rounded-md bg-gray-100"
                         style={{ 
                           backgroundColor: 
                             tag === "Health" ? "#F9D2D2" : 
@@ -176,20 +203,49 @@ const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChang
             <div>
               <h3 className="font-bold mb-4">Communications & Notes</h3>
               <div className="space-y-4">
-                {Array(3).fill(0).map((_, index) => (
+                {showAddNote && (
+                  <form onSubmit={handleAddNote} className="mb-4 space-y-3">
+                    <Textarea 
+                      id="noteContent"
+                      placeholder="Enter your note here..."
+                      className="min-h-[100px]"
+                    />
+                    <div className="flex gap-2 justify-end">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={() => setShowAddNote(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button type="submit" className="bg-[#A273F2] hover:bg-[#8b5cf6]">
+                        Save Note
+                      </Button>
+                    </div>
+                  </form>
+                )}
+                
+                {notes.map((note, index) => (
                   <div key={index} className="flex gap-3">
                     <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden">
                       <img src="https://i.pravatar.cc/40" alt="User" className="w-full h-full object-cover" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium">John Doe • {new Date().toLocaleDateString()}</p>
-                      <p className="text-sm text-gray-600">Lorem ipsum dolor sit amet consectetur. Nulla vel enim sapien ac sed dignissim.</p>
+                      <p className="text-sm font-medium">{note.user} • {note.date}</p>
+                      <p className="text-sm text-gray-600">{note.content}</p>
                     </div>
                   </div>
                 ))}
-                <Button variant="outline" className="mt-2">
-                  Add Note
-                </Button>
+                
+                {!showAddNote && (
+                  <Button 
+                    variant="outline" 
+                    className="mt-2"
+                    onClick={() => setShowAddNote(true)}
+                  >
+                    Add Note
+                  </Button>
+                )}
               </div>
             </div>
 
@@ -197,9 +253,20 @@ const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChang
               <h3 className="font-bold mb-4">Files</h3>
               <div className="border-2 border-dashed border-gray-300 p-8 rounded-md text-center">
                 <p className="text-sm text-gray-500">Drag and drop files here or</p>
-                <Button variant="outline" size="sm" className="mt-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="mt-2"
+                  onClick={() => document.getElementById('donorFileUpload')?.click()}
+                >
                   Browse
                 </Button>
+                <input 
+                  id="donorFileUpload" 
+                  type="file" 
+                  className="hidden" 
+                  multiple 
+                />
               </div>
             </div>
           </div>
