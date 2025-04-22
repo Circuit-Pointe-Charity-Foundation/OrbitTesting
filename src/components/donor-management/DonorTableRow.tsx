@@ -45,7 +45,7 @@ const DonorTableRow: React.FC<DonorTableRowProps> = ({ donor }) => {
             {donor.interestTags.slice(0, 2).map((tag, index) => (
               <span 
                 key={index} 
-                className="px-2 py-1 text-xs rounded-full"
+                className="px-2 py-1 text-xs rounded-sm"
                 style={{ 
                   backgroundColor: 
                     tag === "Health" ? "#F9D2D2" : 
