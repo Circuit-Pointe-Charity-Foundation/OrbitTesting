@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { EditIcon } from "../icons/EditIcon";
 import { DeleteIcon } from "../icons/DeleteIcon";
@@ -32,33 +31,44 @@ const DonorTableRow: React.FC<DonorTableRowProps> = ({ donor }) => {
 
   return (
     <>
-      <tr 
+      <tr
         className="border-b border-[#E9E9E9] hover:bg-gray-50 cursor-pointer"
         onClick={handleViewDetails}
       >
         <td className="py-3 px-4 text-base text-[#232323]">{donor.id}.</td>
         <td className="py-3 px-4 text-base text-[#232323]">{donor.name}</td>
-        <td className="py-3 px-4 text-base text-[#232323]">{donor.email || donor.contact}</td>
-        <td className="py-3 px-4 text-base text-[#232323]">{donor.lastDonation}</td>
+        <td className="py-3 px-4 text-base text-[#232323]">
+          {donor.email || donor.contact}
+        </td>
+        <td className="py-3 px-4 text-base text-[#232323]">
+          {donor.lastDonation}
+        </td>
         <td className="py-3 px-4 text-base text-[#232323]">
           <div className="flex flex-wrap gap-1">
             {donor.interestTags.slice(0, 2).map((tag, index) => (
-              <span 
-                key={index} 
-                className="px-2 py-1 text-xs rounded-full"
-                style={{ 
-                  backgroundColor: 
-                    tag === "Health" ? "#F9D2D2" : 
-                    tag === "Education" ? "#D2E4F9" : 
-                    tag === "Environment" ? "#D2F9E4" : 
-                    tag === "Gender" ? "#F9D2E4" : "#E4D2F9" 
+              <span
+                key={index}
+                className="px-2 py-1 text-xs rounded-sm"
+                style={{
+                  backgroundColor:
+                    tag === "Health"
+                      ? "#F9D2D2"
+                      : tag === "Education"
+                      ? "#D2E4F9"
+                      : tag === "Environment"
+                      ? "#D2F9E4"
+                      : tag === "Gender"
+                      ? "#F9D2E4"
+                      : "#E4D2F9",
                 }}
               >
                 {tag}
               </span>
             ))}
             {donor.interestTags.length > 2 && (
-              <span className="px-2 py-1 text-xs">+{donor.interestTags.length - 2}</span>
+              <span className="px-2 py-1 text-xs">
+                +{donor.interestTags.length - 2}
+              </span>
             )}
           </div>
         </td>
