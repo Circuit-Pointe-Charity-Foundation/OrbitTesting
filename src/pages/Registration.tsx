@@ -13,7 +13,6 @@ import {
 
 // List of countries (Nigeria default and first)
 const COUNTRY_OPTIONS = [
-<<<<<<< HEAD
   "Nigeria",
   "Kenya",
   "South Africa",
@@ -31,9 +30,6 @@ const COUNTRY_OPTIONS = [
   "Brazil",
   "Australia",
   "Japan",
-=======
-  "Nigeria", "Kenya", "South Africa", "Ghana", "Egypt", "United States", "United Kingdom", "Canada", "India", "China", "Germany", "France", "Italy", "Spain", "Brazil", "Australia", "Japan"
->>>>>>> 0c31a23cd474ac4854cb36500d61deebc80c37d2
 ];
 
 const MODULES = [
@@ -116,7 +112,7 @@ const Registration: React.FC = () => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat py-8"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(34,32,52,0.85), rgba(34,32,52,0.96)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')",
+          "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')",
       }}
     >
       <div className="w-full max-w-lg bg-violet-950/95 rounded-xl shadow-2xl px-5 py-7 my-10 flex flex-col items-center">
@@ -194,14 +190,7 @@ const Registration: React.FC = () => {
               >
                 Country<span className="text-fuchsia-300">*</span>
               </label>
-<<<<<<< HEAD
               <Select value={country} onValueChange={(val) => setCountry(val)}>
-=======
-              <Select
-                value={country}
-                onValueChange={(val) => setCountry(val)}
-              >
->>>>>>> 0c31a23cd474ac4854cb36500d61deebc80c37d2
                 <SelectTrigger className="w-full px-2 py-1.5 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400">
                   <SelectValue placeholder="Select country" />
                 </SelectTrigger>
@@ -239,11 +228,7 @@ const Registration: React.FC = () => {
                   className="absolute top-2 right-3 text-violet-300 hover:text-fuchsia-400"
                   tabIndex={-1}
                   onClick={() => setShowPassword((v) => !v)}
-<<<<<<< HEAD
                   style={{ top: "0.5rem", right: "0.5rem" }}
-=======
-                  style={{ top: '0.5rem', right: '0.5rem' }}
->>>>>>> 0c31a23cd474ac4854cb36500d61deebc80c37d2
                 >
                   <Eye size={18} />
                 </button>
