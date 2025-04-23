@@ -4,6 +4,18 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+
+// List of countries (Nigeria default and first)
+const COUNTRY_OPTIONS = [
+  "Nigeria", "Kenya", "South Africa", "Ghana", "Egypt", "United States", "United Kingdom", "Canada", "India", "China", "Germany", "France", "Italy", "Spain", "Brazil", "Australia", "Japan"
+];
 
 const MODULES = [
   { id: "donor-management", name: "Donor Management", compulsory: true },
@@ -20,7 +32,7 @@ const Registration: React.FC = () => {
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
   const [telephone, setTelephone] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState("Nigeria");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [selectedModules, setSelectedModules] = useState<string[]>(["donor-management"]);
@@ -68,22 +80,22 @@ const Registration: React.FC = () => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat py-8"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')",
+          "linear-gradient(rgba(34,32,52,0.85), rgba(34,32,52,0.96)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')",
       }}
     >
-      <div className="w-full max-w-xl bg-gradient-to-br from-violet-800 via-purple-900 to-fuchsia-900/95 rounded-xl shadow-2xl px-6 py-7 my-10 flex flex-col items-center">
+      <div className="w-full max-w-lg bg-violet-950/95 rounded-xl shadow-2xl px-5 py-7 my-10 flex flex-col items-center">
         <img
           src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
           alt="Orbit ERP Logo"
           className="w-20 h-20 mb-2"
         />
-        <h2 className="text-3xl font-extrabold text-white font-playfair mb-5 text-center">
+        <h2 className="text-2xl font-extrabold text-white font-playfair mb-7 text-center">
           Register your NGO
         </h2>
         {step === "form" ? (
           <form
             onSubmit={handleFormNext}
-            className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3"
+            className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2"
             autoComplete="off"
           >
             <div>
@@ -93,7 +105,7 @@ const Registration: React.FC = () => {
               <input
                 id="orgName"
                 type="text"
-                className="w-full px-3 py-2 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
+                className="w-full px-2 py-1.5 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
                 placeholder="Your Organization"
                 value={orgName}
                 onChange={(e) => setOrgName(e.target.value)}
@@ -108,7 +120,7 @@ const Registration: React.FC = () => {
                 id="email"
                 type="email"
                 autoComplete="email"
-                className="w-full px-3 py-2 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
+                className="w-full px-2 py-1.5 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
                 placeholder="contact@yourorg.org"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -123,7 +135,7 @@ const Registration: React.FC = () => {
                 id="telephone"
                 type="tel"
                 autoComplete="tel"
-                className="w-full px-3 py-2 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
+                className="w-full px-2 py-1.5 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
                 placeholder="+1 555-555-5555"
                 value={telephone}
                 onChange={(e) => setTelephone(e.target.value)}
@@ -134,16 +146,21 @@ const Registration: React.FC = () => {
               <label className="block text-gray-200 font-medium mb-1" htmlFor="country">
                 Country<span className="text-fuchsia-300">*</span>
               </label>
-              <input
-                id="country"
-                type="text"
-                autoComplete="country-name"
-                className="w-full px-3 py-2 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
-                placeholder="Country"
+              <Select
                 value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                required
-              />
+                onValueChange={(val) => setCountry(val)}
+              >
+                <SelectTrigger className="w-full px-2 py-1.5 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400">
+                  <SelectValue placeholder="Select country" />
+                </SelectTrigger>
+                <SelectContent>
+                  {COUNTRY_OPTIONS.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="md:col-span-2 flex flex-col">
               <label className="block text-gray-200 font-medium mb-1" htmlFor="password">
@@ -154,7 +171,7 @@ const Registration: React.FC = () => {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
-                  className="w-full px-3 py-2 pr-10 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
+                  className="w-full px-2 py-1.5 pr-10 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
                   placeholder="Choose a strong password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -164,11 +181,12 @@ const Registration: React.FC = () => {
                 <button
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
-                  className="absolute top-2 right-2 text-violet-300 hover:text-fuchsia-400"
+                  className="absolute top-2 right-3 text-violet-300 hover:text-fuchsia-400"
                   tabIndex={-1}
                   onClick={() => setShowPassword((v) => !v)}
+                  style={{ top: '0.5rem', right: '0.5rem' }}
                 >
-                  <Eye size={22} />
+                  <Eye size={18} />
                 </button>
               </div>
             </div>
@@ -178,7 +196,7 @@ const Registration: React.FC = () => {
               </label>
               <div
                 id="modules-list"
-                className="bg-violet-950 bg-opacity-50 rounded-md px-4 py-2 flex flex-wrap gap-y-2 gap-x-4 items-center"
+                className="bg-violet-950 bg-opacity-50 rounded-md px-3 py-1 flex flex-wrap gap-y-2 gap-x-3 items-center"
               >
                 <span className="text-violet-200 text-sm flex items-center gap-2 font-bold">
                   <input
@@ -290,4 +308,3 @@ const Registration: React.FC = () => {
 };
 
 export default Registration;
-
