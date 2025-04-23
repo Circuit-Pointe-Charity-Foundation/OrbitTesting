@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
@@ -97,6 +98,14 @@ const Login: React.FC = () => {
             {isLoading ? "Signing In..." : "Sign In"}
           </Button>
         </form>
+        <div className="mt-4 flex w-full justify-end">
+          <Link
+            to="/register"
+            className="text-violet-300 hover:underline text-sm transition-colors"
+          >
+            New NGO? <span className="text-violet-400 font-bold">Sign up</span>
+          </Link>
+        </div>
         <div className="mt-6 w-full flex flex-col items-center">
           <span className="text-xs text-gray-400 mb-2">
             Powered by <span className="text-violet-600 font-bold">Orbit</span>{" "}
@@ -112,3 +121,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
