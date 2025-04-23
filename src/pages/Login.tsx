@@ -50,10 +50,8 @@ const Login: React.FC = () => {
         <h1 className="text-3xl font-extrabold text-white mb-6 text-center">
           Orbit ERP
         </h1>
-        <p className="text-gray-300 mb-8 text-center">
-          The all-in-one ERP solution for Non-Governmental Organizations.
-          Streamline your fundraising, manage opportunities, and power your
-          impact.
+        <p className="text-gray-300 mb-7 text-center text-base">
+          One platform for all your NGO operations.
         </p>
         <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit}>
           <div>
@@ -98,18 +96,17 @@ const Login: React.FC = () => {
             {isLoading ? "Signing In..." : "Sign In"}
           </Button>
         </form>
-        <div className="mt-4 flex w-full justify-end">
+        <div className="w-full flex justify-center mt-6">
           <Link
             to="/register"
-            className="text-violet-300 hover:underline text-sm transition-colors"
+            className="text-violet-300 hover:underline text-sm font-semibold transition-colors"
           >
-            New NGO? <span className="text-violet-400 font-bold">Sign up</span>
+            New NGO? <span className="text-violet-400 font-bold">Sign Up</span>
           </Link>
         </div>
         <div className="mt-6 w-full flex flex-col items-center">
           <span className="text-xs text-gray-400 mb-2">
-            Powered by <span className="text-violet-600 font-bold">Orbit</span>{" "}
-            for NGOs
+            Powered by <span className="text-violet-600 font-bold">Orbit</span> for NGOs
           </span>
           <span className="text-xs text-gray-300">
             Module-based ERP | Secure | Scalable
@@ -121,4 +118,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-

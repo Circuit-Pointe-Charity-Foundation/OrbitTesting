@@ -4,9 +4,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
-// List of ERP modules
+// Modules list: Only Donor Management is compulsory now
 const MODULES = [
-  { id: "dashboard", name: "Dashboard", compulsory: true },
+  { id: "dashboard", name: "Dashboard", compulsory: false },
   { id: "donor-management", name: "Donor Management", compulsory: true },
   { id: "opportunity-tracking", name: "Opportunity Tracking", compulsory: false },
   { id: "proposal-development", name: "Proposal Development", compulsory: false },
@@ -15,16 +15,14 @@ const MODULES = [
   { id: "internal-workflow", name: "Internal Workflow", compulsory: false },
   { id: "calendar", name: "Calendar", compulsory: false },
   { id: "fundraising-analytics", name: "Fundraising Analytics", compulsory: false },
-  { id: "settings", name: "Settings", compulsory: true },
+  { id: "settings", name: "Settings", compulsory: false },
 ];
 
 const Registration: React.FC = () => {
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [selectedModules, setSelectedModules] = useState<string[]>(
-    MODULES.filter((m) => m.compulsory).map((m) => m.id)
-  );
+  const [selectedModules, setSelectedModules] = useState<string[]>(["donor-management"]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -69,13 +67,9 @@ const Registration: React.FC = () => {
           alt="Orbit ERP Logo"
           className="w-20 h-20 mb-2"
         />
-        <h2 className="text-3xl font-extrabold text-white mb-2 text-center font-playfair">
+        <h2 className="text-3xl font-extrabold text-white mb-4 text-center font-playfair">
           Register your NGO
         </h2>
-        <p className="text-gray-200 text-center max-w-lg mb-2 text-sm">
-          Get started with Orbit ERP by creating your organization's profile. Choose modules your NGO needs. <br />
-          <span className="font-bold text-fuchsia-300">* Dashboard, Donor Management and Settings are required.</span>
-        </p>
         <form
           onSubmit={handleSubmit}
           className="w-full flex flex-col gap-5 mt-2"
@@ -164,7 +158,7 @@ const Registration: React.FC = () => {
             {isLoading ? "Registering..." : "Register"}
           </Button>
         </form>
-        <div className="mt-4 w-full flex justify-end">
+        <div className="mt-4 w-full flex justify-center">
           <span className="text-sm text-gray-200">
             Already have an account?{" "}
             <Link
@@ -189,4 +183,3 @@ const Registration: React.FC = () => {
 };
 
 export default Registration;
-
