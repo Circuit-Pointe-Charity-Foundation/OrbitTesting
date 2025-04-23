@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -6,7 +5,6 @@ import { Button } from "@/components/ui/button";
 
 // Modules list: Only Donor Management is compulsory now
 const MODULES = [
-  { id: "dashboard", name: "Dashboard", compulsory: false },
   { id: "donor-management", name: "Donor Management", compulsory: true },
   { id: "opportunity-tracking", name: "Opportunity Tracking", compulsory: false },
   { id: "proposal-development", name: "Proposal Development", compulsory: false },
@@ -15,7 +13,6 @@ const MODULES = [
   { id: "internal-workflow", name: "Internal Workflow", compulsory: false },
   { id: "calendar", name: "Calendar", compulsory: false },
   { id: "fundraising-analytics", name: "Fundraising Analytics", compulsory: false },
-  { id: "settings", name: "Settings", compulsory: false },
 ];
 
 const Registration: React.FC = () => {
