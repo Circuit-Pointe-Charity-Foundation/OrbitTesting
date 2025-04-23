@@ -1,73 +1,84 @@
-# Welcome to your Lovable project
+# Orbit - NGO Operations Management System
 
-## Project info
+This is a full-stack web application built with **ReactJS** (frontend) and **Django** (backend) to support NGOs in managing their internal and external operations effectively.
 
-**URL**: https://lovable.dev/projects/24b99f1a-5229-4600-b01f-5b27c2da57e5
+## 🌟 Key Modules
 
-## How can I edit this code?
+- **Dashboard** – Overview of operational and financial activities in real-time.
+- **Donor Management** – Track donor information, donations, and communication history.
+- **Opportunity Tracking** – Identify and manage funding opportunities.
+- **Proposal Development** – Create and manage project proposals with integrated tools.
+- **Proposal Library** – Repository for storing reusable proposal templates and documents.
+- **AI Proposal** – Leverage AI to draft and enhance proposals efficiently.
+- **Internal Workflow** – Streamline team collaboration and document approvals.
+- **Calendars** – Manage schedules, deadlines, and appointments.
+- **Fundraising** – Plan and track fundraising campaigns.
+- **Analytics** – Gain insights through visual reports and data analysis.
 
-There are several ways of editing your application.
+## 🛠️ Technologies Used
 
-**Use Lovable**
+- **Frontend**: ReactJS
+- **Backend**: Django (Python)
+- **API**: Django REST Framework
+- **Database**: PostgreSQL / SQLite (based on environment)
+- **Hosting**: Compatible with Heroku, VPS, or shared hosting
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/24b99f1a-5229-4600-b01f-5b27c2da57e5) and start prompting.
+## 🧑‍💻 Setup Guide
 
-Changes made via Lovable will be committed automatically to this repo.
+### Backend (Django)
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+git clone https://github.com/your-username/ngo-operations-backend.git
+cd ngo-operations-backend
+python -m venv env
+source env/bin/activate  # or env\Scripts\activate on Windows
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
 ```
 
-**Edit a file directly in GitHub**
+### Frontend (ReactJS)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+cd ngo-operations-frontend
+npm install
+npm start
+```
 
-**Use GitHub Codespaces**
+## 🧾 Usage Instructions
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Log in with the admin account.
+2. Configure organization settings and roles.
+3. Start tracking donors, opportunities, and fundraising activities.
+4. Use the AI module to draft compelling proposals.
+5. Monitor KPIs and generate reports via the Analytics module.
 
-## What technologies are used for this project?
+## 🔐 Roles & Access
 
-This project is built with .
+| Role         | Access Level                                        |
+| ------------ | --------------------------------------------------- |
+| Admin        | Full access across all modules                      |
+| Project Lead | Manage opportunities, proposals, and fundraising    |
+| Fundraiser   | Focused access to fundraising and donor management  |
+| Viewer       | Read-only access to shared documents and dashboards |
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 📦 Deployment Notes
 
-## How can I deploy this project?
+- Use environment variables for sensitive configs.
+- Setup HTTPS, WSGI server (e.g., Gunicorn), and reverse proxy (e.g., Nginx).
+- Set `DEBUG=False` in production.
 
-Simply open [Lovable](https://lovable.dev/projects/24b99f1a-5229-4600-b01f-5b27c2da57e5) and click on Share -> Publish.
+## 🙌 Contributing
 
-## Can I connect a custom domain to my Lovable project?
+1. Fork the repo and create your feature branch.
+2. Commit changes and push.
+3. Open a pull request for review.
 
-Yes, you can!
+## 🧑‍💼 Maintainer
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Developed and maintained by [Your Name / Organization].
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📃 License
+
+This project is licensed under the [MIT License](LICENSE).
