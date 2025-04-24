@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
+import { ModuleNavigation } from "./ModuleNavigation";
 import { Outlet } from "react-router-dom";
 
 export const MainLayout: React.FC = () => {
@@ -19,6 +20,7 @@ export const MainLayout: React.FC = () => {
         }`}
       >
         <Header />
+        <ModuleNavigation />
         <main className="flex-1 px-6 py-4">
           <Outlet />
         </main>

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -32,27 +33,16 @@ const COUNTRY_OPTIONS = [
   "Japan",
 ];
 
+// List of application modules
 const MODULES = [
-  { id: "donor-management", name: "Donor Management", compulsory: true },
-  {
-    id: "opportunity-tracking",
-    name: "Opportunity Tracking",
-    compulsory: false,
-  },
-  {
-    id: "proposal-development",
-    name: "Proposal Development",
-    compulsory: false,
-  },
-  { id: "proposal-library", name: "Proposal Library", compulsory: false },
-  { id: "ai-proposal-wizard", name: "AI Proposal Wizard", compulsory: false },
-  { id: "internal-workflow", name: "Internal Workflow", compulsory: false },
-  { id: "calendar", name: "Calendar", compulsory: false },
-  {
-    id: "fundraising-analytics",
-    name: "Fundraising Analytics",
-    compulsory: false,
-  },
+  { id: "fundraising", name: "Fundraising", description: "Manage donors, track opportunities, create proposals" },
+  { id: "program-management", name: "Program Management", description: "Plan and execute programs and projects" },
+  { id: "procurement", name: "Procurement", description: "Manage purchases and vendor relationships" },
+  { id: "inventory-management", name: "Inventory Management", description: "Track and manage organizational assets" },
+  { id: "finance-control", name: "Finance & Control", description: "Manage budgets, expenses and financial reports" },
+  { id: "learning-management", name: "Learning Management", description: "Training and knowledge base systems" },
+  { id: "document-management", name: "Document Management", description: "Store and organize important documents" },
+  { id: "human-resources", name: "Human Resource Management", description: "Staff management and HR functions" },
 ];
 
 const Registration: React.FC = () => {
@@ -63,14 +53,13 @@ const Registration: React.FC = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [selectedModules, setSelectedModules] = useState<string[]>([
-    "donor-management",
+    "fundraising", // Default first module
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<"form" | "confirm">("form");
   const navigate = useNavigate();
 
   const handleCheckbox = (id: string, checked: boolean) => {
-    if (id === "donor-management") return; // always compulsory, can't be unchecked
     setSelectedModules((prev) =>
       checked ? [...prev, id] : prev.filter((mid) => mid !== id)
     );
@@ -82,6 +71,12 @@ const Registration: React.FC = () => {
       toast.error("Please fill all required fields");
       return;
     }
+    
+    if (selectedModules.length === 0) {
+      toast.error("Please select at least one module");
+      return;
+    }
+    
     setStep("confirm");
   };
 
@@ -94,15 +89,7 @@ const Registration: React.FC = () => {
     }, 1000);
   };
 
-  // Only non-dashboard, non-settings modules shown as options
-  const selectOptions = MODULES.filter(
-    (mod) =>
-      mod.id !== "dashboard" &&
-      mod.id !== "settings" &&
-      mod.id !== "donor-management"
-  );
-
-  // For module confirmation display (always include Donor Management)
+  // For module confirmation display
   const selectedModuleNames = MODULES.filter((mod) =>
     selectedModules.includes(mod.id)
   ).map((mod) => mod.name);
@@ -243,24 +230,13 @@ const Registration: React.FC = () => {
               </label>
               <div
                 id="modules-list"
-                className="bg-violet-950 bg-opacity-50 rounded-md px-3 py-1 flex flex-wrap gap-y-2 gap-x-3 items-center"
+                className="bg-violet-950 bg-opacity-50 rounded-md px-3 py-2 flex flex-wrap gap-y-3 gap-x-4 items-center"
               >
-                <span className="text-violet-200 text-sm flex items-center gap-2 font-bold">
-                  <input
-                    type="checkbox"
-                    checked
-                    disabled
-                    className="accent-fuchsia-500 w-4 h-4 rounded border-violet-500"
-                  />
-                  Donor Management
-                  <span className="ml-1 px-2 py-0.5 rounded-sm bg-fuchsia-800 text-xs text-fuchsia-100 font-semibold">
-                    Required
-                  </span>
-                </span>
-                {selectOptions.map((mod) => (
+                {MODULES.map((mod) => (
                   <label
                     key={mod.id}
                     className="flex items-center gap-2 text-sm text-violet-200 cursor-pointer"
+                    title={mod.description}
                   >
                     <input
                       type="checkbox"

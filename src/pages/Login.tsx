@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -26,7 +25,8 @@ const Login: React.FC = () => {
       setIsLoading(false);
       if (email && password) {
         toast.success("Login successful!");
-        navigate("/dashboard");
+        // Redirect to the modules/fundraising page instead of dashboard
+        navigate("/modules/fundraising");
       } else {
         toast.error("Please enter both email and password");
       }
