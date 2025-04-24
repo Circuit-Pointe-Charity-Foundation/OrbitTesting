@@ -2,105 +2,91 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface SidebarLinkProps {
   icon: string;
   label: string;
   to: string;
-  collapsed: boolean;
+  isActive?: boolean;
 }
 
 const SidebarLink: React.FC<SidebarLinkProps> = ({
   icon,
   label,
   to,
-  collapsed,
+  isActive = false,
 }) => {
-  const location = useLocation();
-  const isActive = location.pathname === to;
-
   return (
     <Link
       to={to}
-      className={`flex items-center gap-4 py-2 px-2 rounded-md cursor-pointer hover:text-white transition-colors ${
-        isActive
-          ? "text-white font-bold bg-violet-700"
-          : "text-[rgba(202,179,255,1)] hover:bg-violet-700/50"
-      } ${collapsed ? "justify-center" : ""}`}
-      style={{ minHeight: '44px' }}
+      className={`flex items-center gap-4 justify-center mt-10 rounded-[5px] ${
+        isActive ? "text-white font-bold" : "text-[rgba(202,179,255,1)]"
+      }`}
     >
       <img
         src={icon}
-        className="aspect-[1] object-contain w-5 shrink-0"
+        className="aspect-[1] object-contain w-5 self-stretch shrink-0 my-auto"
         alt=""
       />
-      {!collapsed && (
-        <div className="flex flex-col">
-          <div className="whitespace-nowrap">{label}</div>
-        </div>
-      )}
+      <div className="self-stretch flex flex-col items-stretch justify-center my-auto rounded-[5px]">
+        <div>{label}</div>
+        <div
+          className={`border min-h-px w-0 ${
+            isActive ? "border-white" : "border-[rgba(202,179,255,1)]"
+          } border-solid`}
+        />
+      </div>
     </Link>
   );
 };
 
-interface SidebarProps {
+export const Sidebar: React.FC<{
   collapsed: boolean;
   onToggle: () => void;
-}
+}> = ({ collapsed, onToggle }) => {
+  const location = useLocation();
 
-export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
-  const sidebarLinks = [
+  const modules = [
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
-      label: "Dashboards",
-      to: "/dashboard",
+      label: "Fundraising",
+      path: "/modules/fundraising"
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
-      label: "Donor management",
-      to: "/donor-management",
+      label: "Program Management",
+      path: "/modules/program-management"
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
-      label: "Opportunity Tracking",
-      to: "/opportunity-tracking",
+      label: "Procurement",
+      path: "/modules/procurement"
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
-      label: "Proposal Development",
-      to: "/proposal-development",
+      label: "Inventory Management",
+      path: "/modules/inventory"
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/23cba190c061e1a18edf5c5a381a6ac364437936?placeholderIfAbsent=true",
-      label: "Proposal Library",
-      to: "/proposal-library",
+      label: "Finance & Control",
+      path: "/modules/finance"
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/010c49009b64343fc260ff2073febfeb3376217b?placeholderIfAbsent=true",
-      label: "AI Proposal Wizard",
-      to: "/ai-proposal-wizard",
+      label: "Learning Management",
+      path: "/modules/learning"
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/4bf6d47149419ce63561ecb9bc9f8e248c23ed04?placeholderIfAbsent=true",
-      label: "Internal Workflow & Review",
-      to: "/internal-workflow",
+      label: "Document Management",
+      path: "/modules/document"
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d222f0838818acf1732ad8f2844ef1bd21d12da?placeholderIfAbsent=true",
-      label: "Calendar & Reminders",
-      to: "/calendar",
-    },
-    {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/464233521b077e39fdef00fa474dcfa61c710069?placeholderIfAbsent=true",
-      label: "Fundraising Analytics",
-      to: "/fundraising-analytics",
-    },
-    {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/003933b9929b300ebc0692dc33f2bc17afc04f7a?placeholderIfAbsent=true",
-      label: "Settings",
-      to: "/settings",
-    },
+      label: "Human Resource",
+      path: "/modules/hr"
+    }
   ];
 
   return (
@@ -125,21 +111,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
       </div>
-      <div
-        className={`mt-4 flex-1 overflow-y-auto hide-scrollbar`}
-        style={{ maxHeight: "calc(100vh - 100px)" }} // ensures scroll if needed
-      >
-        <div className={`flex flex-col py-1 px-2 gap-0`}>
-          {sidebarLinks.map((link, index) => (
-            <SidebarLink
-              key={index}
-              icon={link.icon}
-              label={link.label}
-              to={link.to}
-              collapsed={collapsed}
-            />
-          ))}
-        </div>
+      <div className="flex flex-col text-base text-[rgba(202,179,255,1)] mt-10">
+        {modules.map((module) => (
+          <SidebarLink
+            key={module.path}
+            icon={module.icon}
+            label={module.label}
+            to={module.path}
+            isActive={location.pathname === module.path}
+          />
+        ))}
       </div>
     </div>
   );

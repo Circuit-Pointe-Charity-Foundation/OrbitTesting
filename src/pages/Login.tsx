@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -9,12 +10,18 @@ const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Reset state when component mounts
-  useEffect(() => {
+  // Reset form state whenever component mounts or route changes
+  const resetForm = useCallback(() => {
     setEmail("");
     setPassword("");
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    resetForm();
+    // Cleanup function to reset state when component unmounts
+    return () => resetForm();
+  }, [resetForm]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +32,6 @@ const Login: React.FC = () => {
       setIsLoading(false);
       if (email && password) {
         toast.success("Login successful!");
-        // Redirect to the modules/fundraising page instead of dashboard
         navigate("/modules/fundraising");
       } else {
         toast.error("Please enter both email and password");
