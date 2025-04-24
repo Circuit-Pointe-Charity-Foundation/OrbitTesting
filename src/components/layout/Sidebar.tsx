@@ -58,7 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
-      label: "Donor management",
+      label: "Donor Management",
       to: "/donor-management",
     },
     {
