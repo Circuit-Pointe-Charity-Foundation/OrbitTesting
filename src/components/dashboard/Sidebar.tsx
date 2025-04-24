@@ -47,7 +47,7 @@ export const Sidebar: React.FC = () => {
       </div>
       <div className="flex flex-col text-base text-[rgba(202,179,255,1)] mt-10">
         <SidebarLink icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true" label="Dashboards" isActive={true} />
-        <SidebarLink icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true" label="Donor management" />
+        <SidebarLink icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true" label="Donor Management" />
         <SidebarLink icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true" label="Opportunity Tracking" />
         <SidebarLink icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true" label="Proposal Development" />
         <SidebarLink icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/23cba190c061e1a18edf5c5a381a6ac364437936?placeholderIfAbsent=true" label="Proposal Library" />
