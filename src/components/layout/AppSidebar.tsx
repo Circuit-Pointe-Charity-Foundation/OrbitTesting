@@ -59,41 +59,155 @@ const moduleNavigationLinks: Record<string, {icon: string, label: string, to: st
       to: "/settings",
     },
   ],
-  "program-management": Array.from({ length: 10 }, (_, i) => ({
-    icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
-    label: `Link ${i + 1}`,
-    to: `/program-management/link-${i + 1}`,
-  })),
-  "procurement": Array.from({ length: 10 }, (_, i) => ({
-    icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
-    label: `Link ${i + 1}`,
-    to: `/procurement/link-${i + 1}`,
-  })),
-  "inventory": Array.from({ length: 10 }, (_, i) => ({
-    icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
-    label: `Link ${i + 1}`,
-    to: `/inventory/link-${i + 1}`,
-  })),
-  "finance": Array.from({ length: 10 }, (_, i) => ({
-    icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
-    label: `Link ${i + 1}`,
-    to: `/finance/link-${i + 1}`,
-  })),
-  "learning": Array.from({ length: 10 }, (_, i) => ({
-    icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
-    label: `Link ${i + 1}`,
-    to: `/learning/link-${i + 1}`,
-  })),
-  "document": Array.from({ length: 10 }, (_, i) => ({
-    icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
-    label: `Link ${i + 1}`,
-    to: `/document/link-${i + 1}`,
-  })),
-  "hr": Array.from({ length: 10 }, (_, i) => ({
-    icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
-    label: `Link ${i + 1}`,
-    to: `/hr/link-${i + 1}`,
-  })),
+  "program-management": [
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      label: "Dashboard",
+      to: "/dashboard",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      label: "Feature 1",
+      to: "/feature-1",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      label: "Feature 2",
+      to: "/feature-2",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/23cba190c061e1a18edf5c5a381a6ac364437936?placeholderIfAbsent=true",
+      label: "Feature 3",
+      to: "/feature-3",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/010c49009b64343fc260ff2073febfeb3376217b?placeholderIfAbsent=true",
+      label: "Feature 4",
+      to: "/feature-4",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/4bf6d47149419ce63561ecb9bc9f8e248c23ed04?placeholderIfAbsent=true",
+      label: "Feature 5",
+      to: "/feature-5",
+    },
+  ],
+  "procurement": [
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      label: "Dashboard",
+      to: "/dashboard",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      label: "Feature 1",
+      to: "/feature-1",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      label: "Feature 2",
+      to: "/feature-2",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/23cba190c061e1a18edf5c5a381a6ac364437936?placeholderIfAbsent=true",
+      label: "Feature 3",
+      to: "/feature-3",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/010c49009b64343fc260ff2073febfeb3376217b?placeholderIfAbsent=true",
+      label: "Feature 4",
+      to: "/feature-4",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/4bf6d47149419ce63561ecb9bc9f8e248c23ed04?placeholderIfAbsent=true",
+      label: "Feature 5",
+      to: "/feature-5",
+    },
+  ],
+  "inventory": [
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      label: "Dashboard",
+      to: "/dashboard",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      label: "Feature 1",
+      to: "/feature-1",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      label: "Feature 2",
+      to: "/feature-2",
+    },
+  ],
+  "finance": [
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      label: "Dashboard",
+      to: "/dashboard",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      label: "Feature 1",
+      to: "/feature-1",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      label: "Feature 2",
+      to: "/feature-2",
+    },
+  ],
+  "learning": [
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      label: "Dashboard",
+      to: "/dashboard",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      label: "Feature 1",
+      to: "/feature-1",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      label: "Feature 2",
+      to: "/feature-2",
+    },
+  ],
+  "document": [
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      label: "Dashboard",
+      to: "/dashboard",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      label: "Feature 1",
+      to: "/feature-1",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      label: "Feature 2",
+      to: "/feature-2",
+    },
+  ],
+  "hr": [
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      label: "Dashboard",
+      to: "/dashboard",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      label: "Feature 1",
+      to: "/feature-1",
+    },
+    {
+      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      label: "Feature 2",
+      to: "/feature-2",
+    },
+  ],
 };
 
 // Link component for sidebar navigation
@@ -196,7 +310,7 @@ export const AppSidebar: React.FC<{
               label={link.label}
               to={link.to}
               collapsed={collapsed}
-              baseUrl={activeModule.path.replace('/modules', '')}
+              baseUrl={`/modules/${activeModule.id}`}
             />
           ))}
         </div>

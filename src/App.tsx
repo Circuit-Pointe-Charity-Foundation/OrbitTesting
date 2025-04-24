@@ -8,31 +8,15 @@ import { MainLayout } from "./components/layout/MainLayout";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
+import FeaturePlaceholder from "./components/common/FeaturePlaceholder";
 
-// Fundraising module pages
+// Fundraising module pages - Only these are fully implemented
 import Dashboard from "./modules/fundraising/pages/Dashboard";
 import DonorManagement from "./modules/fundraising/pages/DonorManagement";
-
-// Import from original pages until we migrate them all
-import OpportunityTracking from "./pages/OpportunityTracking";
-import ProposalDevelopment from "./pages/ProposalDevelopment";
-import ProposalLibrary from "./pages/ProposalLibrary";
-import AIProposalWizard from "./pages/AIProposalWizard";
-import InternalWorkflow from "./pages/InternalWorkflow";
-import CalendarPage from "./pages/CalendarPage";
-import FundraisingAnalytics from "./pages/FundraisingAnalytics";
-import Settings from "./pages/Settings";
 
 // Other module dashboards
 import ProgramDashboard from "./modules/program-management/pages/Dashboard";
 import ProcurementDashboard from "./modules/procurement/pages/Dashboard";
-
-// For now, use placeholders for modules without pages
-import InventoryManagementModule from "./pages/modules/InventoryManagementModule";
-import FinanceControlModule from "./pages/modules/FinanceControlModule";
-import LearningManagementModule from "./pages/modules/LearningManagementModule";
-import DocumentManagementModule from "./pages/modules/DocumentManagementModule";
-import HumanResourceModule from "./pages/modules/HumanResourceModule";
 
 // Force component remount when navigating to Login
 const LoginWithReset: React.FC = () => {
@@ -57,35 +41,83 @@ const App = () => (
             <Route path="/modules/fundraising">
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="donor-management" element={<DonorManagement />} />
-              <Route path="opportunity-tracking" element={<OpportunityTracking />} />
-              <Route path="proposal-development" element={<ProposalDevelopment />} />
-              <Route path="proposal-library" element={<ProposalLibrary />} />
-              <Route path="ai-proposal-wizard" element={<AIProposalWizard />} />
-              <Route path="internal-workflow" element={<InternalWorkflow />} />
-              <Route path="calendar" element={<CalendarPage />} />
-              <Route path="fundraising-analytics" element={<FundraisingAnalytics />} />
-              <Route path="settings" element={<Settings />} />
+              
+              {/* Placeholder routes for other fundraising features */}
+              <Route path="opportunity-tracking" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Opportunity Tracking" />} />
+              <Route path="proposal-development" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Proposal Development" />} />
+              <Route path="proposal-library" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Proposal Library" />} />
+              <Route path="ai-proposal-wizard" element={<FeaturePlaceholder moduleName="Fundraising" featureName="AI Proposal Wizard" />} />
+              <Route path="internal-workflow" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Internal Workflow & Review" />} />
+              <Route path="calendar" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Calendar & Reminders" />} />
+              <Route path="fundraising-analytics" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Fundraising Analytics" />} />
+              <Route path="settings" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Settings" />} />
+              
               <Route index element={<Navigate to="/modules/fundraising/dashboard" replace />} />
             </Route>
             
             {/* Program management module routes */}
             <Route path="/modules/program-management">
               <Route path="dashboard" element={<ProgramDashboard />} />
+              
+              {/* Placeholder routes for program management features */}
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Program Management" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Program Management" featureName="Feature 2" />} />
+              <Route path="feature-3" element={<FeaturePlaceholder moduleName="Program Management" featureName="Feature 3" />} />
+              <Route path="feature-4" element={<FeaturePlaceholder moduleName="Program Management" featureName="Feature 4" />} />
+              <Route path="feature-5" element={<FeaturePlaceholder moduleName="Program Management" featureName="Feature 5" />} />
+              
               <Route index element={<Navigate to="/modules/program-management/dashboard" replace />} />
             </Route>
             
             {/* Procurement module routes */}
             <Route path="/modules/procurement">
               <Route path="dashboard" element={<ProcurementDashboard />} />
+              
+              {/* Placeholder routes for procurement features */}
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Procurement" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Procurement" featureName="Feature 2" />} />
+              <Route path="feature-3" element={<FeaturePlaceholder moduleName="Procurement" featureName="Feature 3" />} />
+              <Route path="feature-4" element={<FeaturePlaceholder moduleName="Procurement" featureName="Feature 4" />} />
+              <Route path="feature-5" element={<FeaturePlaceholder moduleName="Procurement" featureName="Feature 5" />} />
+              
               <Route index element={<Navigate to="/modules/procurement/dashboard" replace />} />
             </Route>
             
-            {/* Other modules - currently placeholders */}
-            <Route path="/modules/inventory" element={<InventoryManagementModule />} />
-            <Route path="/modules/finance" element={<FinanceControlModule />} />
-            <Route path="/modules/learning" element={<LearningManagementModule />} />
-            <Route path="/modules/document" element={<DocumentManagementModule />} />
-            <Route path="/modules/hr" element={<HumanResourceModule />} />
+            {/* Other modules */}
+            <Route path="/modules/inventory">
+              <Route path="dashboard" element={<FeaturePlaceholder moduleName="Inventory" featureName="Dashboard" />} />
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Inventory" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Inventory" featureName="Feature 2" />} />
+              <Route index element={<Navigate to="/modules/inventory/dashboard" replace />} />
+            </Route>
+            
+            <Route path="/modules/finance">
+              <Route path="dashboard" element={<FeaturePlaceholder moduleName="Finance" featureName="Dashboard" />} />
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Finance" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Finance" featureName="Feature 2" />} />
+              <Route index element={<Navigate to="/modules/finance/dashboard" replace />} />
+            </Route>
+            
+            <Route path="/modules/learning">
+              <Route path="dashboard" element={<FeaturePlaceholder moduleName="Learning" featureName="Dashboard" />} />
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Learning" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Learning" featureName="Feature 2" />} />
+              <Route index element={<Navigate to="/modules/learning/dashboard" replace />} />
+            </Route>
+            
+            <Route path="/modules/document">
+              <Route path="dashboard" element={<FeaturePlaceholder moduleName="Document" featureName="Dashboard" />} />
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Document" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Document" featureName="Feature 2" />} />
+              <Route index element={<Navigate to="/modules/document/dashboard" replace />} />
+            </Route>
+            
+            <Route path="/modules/hr">
+              <Route path="dashboard" element={<FeaturePlaceholder moduleName="HR" featureName="Dashboard" />} />
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="HR" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="HR" featureName="Feature 2" />} />
+              <Route index element={<Navigate to="/modules/hr/dashboard" replace />} />
+            </Route>
             
             {/* Backward compatibility for old routes */}
             <Route path="/dashboard" element={<Navigate to="/modules/fundraising/dashboard" replace />} />
