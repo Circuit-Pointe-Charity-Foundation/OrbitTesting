@@ -20,12 +20,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ChevronDown, LogOut } from "lucide-react";
 import { toast } from "sonner";
+import { useModuleContext } from "@/contexts/ModuleContext";
 
 export const Header: React.FC = () => {
   const [logoutDialogOpen, setLogoutDialogOpen] = React.useState(false);
   const navigate = useNavigate();
+  const { activeModule } = useModuleContext();
 
   const handleLogout = () => {
+    // Clear any user session data
+    localStorage.removeItem("activeModuleId");
+    
     toast.success("Logged out successfully");
     navigate("/");
   };
@@ -33,6 +38,7 @@ export const Header: React.FC = () => {
   return (
     <div className="bg-white w-full flex items-center justify-between px-6 py-4 shadow-sm">
       <div className="text-[rgba(56,56,57,1)] text-sm font-medium">
+        <span className="font-bold text-violet-800">{activeModule.name}</span> |{" "}
         Good Afternoon, <span className="font-bold">Chioma Ike</span>
       </div>
       <div className="flex items-center gap-[30px]">

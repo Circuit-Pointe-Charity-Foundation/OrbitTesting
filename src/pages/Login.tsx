@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -7,14 +8,21 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const mounted = useRef(false);
   const navigate = useNavigate();
 
-  // Reset state when component mounts
+  // Reset state when component mounts or when location changes
   useEffect(() => {
+    mounted.current = true;
+    
     setEmail("");
     setPassword("");
     setIsLoading(false);
-  }, []);
+    
+    return () => {
+      mounted.current = false;
+    };
+  }, [navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,11 +30,13 @@ const Login: React.FC = () => {
 
     // Simulate authentication process
     setTimeout(() => {
+      if (!mounted.current) return;
+      
       setIsLoading(false);
       if (email && password) {
         toast.success("Login successful!");
-        // Redirect to the modules/fundraising page instead of dashboard
-        navigate("/modules/fundraising");
+        // Redirect to the modules/fundraising page
+        navigate("/modules/fundraising/dashboard");
       } else {
         toast.error("Please enter both email and password");
       }

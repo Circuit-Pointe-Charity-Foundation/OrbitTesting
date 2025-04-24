@@ -1,30 +1,30 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "./Header";
-import { Sidebar } from "./Sidebar";
-import { ModuleNavigation } from "./ModuleNavigation";
-import { Outlet } from "react-router-dom";
+import { AppSidebar } from "./AppSidebar";
+import { Outlet, useLocation } from "react-router-dom";
+import { useSidebarCollapse } from "@/hooks/use-sidebar-collapse";
+import { ModuleProvider } from "@/contexts/ModuleContext";
 
 export const MainLayout: React.FC = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { collapsed, toggleSidebar } = useSidebarCollapse();
+  const location = useLocation();
 
   return (
-    <div className="flex min-h-screen bg-[rgba(245,247,250,1)] overflow-hidden">
-      <Sidebar
-        collapsed={sidebarCollapsed}
-        onToggle={() => setSidebarCollapsed((prev) => !prev)}
-      />
-      <div
-        className={`flex flex-col w-full transition-all duration-300 ease-in-out ${
-          sidebarCollapsed ? "ml-[70px]" : "ml-[280px]"
-        }`}
-      >
-        <Header />
-        <ModuleNavigation />
-        <main className="flex-1 px-6 py-4">
-          <Outlet />
-        </main>
+    <ModuleProvider>
+      <div className="flex min-h-screen bg-[rgba(245,247,250,1)] overflow-hidden">
+        <AppSidebar collapsed={collapsed} onToggle={toggleSidebar} />
+        <div
+          className={`flex flex-col w-full transition-all duration-300 ease-in-out ${
+            collapsed ? "ml-[70px]" : "ml-[280px]"
+          }`}
+        >
+          <Header />
+          <main className="flex-1 px-6 py-4">
+            <Outlet />
+          </main>
+        </div>
       </div>
-    </div>
+    </ModuleProvider>
   );
 };
