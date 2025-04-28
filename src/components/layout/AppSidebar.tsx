@@ -1,209 +1,209 @@
 
 import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Menu, ArrowRight, DollarSign, Briefcase, Archive, ChartBar, Book, FileText, Users } from "lucide-react";
+import { ChevronLeft, ChevronRight, Menu, ArrowRight, DollarSign, Briefcase, Archive, ChartBar, Book, FileText, Users, ShoppingCart } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useModuleContext, AVAILABLE_MODULES, Module } from "@/contexts/ModuleContext";
 
 // Module navigation links configuration
-const moduleNavigationLinks: Record<string, {icon: string, label: string, to: string}[]> = {
+const moduleNavigationLinks: Record<string, {icon: string | React.ReactNode, label: string, to: string}[]> = {
   "fundraising": [
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      icon: <DollarSign size={16} />,
       label: "Dashboard",
       to: "/dashboard",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      icon: <Users size={16} />,
       label: "Donor Management",
       to: "/donor-management",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Opportunity Tracking",
       to: "/opportunity-tracking",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Proposal Development",
       to: "/proposal-development",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/23cba190c061e1a18edf5c5a381a6ac364437936?placeholderIfAbsent=true",
+      icon: <Book size={16} />,
       label: "Proposal Library",
       to: "/proposal-library",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/010c49009b64343fc260ff2073febfeb3376217b?placeholderIfAbsent=true",
+      icon: <DollarSign size={16} />,
       label: "AI Proposal Wizard",
       to: "/ai-proposal-wizard",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/4bf6d47149419ce63561ecb9bc9f8e248c23ed04?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Internal Workflow & Review",
       to: "/internal-workflow",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d222f0838818acf1732ad8f2844ef1bd12?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Calendar & Reminders",
       to: "/calendar",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/464233521b077e39fdef00fa474dcfa61c710069?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Fundraising Analytics",
       to: "/fundraising-analytics",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/003933b9929b300ebc0692dc33f2bc17afc04f7a?placeholderIfAbsent=true",
+      icon: <Users size={16} />,
       label: "Settings",
       to: "/settings",
     },
   ],
   "program-management": [
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Dashboard",
       to: "/dashboard",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 1",
       to: "/feature-1",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 2",
       to: "/feature-2",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/23cba190c061e1a18edf5c5a381a6ac364437936?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 3",
       to: "/feature-3",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/010c49009b64343fc260ff2073febfeb3376217b?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 4",
       to: "/feature-4",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/4bf6d47149419ce63561ecb9bc9f8e248c23ed04?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 5",
       to: "/feature-5",
     },
   ],
   "procurement": [
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Dashboard",
       to: "/dashboard",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      icon: <ShoppingCart size={16} />,
       label: "Feature 1",
       to: "/feature-1",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 2",
       to: "/feature-2",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/23cba190c061e1a18edf5c5a381a6ac364437936?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 3",
       to: "/feature-3",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/010c49009b64343fc260ff2073febfeb3376217b?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 4",
       to: "/feature-4",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/4bf6d47149419ce63561ecb9bc9f8e248c23ed04?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 5",
       to: "/feature-5",
     },
   ],
   "inventory": [
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Dashboard",
       to: "/dashboard",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      icon: <Archive size={16} />,
       label: "Feature 1",
       to: "/feature-1",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      icon: <Archive size={16} />,
       label: "Feature 2",
       to: "/feature-2",
     },
   ],
   "finance": [
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Dashboard",
       to: "/dashboard",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      icon: <DollarSign size={16} />,
       label: "Feature 1",
       to: "/feature-1",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      icon: <DollarSign size={16} />,
       label: "Feature 2",
       to: "/feature-2",
     },
   ],
   "learning": [
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Dashboard",
       to: "/dashboard",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      icon: <Book size={16} />,
       label: "Feature 1",
       to: "/feature-1",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      icon: <Book size={16} />,
       label: "Feature 2",
       to: "/feature-2",
     },
   ],
   "document": [
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Dashboard",
       to: "/dashboard",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 1",
       to: "/feature-1",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      icon: <FileText size={16} />,
       label: "Feature 2",
       to: "/feature-2",
     },
   ],
   "hr": [
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/828eaaedadd88007410b86b2eb04ca0bf0a298ba?placeholderIfAbsent=true",
+      icon: <ChartBar size={16} />,
       label: "Dashboard",
       to: "/dashboard",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/614b6853984dcae9c03cb57b4b3b4030230a0642?placeholderIfAbsent=true",
+      icon: <Users size={16} />,
       label: "Feature 1",
       to: "/feature-1",
     },
     {
-      icon: "https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/1549fd0f0a5dfb5a80ce4567068bbc87f72ccfda?placeholderIfAbsent=true",
+      icon: <Users size={16} />,
       label: "Feature 2",
       to: "/feature-2",
     },
@@ -212,7 +212,7 @@ const moduleNavigationLinks: Record<string, {icon: string, label: string, to: st
 
 // Link component for sidebar navigation
 interface SidebarLinkProps {
-  icon: string;
+  icon: string | React.ReactNode;
   label: string;
   to: string;
   collapsed: boolean;
@@ -240,11 +240,17 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
       } ${collapsed ? "justify-center" : ""}`}
       style={{ minHeight: '44px' }}
     >
-      <img
-        src={icon}
-        className="aspect-[1] object-contain w-5 shrink-0"
-        alt=""
-      />
+      {typeof icon === 'string' ? (
+        <img
+          src={icon}
+          className="aspect-[1] object-contain w-5 shrink-0"
+          alt=""
+        />
+      ) : (
+        <div className="w-5 h-5 flex items-center justify-center shrink-0 text-current">
+          {icon}
+        </div>
+      )}
       {!collapsed && (
         <div className="flex flex-col">
           <div className="whitespace-nowrap">{label}</div>
@@ -254,7 +260,8 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
   );
 };
 
-export const AppSidebar: React.FC<{
+// Now let's refactor the AppSidebar component to be more focused
+const AppSidebar: React.FC<{
   collapsed: boolean;
   onToggle: () => void;
 }> = ({ collapsed, onToggle }) => {
@@ -273,7 +280,7 @@ export const AppSidebar: React.FC<{
       case 'program-management':
         return <Briefcase size={20} />;
       case 'procurement':
-        return <Archive size={20} />;
+        return <ShoppingCart size={20} />;
       case 'inventory':
         return <Archive size={20} />;
       case 'finance':
@@ -358,7 +365,7 @@ export const AppSidebar: React.FC<{
         
         {/* Module List */}
         {showModuleSwitcher && (
-          <ScrollArea className={`mt-2 p-2 bg-violet-700 rounded-md max-h-[300px] ${collapsed ? 'absolute bottom-16 left-0 w-[220px]' : ''}`}>
+          <ScrollArea className={`mt-2 p-2 bg-violet-700 rounded-md ${collapsed ? 'absolute bottom-16 left-0 w-[220px]' : ''}`} style={{ maxHeight: "300px" }}>
             {subscribedModules.map((module) => (
               <button
                 key={module.id}

@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,12 +12,17 @@ import Registration from "./pages/Registration";
 import FeaturePlaceholder from "./components/common/FeaturePlaceholder";
 
 // Fundraising module pages - Only these are fully implemented
-import Dashboard from "./modules/fundraising/pages/Dashboard";
+import FundraisingDashboard from "./modules/fundraising/pages/Dashboard";
 import DonorManagement from "./modules/fundraising/pages/DonorManagement";
 
 // Other module dashboards
 import ProgramDashboard from "./modules/program-management/pages/Dashboard";
 import ProcurementDashboard from "./modules/procurement/pages/Dashboard";
+import InventoryDashboard from "./modules/inventory/pages/Dashboard";
+import FinanceDashboard from "./modules/finance/pages/Dashboard";
+import LearningDashboard from "./modules/learning/pages/Dashboard";
+import DocumentDashboard from "./modules/document/pages/Dashboard";
+import HRDashboard from "./modules/hr/pages/Dashboard";
 
 // Force component remount when navigating to Login
 const LoginWithReset: React.FC = () => {
@@ -39,7 +45,7 @@ const App = () => (
           <Route element={<MainLayout />}>
             {/* Fundraising module routes */}
             <Route path="/modules/fundraising">
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="dashboard" element={<FundraisingDashboard />} />
               <Route path="donor-management" element={<DonorManagement />} />
               
               {/* Placeholder routes for other fundraising features */}
@@ -83,39 +89,43 @@ const App = () => (
               <Route index element={<Navigate to="/modules/procurement/dashboard" replace />} />
             </Route>
             
-            {/* Other modules */}
+            {/* Inventory management module routes */}
             <Route path="/modules/inventory">
-              <Route path="dashboard" element={<FeaturePlaceholder moduleName="Inventory" featureName="Dashboard" />} />
-              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Inventory" featureName="Feature 1" />} />
-              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Inventory" featureName="Feature 2" />} />
+              <Route path="dashboard" element={<InventoryDashboard />} />
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Inventory Management" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Inventory Management" featureName="Feature 2" />} />
               <Route index element={<Navigate to="/modules/inventory/dashboard" replace />} />
             </Route>
             
+            {/* Finance module routes */}
             <Route path="/modules/finance">
-              <Route path="dashboard" element={<FeaturePlaceholder moduleName="Finance" featureName="Dashboard" />} />
+              <Route path="dashboard" element={<FinanceDashboard />} />
               <Route path="feature-1" element={<FeaturePlaceholder moduleName="Finance" featureName="Feature 1" />} />
               <Route path="feature-2" element={<FeaturePlaceholder moduleName="Finance" featureName="Feature 2" />} />
               <Route index element={<Navigate to="/modules/finance/dashboard" replace />} />
             </Route>
             
+            {/* Learning module routes */}
             <Route path="/modules/learning">
-              <Route path="dashboard" element={<FeaturePlaceholder moduleName="Learning" featureName="Dashboard" />} />
-              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Learning" featureName="Feature 1" />} />
-              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Learning" featureName="Feature 2" />} />
+              <Route path="dashboard" element={<LearningDashboard />} />
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Learning Management" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Learning Management" featureName="Feature 2" />} />
               <Route index element={<Navigate to="/modules/learning/dashboard" replace />} />
             </Route>
             
+            {/* Document module routes */}
             <Route path="/modules/document">
-              <Route path="dashboard" element={<FeaturePlaceholder moduleName="Document" featureName="Dashboard" />} />
-              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Document" featureName="Feature 1" />} />
-              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Document" featureName="Feature 2" />} />
+              <Route path="dashboard" element={<DocumentDashboard />} />
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="Document Management" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="Document Management" featureName="Feature 2" />} />
               <Route index element={<Navigate to="/modules/document/dashboard" replace />} />
             </Route>
             
+            {/* HR module routes */}
             <Route path="/modules/hr">
-              <Route path="dashboard" element={<FeaturePlaceholder moduleName="HR" featureName="Dashboard" />} />
-              <Route path="feature-1" element={<FeaturePlaceholder moduleName="HR" featureName="Feature 1" />} />
-              <Route path="feature-2" element={<FeaturePlaceholder moduleName="HR" featureName="Feature 2" />} />
+              <Route path="dashboard" element={<HRDashboard />} />
+              <Route path="feature-1" element={<FeaturePlaceholder moduleName="HR Management" featureName="Feature 1" />} />
+              <Route path="feature-2" element={<FeaturePlaceholder moduleName="HR Management" featureName="Feature 2" />} />
               <Route index element={<Navigate to="/modules/hr/dashboard" replace />} />
             </Route>
             
