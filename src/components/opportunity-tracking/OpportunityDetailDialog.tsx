@@ -1,15 +1,28 @@
-
 import React, { useState } from "react";
+import {
+  X,
+  User,
+  Mail,
+  Phone,
+  Calendar as CalendarIcon,
+  FileText,
+  ListTodo,
+  Paperclip,
+  Check,
+  Circle,
+  ChevronRight,
+  Clock,
+  MoreHorizontal,
+  Send,
+} from "lucide-react";
 import { format } from "date-fns";
-import { X, Calendar, FileText, User, Plus, File, ListTodo, Paperclip } from "lucide-react";
 import { Opportunity } from "@/types/opportunity";
-
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,24 +37,6 @@ interface OpportunityDetailDialogProps {
   onClose: () => void;
 }
 
-// Helper to get status badge color
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case "To Review":
-      return "bg-gray-400";
-    case "In Progress":
-      return "bg-orange-400";
-    case "Submitted":
-      return "bg-blue-500";
-    case "Awarded":
-      return "bg-green-500";
-    case "Declined":
-      return "bg-red-500";
-    default:
-      return "bg-gray-400";
-  }
-};
-
 const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
   opportunity,
   isOpen,
@@ -54,12 +49,22 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
   const [files, setFiles] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
   const { toast } = useToast();
-  
+
   if (!opportunity) return null;
 
-  const deadlineDate = new Date(opportunity.deadline);
-  const formattedDeadline = format(deadlineDate, "MMMM dd, yyyy");
-  
+  // Status timeline data - would normally come from API
+  const statusTimeline = [
+    { status: "Opportunity Identified", date: "2025-04-11", completed: true },
+    { status: "Proposal Submitted", date: "2025-04-15", completed: true },
+    { status: "Under Review", date: "2025-04-20", completed: false },
+    { status: "Decision Expected", date: "2025-05-01", completed: false },
+    {
+      status: opportunity.status === "Awarded" ? "Approved" : "Declined",
+      date: "",
+      completed: false,
+    },
+  ];
+
   const handleAddNote = (note: any) => {
     setNotes([...notes, note]);
     toast({
@@ -67,11 +72,15 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
       description: "Your note has been added successfully.",
     });
   };
-  
+
   const handleAddFile = (file: any) => {
     setFiles([...files, file]);
+    toast({
+      title: "File Uploaded",
+      description: "Your file has been uploaded successfully.",
+    });
   };
-  
+
   const handleAddTask = (task: any) => {
     setTasks([...tasks, task]);
     toast({
@@ -80,219 +89,300 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
     });
   };
 
-  // Helper to check if a deadline is urgent (within 7 days)
-  const isUrgent = (deadline: string) => {
-    const today = new Date();
-    const deadlineDate = new Date(deadline);
-    const diffTime = deadlineDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays <= 7 && diffDays >= 0;
-  };
-
-  // Helper to check if a deadline is due soon (within 14 days)
-  const isDueSoon = (deadline: string) => {
-    const today = new Date();
-    const deadlineDate = new Date(deadline);
-    const diffTime = deadlineDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays <= 14 && diffDays > 7;
-  };
-  
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <div className="flex justify-between items-start">
               <div>
-                <DialogTitle className="text-xl">{opportunity.title}</DialogTitle>
-                <span className="text-sm text-gray-600">{opportunity.donorName}</span>
+                <DialogTitle className="text-xl">
+                  {opportunity.title}
+                </DialogTitle>
+                <div className="flex items-center gap-2 mt-1">
+                  <Badge variant="outline" className="text-sm font-normal">
+                    {opportunity.type}
+                  </Badge>
+                  <Badge
+                    className={`${
+                      opportunity.status === "Awarded"
+                        ? "bg-green-100 text-green-800"
+                        : opportunity.status === "Declined"
+                        ? "bg-red-100 text-red-800"
+                        : opportunity.status === "Submitted"
+                        ? "bg-blue-100 text-blue-800"
+                        : opportunity.status === "In Progress"
+                        ? "bg-orange-100 text-orange-800"
+                        : "bg-gray-100 text-gray-800"
+                    }`}
+                  >
+                    {opportunity.status}
+                  </Badge>
+                </div>
               </div>
-              <Badge className={`${getStatusColor(opportunity.status)} hover:${getStatusColor(opportunity.status)}`}>
-                {opportunity.status}
-              </Badge>
+              <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </DialogClose>
             </div>
-            <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-            </DialogClose>
           </DialogHeader>
-          
-          <div className="mt-6 space-y-8">
+
+          <div className="mt-6">
             <div className="grid grid-cols-3 gap-6">
-              <div className="col-span-2">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium mb-3">Opportunity Details</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <div className="text-sm text-gray-500">Amount</div>
-                      <div className="font-medium">${opportunity.amount?.toLocaleString() || 'N/A'}</div>
+              {/* Left Column (2/3 width) */}
+              <div className="col-span-2 space-y-4">
+                {/* Donor Profile Section */}
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    <span>Donor Profile</span>
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                        <User className="h-5 w-5 text-gray-500" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium">{opportunity.donorName}</h4>
+                        <div className="flex items-center text-sm text-gray-600 mt-1">
+                          <Mail className="h-4 w-4 mr-1" />
+                          <span>{opportunity.contactEmail || "No email"}</span>
+                        </div>
+                        <div className="flex items-center text-sm text-gray-600 mt-1">
+                          <Phone className="h-4 w-4 mr-1" />
+                          <span>{opportunity.contactPhone || "No phone"}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-sm text-gray-500">Type</div>
-                      <div className="font-medium">{opportunity.type}</div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-500">Deadline</div>
-                      <div className="font-medium">{formattedDeadline}</div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-500">Sector</div>
-                      <div className="font-medium">{opportunity.sector || 'N/A'}</div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-500">Assigned To</div>
-                      <div className="font-medium">{opportunity.assignedTo}</div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-500">Created</div>
-                      <div className="font-medium">{format(new Date(opportunity.createdAt), "MMM dd, yyyy")}</div>
+
+                    <div className="pt-2 border-t">
+                      <div className="text-sm text-gray-600">
+                        <span className="font-medium">Funding Timeline:</span>
+                        <span className="ml-2">
+                          {opportunity.startDate
+                            ? format(
+                                new Date(opportunity.startDate),
+                                "MMM yyyy"
+                              )
+                            : "N/A"}{" "}
+                          -
+                          {opportunity.endDate
+                            ? format(new Date(opportunity.endDate), "MMM yyyy")
+                            : "N/A"}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-                
-                {notes.length > 0 && (
-                  <div className="mt-6 bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-sm font-medium mb-3">Notes</h3>
+
+                {/* Description/Notes Section */}
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-sm font-medium flex items-center gap-2">
+                      <FileText className="h-4 w-4" />
+                      <span>Description / Notes</span>
+                    </h3>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-primary"
+                      onClick={() => setShowAddNoteDialog(true)}
+                    >
+                      Add Note
+                    </Button>
+                  </div>
+
+                  {notes.length > 0 ? (
                     <div className="space-y-3">
                       {notes.map((note) => (
-                        <div key={note.id} className="bg-white p-3 rounded border border-gray-200">
+                        <div
+                          key={note.id}
+                          className="bg-white p-3 rounded border border-gray-200"
+                        >
                           <div className="text-sm">{note.content}</div>
                           <div className="mt-2 text-xs text-gray-500">
-                            Added by {note.createdBy} on {format(new Date(note.createdAt), "MMM dd, yyyy h:mm a")}
+                            Added by {note.createdBy} on{" "}
+                            {format(
+                              new Date(note.createdAt),
+                              "MMM dd, yyyy h:mm a"
+                            )}
                           </div>
                         </div>
                       ))}
                     </div>
-                  </div>
-                )}
-                
-                {files.length > 0 && (
-                  <div className="mt-6 bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-sm font-medium mb-3">Files</h3>
-                    <div className="space-y-2">
-                      {files.map((file) => (
-                        <div key={file.id} className="bg-white p-3 rounded flex items-center border border-gray-200">
-                          <Paperclip className="h-4 w-4 mr-2 text-blue-500" />
-                          <div>
-                            <div className="font-medium text-sm">{file.name}</div>
-                            <div className="text-xs text-gray-500">
-                              {format(new Date(file.uploadedAt), "MMM dd, yyyy")} • {(file.size / 1024).toFixed(2)} KB
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                  ) : (
+                    <div className="text-center py-6 text-sm text-gray-500">
+                      No notes added yet
                     </div>
+                  )}
+                </div>
+
+                {/* Tasks Section */}
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-sm font-medium flex items-center gap-2">
+                      <ListTodo className="h-4 w-4" />
+                      <span>Assignment Tasks</span>
+                    </h3>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-primary"
+                      onClick={() => setShowAddTaskDialog(true)}
+                    >
+                      Add Task
+                    </Button>
                   </div>
-                )}
-                
-                {tasks.length > 0 && (
-                  <div className="mt-6 bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-sm font-medium mb-3">Tasks</h3>
+
+                  {tasks.length > 0 ? (
                     <div className="space-y-2">
                       {tasks.map((task) => (
-                        <div key={task.id} className="bg-white p-3 rounded flex items-center border border-gray-200">
-                          <input type="checkbox" className="mr-2 h-4 w-4 rounded border-gray-300" />
+                        <div
+                          key={task.id}
+                          className="bg-white p-3 rounded border border-gray-200 flex items-start gap-3"
+                        >
+                          <input
+                            type="checkbox"
+                            className="mt-1 h-4 w-4 rounded border-gray-300"
+                            checked={task.completed}
+                            onChange={() => {}}
+                          />
                           <div className="flex-1">
-                            <div className="font-medium text-sm">{task.title}</div>
-                            <div className="text-xs text-gray-500">
-                              Due: {format(new Date(task.dueDate), "MMM dd, yyyy")} • Assigned to: {task.assignedTo}
+                            <div className="font-medium text-sm">
+                              {task.title}
+                            </div>
+                            <div className="text-xs text-gray-500 mt-1">
+                              Due:{" "}
+                              {format(new Date(task.dueDate), "MMM dd, yyyy")} •
+                              Assigned to: {task.assignedTo}
                             </div>
                           </div>
-                          <Badge className={task.priority === 'high' ? 'bg-red-100 text-red-800' : task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}>
+                          <Badge
+                            variant="outline"
+                            className={
+                              task.priority === "high"
+                                ? "border-red-200 text-red-800"
+                                : task.priority === "medium"
+                                ? "border-yellow-200 text-yellow-800"
+                                : "border-green-200 text-green-800"
+                            }
+                          >
                             {task.priority}
                           </Badge>
                         </div>
                       ))}
                     </div>
-                  </div>
-                )}
+                  ) : (
+                    <div className="text-center py-6 text-sm text-gray-500">
+                      No tasks created yet
+                    </div>
+                  )}
+                </div>
               </div>
-              
-              <div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium mb-3">Quick Actions</h3>
+
+              {/* Right Column (1/3 width) */}
+              <div className="space-y-4">
+                {/* Status Timeline */}
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    <span>Status Timeline</span>
+                  </h3>
                   <div className="space-y-3">
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-start"
-                      onClick={() => setShowAddTaskDialog(true)}
-                    >
-                      <ListTodo className="mr-2 h-4 w-4" />
-                      <span>Add Task</span>
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-start"
-                      onClick={() => setShowAddNoteDialog(true)}
-                    >
-                      <Plus className="mr-2 h-4 w-4" />
-                      <span>Add Note</span>
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-start"
-                      onClick={() => setShowAddFileDialog(true)}
-                    >
-                      <File className="mr-2 h-4 w-4" />
-                      <span>Add File</span>
-                    </Button>
-                  </div>
-                  
-                  <div className="flex justify-end mt-4 space-x-2">
-                    <div className="flex items-center">
-                      <span className="h-3 w-3 rounded-full bg-[#dc2626] inline-block mr-1"></span>
-                      <span className="text-xs text-gray-500">Urgent</span>
-                    </div>
-                    <div className="flex items-center">
-                      <span className="h-3 w-3 rounded-full bg-[#ea580c] inline-block mr-1"></span>
-                      <span className="text-xs text-gray-500">Due Soon</span>
-                    </div>
-                    <div className="flex items-center">
-                      <span className="h-3 w-3 rounded-full bg-[#16a34a] inline-block mr-1"></span>
-                      <span className="text-xs text-gray-500">Complete</span>
-                    </div>
+                    {statusTimeline.map((item, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div
+                          className={`mt-1 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center 
+                          ${item.completed ? "bg-green-500" : "bg-gray-200"}`}
+                        >
+                          {item.completed ? (
+                            <Check className="h-3 w-3 text-white" />
+                          ) : (
+                            <Circle className="h-3 w-3 text-gray-400" />
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-sm font-medium">
+                            {item.status}
+                          </div>
+                          {item.date && (
+                            <div className="text-xs text-gray-500">
+                              {format(new Date(item.date), "MMM dd, yyyy")}
+                            </div>
+                          )}
+                        </div>
+                        {index < statusTimeline.length - 1 && (
+                          <ChevronRight className="h-4 w-4 text-gray-400" />
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
-                
-                <div className="mt-6 bg-gray-50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium mb-3">Status Timeline</h3>
-                  <div className="relative pl-6 border-l border-gray-200 space-y-4">
-                    <div className="relative">
-                      <div className="absolute -left-[25px] w-4 h-4 rounded-full bg-purple-500"></div>
-                      <div className="text-sm">
-                        <span className="font-medium">Created</span>
-                        <span className="text-xs text-gray-500 ml-2">
-                          {format(new Date(opportunity.createdAt), "MMM dd")}
-                        </span>
-                        <p className="text-xs text-gray-600 mt-1">Opportunity was created</p>
-                      </div>
+
+                {/* Attachments Section */}
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-sm font-medium flex items-center gap-2">
+                      <Paperclip className="h-4 w-4" />
+                      <span>Attachments</span>
+                    </h3>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-primary"
+                      onClick={() => setShowAddFileDialog(true)}
+                    >
+                      Add File
+                    </Button>
+                  </div>
+
+                  {files.length > 0 ? (
+                    <div className="space-y-2">
+                      {files.map((file) => (
+                        <div
+                          key={file.id}
+                          className="bg-white p-3 rounded border border-gray-200 flex items-center"
+                        >
+                          <Paperclip className="h-4 w-4 mr-2 text-blue-500" />
+                          <div className="flex-1">
+                            <div className="font-medium text-sm">
+                              {file.name}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {format(
+                                new Date(file.uploadedAt),
+                                "MMM dd, yyyy"
+                              )}{" "}
+                              • {(file.size / 1024).toFixed(2)} KB
+                            </div>
+                          </div>
+                          <MoreHorizontal className="h-4 w-4 text-gray-400" />
+                        </div>
+                      ))}
                     </div>
-                    
-                    <div className="relative">
-                      <div className="absolute -left-[25px] w-4 h-4 rounded-full bg-blue-400"></div>
-                      <div className="text-sm">
-                        <span className="font-medium">Status: {opportunity.status}</span>
-                        <span className="text-xs text-gray-500 ml-2">
-                          {format(new Date(opportunity.updatedAt), "MMM dd")}
-                        </span>
-                        <p className="text-xs text-gray-600 mt-1">Current status</p>
-                      </div>
+                  ) : (
+                    <div className="text-center py-6 text-sm text-gray-500">
+                      No attachments added yet
                     </div>
-                    
-                    <div className="relative">
-                      <div className={`absolute -left-[25px] w-4 h-4 rounded-full ${
-                        isUrgent(opportunity.deadline) ? "bg-red-500" : 
-                        isDueSoon(opportunity.deadline) ? "bg-orange-400" : "bg-gray-400"
-                      }`}></div>
-                      <div className="text-sm">
-                        <span className="font-medium">Deadline</span>
-                        <span className="text-xs text-gray-500 ml-2">
-                          {format(deadlineDate, "MMM dd")}
-                        </span>
-                        <p className="text-xs text-gray-600 mt-1">Submission deadline</p>
-                      </div>
-                    </div>
+                  )}
+                </div>
+
+                {/* Quick Actions */}
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <h3 className="text-sm font-medium mb-3">Quick Actions</h3>
+                  <div className="space-y-2">
+                    <Button variant="outline" className="w-full justify-start">
+                      <Send className="h-4 w-4 mr-2" />
+                      Send to Review
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <CalendarIcon className="h-4 w-4 mr-2" />
+                      Schedule Meeting
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Email Donor
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -300,26 +390,29 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
           </div>
         </DialogContent>
       </Dialog>
-      
+
+      {/* Dialog for adding notes */}
       <AddNoteDialog
         isOpen={showAddNoteDialog}
         onClose={() => setShowAddNoteDialog(false)}
         onAddNote={handleAddNote}
-        opportunityId={opportunity?.id || ""}
+        opportunityId={opportunity.id}
       />
-      
+
+      {/* Dialog for adding files */}
       <AddFileDialog
         isOpen={showAddFileDialog}
         onClose={() => setShowAddFileDialog(false)}
         onAddFile={handleAddFile}
-        opportunityId={opportunity?.id || ""}
+        opportunityId={opportunity.id}
       />
-      
+
+      {/* Dialog for adding tasks */}
       <AddTaskDialog
         isOpen={showAddTaskDialog}
         onClose={() => setShowAddTaskDialog(false)}
         onAddTask={handleAddTask}
-        opportunityId={opportunity?.id || ""}
+        opportunityId={opportunity.id}
       />
     </>
   );

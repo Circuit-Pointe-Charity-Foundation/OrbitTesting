@@ -1,32 +1,42 @@
-
 import React, { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import KanbanBoard from "@/components/opportunity-tracking/KanbanBoard";
-import OpportunityFilter, { FilterOptions } from "@/components/opportunity-tracking/OpportunityFilter";
+import OpportunityFilter, {
+  FilterOptions,
+} from "@/components/opportunity-tracking/OpportunityFilter";
 import AddOpportunityDialog from "@/components/opportunity-tracking/AddOpportunityDialog";
 import OpportunityDetailDialog from "@/components/opportunity-tracking/OpportunityDetailDialog";
 import OpportunityPipelineDialog from "@/components/opportunity-tracking/OpportunityPipelineDialog";
 import { mockOpportunities, Opportunity } from "@/types/opportunity";
-import { Plus, Filter, MoreHorizontal } from "lucide-react";
+import { Plus, Filter, PanelTop } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const OpportunityTracking: React.FC = () => {
-  const [opportunities, setOpportunities] = useState<Opportunity[]>(mockOpportunities);
-  const [filteredOpportunities, setFilteredOpportunities] = useState<Opportunity[]>(mockOpportunities);
+  const [opportunities, setOpportunities] =
+    useState<Opportunity[]>(mockOpportunities);
+  const [filteredOpportunities, setFilteredOpportunities] =
+    useState<Opportunity[]>(mockOpportunities);
   const [filters, setFilters] = useState<FilterOptions>({});
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showPipelineDialog, setShowPipelineDialog] = useState(false);
-  const [selectedOpportunity, setSelectedOpportunity] = useState<Opportunity | null>(null);
+  const [selectedOpportunity, setSelectedOpportunity] =
+    useState<Opportunity | null>(null);
   const [showDetailDialog, setShowDetailDialog] = useState(false);
   const { toast } = useToast();
 
   // Extract unique donors and sectors for filters
   const donors = useMemo(() => {
-    return Array.from(new Set(opportunities.map(opp => opp.donorName)));
+    return Array.from(new Set(opportunities.map((opp) => opp.donorName)));
   }, [opportunities]);
 
   const sectors = useMemo(() => {
-    return Array.from(new Set(opportunities.filter(opp => opp.sector).map(opp => opp.sector as string)));
+    return Array.from(
+      new Set(
+        opportunities
+          .filter((opp) => opp.sector)
+          .map((opp) => opp.sector as string)
+      )
+    );
   }, [opportunities]);
 
   // Filter opportunities when filters change
@@ -34,26 +44,26 @@ const OpportunityTracking: React.FC = () => {
     let result = opportunities;
 
     if (filters.donor) {
-      result = result.filter(opp => opp.donorName === filters.donor);
+      result = result.filter((opp) => opp.donorName === filters.donor);
     }
 
     if (filters.sector) {
-      result = result.filter(opp => opp.sector === filters.sector);
+      result = result.filter((opp) => opp.sector === filters.sector);
     }
 
     if (filters.type) {
-      result = result.filter(opp => opp.type === filters.type);
+      result = result.filter((opp) => opp.type === filters.type);
     }
 
     if (filters.deadlineAfter) {
       result = result.filter(
-        opp => new Date(opp.deadline) >= filters.deadlineAfter!
+        (opp) => new Date(opp.deadline) >= filters.deadlineAfter!
       );
     }
 
     if (filters.deadlineBefore) {
       result = result.filter(
-        opp => new Date(opp.deadline) <= filters.deadlineBefore!
+        (opp) => new Date(opp.deadline) <= filters.deadlineBefore!
       );
     }
 
@@ -61,7 +71,7 @@ const OpportunityTracking: React.FC = () => {
   }, [filters, opportunities]);
 
   const handleAddOpportunity = (newOpportunity: Opportunity) => {
-    setOpportunities(prev => [newOpportunity, ...prev]);
+    setOpportunities((prev) => [newOpportunity, ...prev]);
     toast({
       title: "Opportunity Added",
       description: `${newOpportunity.title} has been added successfully.`,
@@ -78,13 +88,17 @@ const OpportunityTracking: React.FC = () => {
   };
 
   const donorsForDropdown = useMemo(() => {
-    return opportunities.map(opp => ({
-      id: opp.donorId,
-      name: opp.donorName
-    }))
-    // Filter unique donors by ID
-    .filter((donor, index, self) => 
-      index === self.findIndex(d => d.id === donor.id)
+    return (
+      opportunities
+        .map((opp) => ({
+          id: opp.donorId,
+          name: opp.donorName,
+        }))
+        // Filter unique donors by ID
+        .filter(
+          (donor, index, self) =>
+            index === self.findIndex((d) => d.id === donor.id)
+        )
     );
   }, [opportunities]);
 
@@ -93,20 +107,20 @@ const OpportunityTracking: React.FC = () => {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Opportunity Tracking</h1>
         <div className="flex gap-3">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="flex items-center gap-2"
             onClick={() => setShowPipelineDialog(true)}
           >
-            <MoreHorizontal className="h-4 w-4" />
+            <PanelTop className="h-4 w-4" />
             View Pipeline
           </Button>
-          <OpportunityFilter 
-            onFilterChange={handleFilterChange} 
+          <OpportunityFilter
+            onFilterChange={handleFilterChange}
             donors={donors}
             sectors={sectors}
           />
-          <Button 
+          <Button
             className="bg-violet-600 hover:bg-violet-700 text-white"
             onClick={() => setShowAddDialog(true)}
           >
@@ -116,10 +130,28 @@ const OpportunityTracking: React.FC = () => {
         </div>
       </div>
 
+      {/* Add the color indicators here */}
+      <div className="flex justify-end mb-7">
+        <div className="flex items-center gap-5">
+          <div className="flex items-center">
+            <div className="w-3 h-3 rounded-full bg-[#fa2d2d] mr-2"></div>
+            <span className="text-sm text-gray-600">Urgent</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-3 h-3 rounded-full bg-[#e59346] mr-2"></div>
+            <span className="text-sm text-gray-600">Due Soon</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-3 h-3 rounded-full bg-[#09c127] mr-2"></div>
+            <span className="text-sm text-gray-600">Completed</span>
+          </div>
+        </div>
+      </div>
+
       <div className="mt-4">
-        <KanbanBoard 
-          opportunities={filteredOpportunities} 
-          onCardClick={handleCardClick} 
+        <KanbanBoard
+          opportunities={filteredOpportunities}
+          onCardClick={handleCardClick}
         />
       </div>
 

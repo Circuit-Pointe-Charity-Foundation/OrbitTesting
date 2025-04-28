@@ -1,13 +1,12 @@
-
 import React from "react";
 import { format } from "date-fns";
 import { Opportunity } from "@/types/opportunity";
-import { 
-  CircleCheck, 
-  CircleX, 
-  CircleMinus, 
-  CircleAlert, 
-  CircleDot 
+import {
+  CircleCheck,
+  CircleX,
+  CircleMinus,
+  CircleAlert,
+  CircleDot,
 } from "lucide-react";
 
 interface OpportunityCardProps {
@@ -69,10 +68,13 @@ const StatusIcon = ({ status }: { status: string }) => {
   }
 };
 
-const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity, onClick }) => {
+const OpportunityCard: React.FC<OpportunityCardProps> = ({
+  opportunity,
+  onClick,
+}) => {
   const deadlineDate = new Date(opportunity.deadline);
   const formattedDeadline = format(deadlineDate, "MMM dd, yyyy");
-  
+
   // Determine the deadline urgency class
   let deadlineClass = "text-green-500"; // Default - not urgent
   if (isUrgent(opportunity.deadline)) {
@@ -82,27 +84,32 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity, onClick 
   }
 
   return (
-    <div 
+    <div
       className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-3 cursor-pointer hover:shadow-md transition-shadow"
       onClick={() => onClick(opportunity)}
     >
-      <div className="font-medium text-base truncate">{opportunity.title}</div>
+      <div className="font-medium text-base truncate mb-1">
+        {opportunity.title}
+      </div>
       <div className="text-sm text-gray-600">{opportunity.donorName}</div>
-      
-      <div className="flex justify-between items-center mt-2">
-        <div className={`text-sm ${deadlineClass}`}>
-          {formattedDeadline}
-        </div>
+
+      <div className="flex justify-between items-center mt-3">
+        <div className={`text-sm ${deadlineClass}`}>{formattedDeadline}</div>
         <div className="flex items-center">
           <StatusIcon status={opportunity.status} />
         </div>
       </div>
-      
-      <div className="flex items-center mt-3 pt-3 border-t border-gray-100">
+
+      <div className="flex items-center mt-4 pt-3 border-t border-gray-300">
         <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-800 text-xs font-medium">
-          {opportunity.assignedTo.split(" ").map(name => name[0]).join("")}
+          {opportunity.assignedTo
+            .split(" ")
+            .map((name) => name[0])
+            .join("")}
         </div>
-        <span className="text-xs text-gray-500 ml-2">{opportunity.assignedTo}</span>
+        <span className="text-xs text-gray-500 ml-2">
+          {opportunity.assignedTo}
+        </span>
       </div>
     </div>
   );

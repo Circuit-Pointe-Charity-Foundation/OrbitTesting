@@ -7,18 +7,20 @@ export interface Opportunity {
   title: string;
   donorId: string;
   donorName: string;
+  contactEmail?: string;  // Made optional
+  contactPhone?: string;  // Made optional
   amount?: number;
+  type: "RFP" | "LOI" | "CFP";
   deadline: string;
-  type: OpportunityType;
   status: OpportunityStatus;
-  assignedTo: string;
-  notes?: string;
-  sector?: string;
-  attachments?: string[];
   createdAt: string;
   updatedAt: string;
+  assignedTo?: string;
+  sector?: string;
+  startDate?: string;     // Made optional
+  endDate?: string;       // Made optional
+  notes?: string;         // Added optional notes property
 }
-
 // Sample data for initial development
 export const mockOpportunities: Opportunity[] = [
   {
@@ -38,9 +40,9 @@ export const mockOpportunities: Opportunity[] = [
   },
   {
     id: "op-002",
-    title: "UNICEF Youth Innovation Grant - Q3 2025",
+    title: "UNESCO Rural Support Grant - Q3 2025",
     donorId: "d-001",
-    donorName: "UNICEF Nigeria",
+    donorName: "UNESCO Nigeria",
     amount: 75000,
     deadline: "2025-04-20",
     type: "RFP",
