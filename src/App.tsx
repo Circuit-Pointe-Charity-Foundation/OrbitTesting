@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import FeaturePlaceholder from "./components/common/FeaturePlaceholder";
+import OpportunityTracking from "./pages/OpportunityTracking";
 
 // Fundraising module pages - Only these are fully implemented
 import FundraisingDashboard from "./modules/fundraising/pages/Dashboard";
@@ -48,8 +49,10 @@ const App = () => (
               <Route path="dashboard" element={<FundraisingDashboard />} />
               <Route path="donor-management" element={<DonorManagement />} />
               
+              {/* Update Opportunity Tracking route to use the implemented component */}
+              <Route path="opportunity-tracking" element={<OpportunityTracking />} />
+              
               {/* Placeholder routes for other fundraising features */}
-              <Route path="opportunity-tracking" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Opportunity Tracking" />} />
               <Route path="proposal-development" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Proposal Development" />} />
               <Route path="proposal-library" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Proposal Library" />} />
               <Route path="ai-proposal-wizard" element={<FeaturePlaceholder moduleName="Fundraising" featureName="AI Proposal Wizard" />} />
