@@ -1,14 +1,13 @@
 
 import React from "react";
-import Header from "@/components/donor-management/Header";
-import DonorTable from "@/components/donor-management/DonorTable";
-import { donorData } from "@/data/donorData";
+import DonorList from "@/components/donor-management/DonorList";
+import FundingCycles from "@/components/donor-management/FundingCycles";
 
 const DonorManagement: React.FC = () => {
   return (
-    <div className="flex flex-col w-full">
-      <Header />
-      <DonorTable donors={donorData} />
+    <div className="p-6 max-w-[1200px] mx-auto space-y-6">
+      <FundingCycles />
+      <DonorList />
     </div>
   );
 };

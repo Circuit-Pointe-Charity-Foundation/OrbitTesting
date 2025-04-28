@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Menu, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Menu, ArrowRight, DollarSign, Briefcase, Archive, ChartBar, Book, FileText, Users } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useModuleContext, AVAILABLE_MODULES, Module } from "@/contexts/ModuleContext";
 
@@ -266,6 +266,29 @@ export const AppSidebar: React.FC<{
     setShowModuleSwitcher(!showModuleSwitcher);
   };
 
+  const getModuleIcon = (moduleId: string) => {
+    switch (moduleId) {
+      case 'fundraising':
+        return <DollarSign size={20} />;
+      case 'program-management':
+        return <Briefcase size={20} />;
+      case 'procurement':
+        return <Archive size={20} />;
+      case 'inventory':
+        return <Archive size={20} />;
+      case 'finance':
+        return <ChartBar size={20} />;
+      case 'learning':
+        return <Book size={20} />;
+      case 'document':
+        return <FileText size={20} />;
+      case 'hr':
+        return <Users size={20} />;
+      default:
+        return <DollarSign size={20} />;
+    }
+  };
+
   const handleModuleChange = (module: Module) => {
     setActiveModule(module);
     setShowModuleSwitcher(false);
@@ -340,11 +363,12 @@ export const AppSidebar: React.FC<{
               <button
                 key={module.id}
                 onClick={() => handleModuleChange(module)}
-                className={`w-full text-left p-2 rounded-md mb-1 ${
+                className={`w-full text-left p-2 rounded-md mb-1 flex items-center gap-2 ${
                   activeModule.id === module.id ? 'bg-violet-800 text-white' : 'text-violet-200 hover:bg-violet-800/50'
                 }`}
               >
-                {module.name}
+                {getModuleIcon(module.id)}
+                {!collapsed && <span>{module.name}</span>}
               </button>
             ))}
           </ScrollArea>
