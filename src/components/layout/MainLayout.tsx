@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Header } from "./Header";
-import { AppSidebar } from "./AppSidebar";
+import AppSidebar from "./AppSidebar";
 import { Outlet, useLocation } from "react-router-dom";
 import { useSidebarCollapse } from "@/hooks/use-sidebar-collapse";
 import { ModuleProvider } from "@/contexts/ModuleContext";
