@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Menu, ArrowRight, DollarSign, Briefcase, Archive, ChartBar, Book, FileText, Users, ShoppingCart } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useModuleContext, AVAILABLE_MODULES, Module } from "@/contexts/ModuleContext";
@@ -9,7 +9,7 @@ import { useModuleContext, AVAILABLE_MODULES, Module } from "@/contexts/ModuleCo
 const moduleNavigationLinks: Record<string, {icon: string | React.ReactNode, label: string, to: string}[]> = {
   "fundraising": [
     {
-      icon: <DollarSign size={16} />,
+      icon: <ChartBar size={16} />,
       label: "Dashboard",
       to: "/dashboard",
     },
@@ -268,6 +268,7 @@ const AppSidebar: React.FC<{
   const [showModuleSwitcher, setShowModuleSwitcher] = useState(false);
   const { activeModule, setActiveModule, subscribedModules } = useModuleContext();
   const links = moduleNavigationLinks[activeModule.id] || [];
+  const navigate = useNavigate();
   
   const toggleModuleSwitcher = () => {
     setShowModuleSwitcher(!showModuleSwitcher);
@@ -298,6 +299,8 @@ const AppSidebar: React.FC<{
 
   const handleModuleChange = (module: Module) => {
     setActiveModule(module);
+    // Navigate to the dashboard of the selected module
+    navigate(`/modules/${module.id}/dashboard`);
     setShowModuleSwitcher(false);
   };
 
@@ -363,9 +366,12 @@ const AppSidebar: React.FC<{
           )}
         </button>
         
-        {/* Module List */}
+        {/* Module List - Adjusted height to show all modules */}
         {showModuleSwitcher && (
-          <ScrollArea className={`mt-2 p-2 bg-violet-700 rounded-md ${collapsed ? 'absolute bottom-16 left-0 w-[220px]' : ''}`} style={{ maxHeight: "300px" }}>
+          <ScrollArea 
+            className={`mt-2 p-2 bg-violet-700 rounded-md ${collapsed ? 'absolute bottom-16 left-0 w-[220px]' : ''}`} 
+            style={{ maxHeight: "400px" }} // Increased height to show all modules
+          >
             {subscribedModules.map((module) => (
               <button
                 key={module.id}
