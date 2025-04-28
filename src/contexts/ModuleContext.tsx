@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 export type Module = {
@@ -54,7 +53,7 @@ export const AVAILABLE_MODULES: Module[] = [
   },
   { 
     id: "hr", 
-    name: "Human Resource Management", 
+    name: "HR Management", 
     path: "/modules/hr", 
     description: "Staff management and HR functions" 
   },

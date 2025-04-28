@@ -1,7 +1,6 @@
-
 import React, { useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Menu, ArrowRight, DollarSign, Briefcase, Archive, ChartBar, Book, FileText, Users, ShoppingCart } from "lucide-react";
+import { ChevronLeft, ChevronRight, Menu, ArrowRight, DollarSign, Briefcase, Archive, ChartBar, Book, FileText, Users, ShoppingCart, Award, Calendar, PlusCircle, Kanban } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useModuleContext, AVAILABLE_MODULES, Module } from "@/contexts/ModuleContext";
 
@@ -19,7 +18,7 @@ const moduleNavigationLinks: Record<string, {icon: string | React.ReactNode, lab
       to: "/donor-management",
     },
     {
-      icon: <ChartBar size={16} />,
+      icon: <Award size={16} />,
       label: "Opportunity Tracking",
       to: "/opportunity-tracking",
     },
@@ -29,22 +28,22 @@ const moduleNavigationLinks: Record<string, {icon: string | React.ReactNode, lab
       to: "/proposal-development",
     },
     {
-      icon: <Book size={16} />,
+      icon: <Archive size={16} />,
       label: "Proposal Library",
       to: "/proposal-library",
     },
     {
-      icon: <DollarSign size={16} />,
+      icon: <PlusCircle size={16} />,
       label: "AI Proposal Wizard",
       to: "/ai-proposal-wizard",
     },
     {
-      icon: <FileText size={16} />,
+      icon: <Kanban size={16} />,
       label: "Internal Workflow & Review",
       to: "/internal-workflow",
     },
     {
-      icon: <ChartBar size={16} />,
+      icon: <Calendar size={16} />,
       label: "Calendar & Reminders",
       to: "/calendar",
     },
@@ -54,7 +53,7 @@ const moduleNavigationLinks: Record<string, {icon: string | React.ReactNode, lab
       to: "/fundraising-analytics",
     },
     {
-      icon: <Users size={16} />,
+      icon: <FileText size={16} />,
       label: "Settings",
       to: "/settings",
     },

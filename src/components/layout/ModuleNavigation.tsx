@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -49,7 +48,7 @@ const modules = [
     description: "Store and organize important documents" 
   },
   { 
-    name: "Human Resource", 
+    name: "HR Management", 
     path: "/modules/hr",
     description: "Staff management and HR functions" 
   },
