@@ -34,11 +34,8 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ opportunities, onCardClick })
     <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
       {columns.map((status) => (
         <div key={status} className="bg-gray-50 rounded-lg p-3 h-full">
-          <div className={`${getColumnHeaderColor(status)} rounded-md p-2 mb-4 text-center`}>
+          <div className={`${getColumnHeaderColor(status)} rounded-lg p-2 mb-4 text-center`}>
             <h3 className="font-medium">{status}</h3>
-            <div className="text-xs mt-1 opacity-80">
-              {opportunities.filter(opp => opp.status === status).length} opportunities
-            </div>
           </div>
           
           <div className="space-y-3 overflow-y-auto max-h-[calc(100vh-240px)] pr-1">

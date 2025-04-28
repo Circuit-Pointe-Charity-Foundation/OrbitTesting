@@ -5,8 +5,9 @@ import KanbanBoard from "@/components/opportunity-tracking/KanbanBoard";
 import OpportunityFilter, { FilterOptions } from "@/components/opportunity-tracking/OpportunityFilter";
 import AddOpportunityDialog from "@/components/opportunity-tracking/AddOpportunityDialog";
 import OpportunityDetailDialog from "@/components/opportunity-tracking/OpportunityDetailDialog";
+import OpportunityPipelineDialog from "@/components/opportunity-tracking/OpportunityPipelineDialog";
 import { mockOpportunities, Opportunity } from "@/types/opportunity";
-import { Plus, Filter } from "lucide-react";
+import { Plus, Filter, MoreHorizontal } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const OpportunityTracking: React.FC = () => {
@@ -14,6 +15,7 @@ const OpportunityTracking: React.FC = () => {
   const [filteredOpportunities, setFilteredOpportunities] = useState<Opportunity[]>(mockOpportunities);
   const [filters, setFilters] = useState<FilterOptions>({});
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showPipelineDialog, setShowPipelineDialog] = useState(false);
   const [selectedOpportunity, setSelectedOpportunity] = useState<Opportunity | null>(null);
   const [showDetailDialog, setShowDetailDialog] = useState(false);
   const { toast } = useToast();
@@ -91,6 +93,14 @@ const OpportunityTracking: React.FC = () => {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Opportunity Tracking</h1>
         <div className="flex gap-3">
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2"
+            onClick={() => setShowPipelineDialog(true)}
+          >
+            <MoreHorizontal className="h-4 w-4" />
+            View Pipeline
+          </Button>
           <OpportunityFilter 
             onFilterChange={handleFilterChange} 
             donors={donors}
@@ -124,6 +134,12 @@ const OpportunityTracking: React.FC = () => {
         opportunity={selectedOpportunity}
         isOpen={showDetailDialog}
         onClose={() => setShowDetailDialog(false)}
+      />
+
+      <OpportunityPipelineDialog
+        isOpen={showPipelineDialog}
+        onClose={() => setShowPipelineDialog(false)}
+        opportunities={filteredOpportunities}
       />
     </div>
   );
