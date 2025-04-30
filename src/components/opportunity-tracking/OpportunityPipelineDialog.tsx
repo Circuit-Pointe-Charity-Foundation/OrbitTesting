@@ -1,14 +1,21 @@
-
 import React from "react";
-import { X, ArrowRight } from "lucide-react";
-import { Opportunity } from "@/types/opportunity";
+import { useState, useEffect, useMemo } from "react";
+// import { Opportunity } from "@/types/opportunity";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
+
+// Pasted from OpportunityTracking
+import PipelineKanban from "@/components/opportunity-tracking/PipelineKanban";
+import OpportunityFilter, {
+  FilterOptions,
+} from "@/components/opportunity-tracking/OpportunityFilter";
+import { mockOpportunities, Opportunity } from "@/types/opportunity";
+import { useToast } from "@/components/ui/use-toast";
 
 interface OpportunityPipelineDialogProps {
   isOpen: boolean;
@@ -19,64 +26,117 @@ interface OpportunityPipelineDialogProps {
 const OpportunityPipelineDialog: React.FC<OpportunityPipelineDialogProps> = ({
   isOpen,
   onClose,
-  opportunities
 }) => {
-  // Pipeline stages
-  const stages = [
-    { name: "Identified", filter: (opp: Opportunity) => opp.status === "To Review" },
-    { name: "Qualified", filter: (opp: Opportunity) => opp.status === "In Progress" },
-    { name: "Sent", filter: (opp: Opportunity) => opp.status === "Submitted" },
-    { name: "Approved", filter: (opp: Opportunity) => opp.status === "Awarded" },
-  ];
+  // Pasted from the Opportunity Tracking to mimick the display
+  const [opportunities, setOpportunities] =
+    useState<Opportunity[]>(mockOpportunities);
+  const [filteredOpportunities, setFilteredOpportunities] =
+    useState<Opportunity[]>(mockOpportunities);
+  const [filters, setFilters] = useState<FilterOptions>({});
+
+  // Extract unique donors and sectors for filters
+  const donors = useMemo(() => {
+    return Array.from(new Set(opportunities.map((opp) => opp.donorName)));
+  }, [opportunities]);
+
+  const sectors = useMemo(() => {
+    return Array.from(
+      new Set(
+        opportunities
+          .filter((opp) => opp.sector)
+          .map((opp) => opp.sector as string)
+      )
+    );
+  }, [opportunities]);
+
+  // Filter opportunities when filters change
+  useEffect(() => {
+    let result = opportunities;
+
+    if (filters.donor) {
+      result = result.filter((opp) => opp.donorName === filters.donor);
+    }
+
+    if (filters.sector) {
+      result = result.filter((opp) => opp.sector === filters.sector);
+    }
+
+    if (filters.type) {
+      result = result.filter((opp) => opp.type === filters.type);
+    }
+
+    if (filters.deadlineAfter) {
+      result = result.filter(
+        (opp) => new Date(opp.deadline) >= filters.deadlineAfter!
+      );
+    }
+
+    if (filters.deadlineBefore) {
+      result = result.filter(
+        (opp) => new Date(opp.deadline) <= filters.deadlineBefore!
+      );
+    }
+
+    setFilteredOpportunities(result);
+  }, [filters, opportunities]);
+
+  const handleCardClick = (opportunity: Opportunity) => {
+    null;
+  };
+
+  const handleFilterChange = (newFilters: FilterOptions) => {
+    setFilters(newFilters);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[900px] max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-xl">Opportunity Pipeline</DialogTitle>
-          <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-            <X className="h-4 w-4" />
+        <DialogHeader className="relative">
+          {/* Close button positioned absolutely above everything */}
+          <DialogClose className="absolute -right-2 -top-2 p-2 rounded-full hover:bg-gray-100 transition-colors z-10">
             <span className="sr-only">Close</span>
           </DialogClose>
-        </DialogHeader>
-        
-        <div className="mt-6">
-          <div className="flex justify-between mb-2">
-            {stages.map((stage, index) => (
-              <div key={stage.name} className="flex items-center">
-                <div className="text-sm font-medium text-gray-700">{stage.name}</div>
-                {index < stages.length - 1 && (
-                  <ArrowRight className="h-4 w-4 mx-4 text-gray-400" />
-                )}
-              </div>
-            ))}
+
+          {/* Content layout */}
+          <div className="flex justify-between items-center pt-8">
+            {" "}
+            {/* Added pt-8 to prevent title from being hidden */}
+            <DialogTitle className="text-xl">Opportunity Pipeline</DialogTitle>
+            <div className="flex gap-3">
+              <OpportunityFilter
+                onFilterChange={handleFilterChange}
+                donors={donors}
+                sectors={sectors}
+              />
+            </div>
           </div>
-          
-          <div className="grid grid-cols-4 gap-4">
-            {stages.map((stage) => {
-              const stageOpportunities = opportunities.filter(stage.filter);
-              
-              return (
-                <div key={stage.name} className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-sm text-gray-500 mb-3 flex justify-between items-center">
-                    <span>{stageOpportunities.length} opportunities</span>
-                    <span className="font-medium">${stageOpportunities.reduce((sum, opp) => sum + (opp.amount || 0), 0).toLocaleString()}</span>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    {stageOpportunities.map((opp) => (
-                      <div key={opp.id} className="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
-                        <div className="font-medium">{opp.title}</div>
-                        <div className="text-sm text-gray-600">{opp.donorName}</div>
-                        {opp.amount && (
-                          <div className="text-sm font-medium mt-1">${opp.amount.toLocaleString()}</div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+        </DialogHeader>
+
+        <div className="mt-2">
+          {/* Add the color indicators here */}
+          <div className="flex justify-end mb-4">
+            <div className="flex items-center gap-5">
+              <div className="flex items-center">
+                <div className="w-3 h-3 rounded-full bg-[#fa2d2d] mr-2"></div>
+                <span className="text-sm text-gray-600">Urgent</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-3 h-3 rounded-full bg-[#e59346] mr-2"></div>
+                <span className="text-sm text-gray-600">Due Soon</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-3 h-3 rounded-full bg-[#09c127] mr-2"></div>
+                <span className="text-sm text-gray-600">Completed</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Pipeline Columns */}
+          <div className="mt-4">
+            <PipelineKanban
+              opportunities={filteredOpportunities}
+              onCardClick={handleCardClick}
+            />
           </div>
         </div>
       </DialogContent>

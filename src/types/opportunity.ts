@@ -1,5 +1,6 @@
 
 export type OpportunityStatus = "To Review" | "In Progress" | "Submitted" | "Awarded" | "Declined";
+export type OpportunityPipeline = "Identified" | "Qualified" | "Sent" | "Approved";
 export type OpportunityType = "RFP" | "LOI" | "CFP";
 
 export interface Opportunity {
@@ -13,6 +14,7 @@ export interface Opportunity {
   type: "RFP" | "LOI" | "CFP";
   deadline: string;
   status: OpportunityStatus;
+  pipeline?: string; 
   createdAt: string;
   updatedAt: string;
   assignedTo?: string;
@@ -32,6 +34,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-15",
     type: "RFP",
     status: "To Review",
+    pipeline: "Identified",
     assignedTo: "John Doe",
     notes: "Focus on youth education initiatives in rural areas",
     sector: "Education",
@@ -47,6 +50,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-20",
     type: "RFP",
     status: "In Progress",
+    pipeline: "Qualified",
     assignedTo: "John Doe",
     notes: "Targeting technology access for underserved communities",
     sector: "Technology",
@@ -62,6 +66,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-05",
     type: "LOI",
     status: "Submitted",
+    pipeline: "Qualified",
     assignedTo: "John Doe",
     notes: "Proposal for healthcare initiatives in urban areas",
     sector: "Healthcare",
@@ -77,6 +82,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-10",
     type: "CFP",
     status: "Awarded",
+    pipeline: "Sent",
     assignedTo: "John Doe",
     notes: "Environmental sustainability program focused on clean water",
     sector: "Environment",
@@ -92,6 +98,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-18",
     type: "RFP",
     status: "Declined",
+    pipeline: "Identified",
     assignedTo: "John Doe",
     notes: "Agricultural development in rural communities",
     sector: "Agriculture",
@@ -107,6 +114,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-25",
     type: "LOI",
     status: "To Review",
+    pipeline: "Qualified",
     assignedTo: "John Doe",
     sector: "Education",
     createdAt: "2025-01-20T10:00:00",
@@ -121,6 +129,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-30",
     type: "CFP",
     status: "In Progress",
+    pipeline: "Sent",
     assignedTo: "John Doe",
     sector: "Technology",
     createdAt: "2025-01-22T11:30:00",
@@ -135,6 +144,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-12",
     type: "RFP",
     status: "Submitted",
+    pipeline: "Approved",
     assignedTo: "John Doe",
     sector: "Healthcare",
     createdAt: "2025-01-15T09:45:00",
@@ -149,6 +159,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-08",
     type: "LOI",
     status: "Awarded",
+    pipeline: "Approved",
     assignedTo: "John Doe",
     sector: "Environment",
     createdAt: "2025-01-10T13:20:00",
@@ -163,6 +174,7 @@ export const mockOpportunities: Opportunity[] = [
     deadline: "2025-04-22",
     type: "CFP",
     status: "Declined",
+    pipeline: "Identified",
     assignedTo: "John Doe",
     sector: "Agriculture",
     createdAt: "2025-01-05T15:10:00",
