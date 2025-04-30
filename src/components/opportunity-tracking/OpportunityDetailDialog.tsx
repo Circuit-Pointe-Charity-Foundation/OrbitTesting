@@ -133,7 +133,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                   {opportunity.title}
                 </DialogTitle>
                 <Badge
-                  className={`${statusColor.bg} ${statusColor.text} rounded-sm px-2 py-1 text-xs font-medium`}
+                  className={`${statusColor.bg} ${statusColor.text} rounded-sm p-2`}
                 >
                   {opportunity.status}
                 </Badge>
@@ -149,16 +149,10 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
               {/* Left Column (2/3 width) */}
               <div className="col-span-2 space-y-4">
                 {/* Donor Profile Section */}
+                <h3 className="text-lg font-medium mb-2">Donor Profile</h3>
                 <div className="bg-white p-4 rounded-lg border border-gray-200">
-                  <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    <span>Donor Profile</span>
-                  </h3>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                        <User className="h-5 w-5 text-gray-500" />
-                      </div>
                       <div>
                         <h4 className="font-medium">{opportunity.donorName}</h4>
                         <div className="flex items-center text-sm text-gray-600 mt-1">
