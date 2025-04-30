@@ -145,7 +145,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
           </DialogHeader>
 
           <div className="mt-6">
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-4 gap-6">
               {/* Left Column (2/3 width) */}
               <div className="col-span-2 space-y-4">
                 {/* Donor Profile Section */}
@@ -296,7 +296,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
               </div>
 
               {/* Right Column (1/3 width) */}
-              <div className="space-y-4">
+              <div className="col-span-2 space-y-4">
                 {/* Status Timeline */}
                 <div className="bg-white p-4 rounded-lg border border-gray-200">
                   <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
