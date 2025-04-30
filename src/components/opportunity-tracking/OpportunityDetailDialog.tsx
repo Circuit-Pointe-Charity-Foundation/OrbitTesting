@@ -12,7 +12,8 @@ import {
   Circle,
   ChevronRight,
   Clock,
-  MoreHorizontal,
+  Plus,
+  File,
   Send,
 } from "lucide-react";
 import { format } from "date-fns";
@@ -52,16 +53,48 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
 
   if (!opportunity) return null;
 
-  // Status timeline data - would normally come from API
+  // Status color mapping matching Kanban headers
+  const getStatusColor = (status: string) => {
+    const colors = {
+      "To Review": { bg: "bg-[#938b97]", text: "text-white" },
+      "In Progress": { bg: "bg-[#e59346]", text: "text-white" },
+      Submitted: { bg: "bg-[#4f46e5]", text: "text-white" },
+      Awarded: { bg: "bg-[#09c127]", text: "text-white" },
+      Declined: { bg: "bg-[#fa2d2d]", text: "text-white" },
+    };
+    return colors[status] || { bg: "bg-gray-200", text: "text-gray-800" };
+  };
+
+  const statusColor = getStatusColor(opportunity.status);
+  const deadlineDate = new Date(opportunity.deadline);
+  const formattedDeadline = format(deadlineDate, "MMMM dd, yyyy");
+
+  // Status timeline data
   const statusTimeline = [
-    { status: "Opportunity Identified", date: "2025-04-11", completed: true },
-    { status: "Proposal Submitted", date: "2025-04-15", completed: true },
-    { status: "Under Review", date: "2025-04-20", completed: false },
-    { status: "Decision Expected", date: "2025-05-01", completed: false },
+    {
+      status: "Opportunity Identified",
+      date: opportunity.createdAt,
+      completed: true,
+    },
+    {
+      status: "Proposal Submitted",
+      date: opportunity.updatedAt,
+      completed:
+        opportunity.status === "Submitted" ||
+        opportunity.status === "Awarded" ||
+        opportunity.status === "Declined",
+    },
+    {
+      status: "Under Review",
+      date: "",
+      completed:
+        opportunity.status === "Awarded" || opportunity.status === "Declined",
+    },
     {
       status: opportunity.status === "Awarded" ? "Approved" : "Declined",
       date: "",
-      completed: false,
+      completed:
+        opportunity.status === "Awarded" || opportunity.status === "Declined",
     },
   ];
 
@@ -92,36 +125,20 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto bg-gray-50 rounded-lg">
           <DialogHeader>
             <div className="flex justify-between items-start">
-              <div>
+              <div className="flex items-center gap-3">
                 <DialogTitle className="text-xl">
                   {opportunity.title}
                 </DialogTitle>
-                <div className="flex items-center gap-2 mt-1">
-                  <Badge variant="outline" className="text-sm font-normal">
-                    {opportunity.type}
-                  </Badge>
-                  <Badge
-                    className={`${
-                      opportunity.status === "Awarded"
-                        ? "bg-green-100 text-green-800"
-                        : opportunity.status === "Declined"
-                        ? "bg-red-100 text-red-800"
-                        : opportunity.status === "Submitted"
-                        ? "bg-blue-100 text-blue-800"
-                        : opportunity.status === "In Progress"
-                        ? "bg-orange-100 text-orange-800"
-                        : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {opportunity.status}
-                  </Badge>
-                </div>
+                <Badge
+                  className={`${statusColor.bg} ${statusColor.text} rounded-sm px-2 py-1 text-xs font-medium`}
+                >
+                  {opportunity.status}
+                </Badge>
               </div>
-              <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-                <X className="h-4 w-4" />
+              <DialogClose className="absolute right-6 top-6 p-1 rounded-full hover:bg-gray-100 transition-colors">
                 <span className="sr-only">Close</span>
               </DialogClose>
             </div>
@@ -132,7 +149,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
               {/* Left Column (2/3 width) */}
               <div className="col-span-2 space-y-4">
                 {/* Donor Profile Section */}
-                <div className="bg-gray-50 p-4 rounded-lg border">
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
                   <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
                     <User className="h-4 w-4" />
                     <span>Donor Profile</span>
@@ -146,11 +163,15 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                         <h4 className="font-medium">{opportunity.donorName}</h4>
                         <div className="flex items-center text-sm text-gray-600 mt-1">
                           <Mail className="h-4 w-4 mr-1" />
-                          <span>{opportunity.contactEmail || "No email"}</span>
+                          <span>
+                            {opportunity.contactEmail || "No email provided"}
+                          </span>
                         </div>
                         <div className="flex items-center text-sm text-gray-600 mt-1">
                           <Phone className="h-4 w-4 mr-1" />
-                          <span>{opportunity.contactPhone || "No phone"}</span>
+                          <span>
+                            {opportunity.contactPhone || "No phone provided"}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -164,11 +185,11 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                                 new Date(opportunity.startDate),
                                 "MMM yyyy"
                               )
-                            : "N/A"}{" "}
+                            : "No start date"}{" "}
                           -
                           {opportunity.endDate
                             ? format(new Date(opportunity.endDate), "MMM yyyy")
-                            : "N/A"}
+                            : "No end date"}
                         </span>
                       </div>
                     </div>
@@ -176,7 +197,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                 </div>
 
                 {/* Description/Notes Section */}
-                <div className="bg-gray-50 p-4 rounded-lg border">
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="text-sm font-medium flex items-center gap-2">
                       <FileText className="h-4 w-4" />
@@ -197,7 +218,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                       {notes.map((note) => (
                         <div
                           key={note.id}
-                          className="bg-white p-3 rounded border border-gray-200"
+                          className="bg-gray-50 p-3 rounded border border-gray-200"
                         >
                           <div className="text-sm">{note.content}</div>
                           <div className="mt-2 text-xs text-gray-500">
@@ -218,11 +239,11 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                 </div>
 
                 {/* Tasks Section */}
-                <div className="bg-gray-50 p-4 rounded-lg border">
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="text-sm font-medium flex items-center gap-2">
                       <ListTodo className="h-4 w-4" />
-                      <span>Assignment Tasks</span>
+                      <span>Tasks</span>
                     </h3>
                     <Button
                       variant="ghost"
@@ -239,7 +260,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                       {tasks.map((task) => (
                         <div
                           key={task.id}
-                          className="bg-white p-3 rounded border border-gray-200 flex items-start gap-3"
+                          className="bg-gray-50 p-3 rounded border border-gray-200 flex items-start gap-3"
                         >
                           <input
                             type="checkbox"
@@ -283,7 +304,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
               {/* Right Column (1/3 width) */}
               <div className="space-y-4">
                 {/* Status Timeline */}
-                <div className="bg-gray-50 p-4 rounded-lg border">
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
                   <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
                     <Clock className="h-4 w-4" />
                     <span>Status Timeline</span>
@@ -320,7 +341,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                 </div>
 
                 {/* Attachments Section */}
-                <div className="bg-gray-50 p-4 rounded-lg border">
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="text-sm font-medium flex items-center gap-2">
                       <Paperclip className="h-4 w-4" />
@@ -341,7 +362,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                       {files.map((file) => (
                         <div
                           key={file.id}
-                          className="bg-white p-3 rounded border border-gray-200 flex items-center"
+                          className="bg-gray-50 p-3 rounded border border-gray-200 flex items-center"
                         >
                           <Paperclip className="h-4 w-4 mr-2 text-blue-500" />
                           <div className="flex-1">
@@ -356,7 +377,6 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                               • {(file.size / 1024).toFixed(2)} KB
                             </div>
                           </div>
-                          <MoreHorizontal className="h-4 w-4 text-gray-400" />
                         </div>
                       ))}
                     </div>
@@ -368,7 +388,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                 </div>
 
                 {/* Quick Actions */}
-                <div className="bg-gray-50 p-4 rounded-lg border">
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
                   <h3 className="text-sm font-medium mb-3">Quick Actions</h3>
                   <div className="space-y-2">
                     <Button variant="outline" className="w-full justify-start">
