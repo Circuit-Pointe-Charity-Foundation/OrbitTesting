@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -200,30 +199,29 @@ const FundingCycles: React.FC = () => {
         </Select>
       </div>
       
-      <div className="flex">
-        {/* Left side for donor names with vertical separator */}
-        <div className="w-[140px] min-w-[140px] pr-4 border-r border-gray-200">
-          <div className="h-8" /> {/* Spacer for alignment with months */}
-          <ScrollArea className="h-[310px]"> {/* Added ScrollArea for donor names */}
+      {/* Main content with unified scrolling */}
+      <ScrollArea className="h-[310px]">
+        <div className="flex">
+          {/* Left side for donor names */}
+          <div className="w-[140px] min-w-[140px] pr-4 border-r border-gray-200">
+            <div className="h-8" /> {/* Spacer for alignment with months */}
             {fundingData.map((fund, index) => (
               <div key={index} className="h-14 flex items-center">
                 <span className="text-sm text-gray-600 font-medium">{fund.name}</span>
               </div>
             ))}
-          </ScrollArea>
-        </div>
-
-        {/* Right side for funding cycle bars */}
-        <div className="flex-1 overflow-hidden pl-4">
-          <div className="flex justify-between mb-2 px-2">
-            {months.map((month) => (
-              <div key={month} className="text-sm text-gray-500 font-medium">
-                {month}
-              </div>
-            ))}
           </div>
-          
-          <ScrollArea className="h-[310px]">
+
+          {/* Right side for funding cycle bars */}
+          <div className="flex-1 overflow-hidden pl-4">
+            <div className="flex justify-between mb-2 px-2">
+              {months.map((month) => (
+                <div key={month} className="text-sm text-gray-500 font-medium">
+                  {month}
+                </div>
+              ))}
+            </div>
+            
             <div className="relative">
               {fundingData.map((fund, index) => (
                 <div key={index} className="h-14 flex items-center relative">
@@ -250,9 +248,9 @@ const FundingCycles: React.FC = () => {
                 </div>
               ))}
             </div>
-          </ScrollArea>
+          </div>
         </div>
-      </div>
+      </ScrollArea>
       
       <Separator className="my-6" />
       
