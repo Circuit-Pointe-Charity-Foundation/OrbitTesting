@@ -233,10 +233,10 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
   return (
     <Link
       to={fullPath}
-      className={`flex items-center gap-4 py-2 px-2 rounded-md cursor-pointer hover:text-white transition-colors ${
+      className={`flex items-center gap-4 py-2 px-2 rounded-md cursor-pointer hover:text-sidebar-primary transition-colors ${
         isActive
-          ? "text-white font-bold bg-primary"
-          : "text-gray-300 hover:bg-primary/50"
+          ? "text-sidebar-primary-foreground font-bold bg-sidebar-primary"
+          : "text-sidebar-foreground hover:bg-sidebar-primary/10"
       } ${collapsed ? "justify-center" : ""}`}
       style={{ minHeight: '44px' }}
     >
@@ -306,12 +306,12 @@ const AppSidebar: React.FC<{
 
   return (
     <div
-      className={`bg-[#1A1F2C] fixed h-full z-10 flex-col font-medium overflow-hidden transition-all duration-300 ease-in-out ${
+      className={`bg-sidebar fixed h-full z-10 flex-col font-medium overflow-hidden transition-all duration-300 ease-in-out ${
         collapsed ? "w-[70px]" : "w-[22%] max-w-[280px]"
       }`}
     >
       <div className="flex items-center justify-between px-6 pt-[31px]">
-        <div className="flex items-center gap-2 text-lg text-white">
+        <div className="flex items-center gap-2 text-lg text-sidebar-foreground">
           <img
             src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
             className="aspect-[1] object-contain w-[50px] shrink-0 my-auto"
@@ -321,7 +321,7 @@ const AppSidebar: React.FC<{
         </div>
         <button
           onClick={onToggle}
-          className="text-white hover:bg-primary/20 rounded-full p-1 transition-colors"
+          className="text-sidebar-foreground hover:bg-sidebar-accent rounded-full p-1 transition-colors"
         >
           {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
@@ -329,12 +329,12 @@ const AppSidebar: React.FC<{
       
       {/* Current Module Title */}
       {!collapsed && (
-        <div className="mt-4 px-6 text-white font-bold text-lg">
+        <div className="mt-4 px-6 text-sidebar-foreground font-bold text-lg">
           {activeModule.name}
         </div>
       )}
       
-      <div className={`mt-4 flex-1 overflow-y-auto hide-scrollbar ${showModuleSwitcher ? 'hidden' : 'block'}`} style={{ maxHeight: "calc(100vh - 220px)" }}>
+      <div className={`mt-4 flex-1 overflow-y-auto sidebar-scrollbar ${showModuleSwitcher ? 'hidden' : 'block'}`} style={{ maxHeight: "calc(100vh - 220px)" }}>
         <div className={`flex flex-col py-1 px-2 gap-0`}>
           {links.map((link, index) => (
             <SidebarLink
@@ -350,12 +350,12 @@ const AppSidebar: React.FC<{
       </div>
       
       {/* Module Switcher */}
-      <div className={`absolute bottom-0 left-0 right-0 border-t border-gray-700 py-2 ${collapsed ? 'px-2' : 'px-4'}`}>
+      <div className={`absolute bottom-0 left-0 right-0 border-t border-sidebar-border py-2 ${collapsed ? 'px-2' : 'px-4'}`}>
         <button
           onClick={toggleModuleSwitcher}
           className={`w-full rounded-md py-3 flex items-center transition-colors ${
             collapsed ? 'justify-center' : 'justify-between px-4'
-          } text-white hover:bg-primary/20`}
+          } text-sidebar-foreground hover:bg-sidebar-accent`}
         >
           <Menu size={20} />
           {!collapsed && (
@@ -369,7 +369,7 @@ const AppSidebar: React.FC<{
         {/* Module List - Adjusted height to show all modules */}
         {showModuleSwitcher && (
           <ScrollArea 
-            className={`mt-2 p-2 bg-[#222] rounded-md ${collapsed ? 'absolute bottom-16 left-0 w-[220px]' : ''}`} 
+            className={`mt-2 p-2 bg-sidebar-accent rounded-md ${collapsed ? 'absolute bottom-16 left-0 w-[220px]' : ''}`} 
             style={{ maxHeight: "400px" }}
           >
             {subscribedModules.map((module) => (
@@ -377,7 +377,7 @@ const AppSidebar: React.FC<{
                 key={module.id}
                 onClick={() => handleModuleChange(module)}
                 className={`w-full text-left p-2 rounded-md mb-1 flex items-center gap-2 ${
-                  activeModule.id === module.id ? 'bg-primary text-white' : 'text-gray-300 hover:bg-primary/20'
+                  activeModule.id === module.id ? 'bg-sidebar-primary text-sidebar-primary-foreground' : 'text-sidebar-foreground hover:bg-sidebar-accent-foreground/10'
                 }`}
               >
                 {getModuleIcon(module.id)}
