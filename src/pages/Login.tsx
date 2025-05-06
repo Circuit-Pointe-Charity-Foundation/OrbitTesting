@@ -51,9 +51,21 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen w-full bg-white">
-      {/* Login content */}
-      <div className="flex justify-center items-center flex-1 px-6 py-12">
+    <div className="flex h-screen w-full">
+      {/* Left Column - Image */}
+      <div className="hidden md:flex md:w-1/2 bg-violet-100 relative overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center p-8">
+          <img 
+            src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7" 
+            alt="Login illustration" 
+            className="object-cover rounded-lg shadow-lg max-w-full max-h-full"
+          />
+          {/* This is a placeholder image. Replace with actual image from assets when available */}
+        </div>
+      </div>
+
+      {/* Right Column - Login Form */}
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-12 bg-white">
         <div className="w-full max-w-md">
           {/* Logo */}
           <div className="flex justify-center mb-8">
