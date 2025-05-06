@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Eye } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
+import LeftColumnContent from "@/components/auth/LeftColumnContent";
 import {
   Select,
   SelectTrigger,
@@ -22,15 +26,8 @@ const COUNTRY_OPTIONS = [
   "United States",
   "United Kingdom",
   "Canada",
-  "India",
-  "China",
-  "Germany",
-  "France",
-  "Italy",
-  "Spain",
-  "Brazil",
   "Australia",
-  "Japan",
+  "India",
 ];
 
 // List of application modules
@@ -42,7 +39,7 @@ const MODULES = [
   { id: "finance-control", name: "Finance & Control", description: "Manage budgets, expenses and financial reports" },
   { id: "learning-management", name: "Learning Management", description: "Training and knowledge base systems" },
   { id: "document-management", name: "Document Management", description: "Store and organize important documents" },
-  { id: "human-resources", name: "Human Resource Management", description: "Staff management and HR functions" },
+  { id: "hr-management", name: "Human Resource Management", description: "Staff management and HR functions" },
 ];
 
 const Registration: React.FC = () => {
@@ -52,22 +49,24 @@ const Registration: React.FC = () => {
   const [country, setCountry] = useState("Nigeria");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedModules, setSelectedModules] = useState<string[]>([
-    "fundraising", // Default first module
-  ]);
+  const [selectedModules, setSelectedModules] = useState<string[]>(["fundraising"]); // Default select fundraising
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<"form" | "confirm">("form");
   const navigate = useNavigate();
 
-  const handleCheckbox = (id: string, checked: boolean) => {
-    setSelectedModules((prev) =>
-      checked ? [...prev, id] : prev.filter((mid) => mid !== id)
+  const handleModuleToggle = (moduleId: string, checked: boolean) => {
+    setSelectedModules(prev => 
+      checked 
+        ? [...prev, moduleId]
+        : prev.filter(id => id !== moduleId)
     );
   };
 
-  const handleFormNext = (e: React.FormEvent) => {
+  const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!orgName || !email || !password || !country || !telephone) {
+    
+    // Basic validation
+    if (!orgName || !email || !telephone || !password) {
       toast.error("Please fill all required fields");
       return;
     }
@@ -77,11 +76,18 @@ const Registration: React.FC = () => {
       return;
     }
     
+    // Move to confirmation step
     setStep("confirm");
+  };
+
+  const handleBack = () => {
+    setStep("form");
   };
 
   const handleRegister = () => {
     setIsLoading(true);
+    
+    // Simulate registration process
     setTimeout(() => {
       setIsLoading(false);
       toast.success("Registration successful! Please sign in.");
@@ -89,258 +95,260 @@ const Registration: React.FC = () => {
     }, 1000);
   };
 
-  // For module confirmation display
-  const selectedModuleNames = MODULES.filter((mod) =>
-    selectedModules.includes(mod.id)
-  ).map((mod) => mod.name);
-
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat py-8"
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')",
-      }}
-    >
-      <div className="w-full max-w-lg bg-violet-950/95 rounded-xl shadow-2xl px-5 py-7 my-10 flex flex-col items-center">
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
-          alt="Orbit ERP Logo"
-          className="w-20 h-20 mb-2"
-        />
-        <h2 className="text-2xl font-extrabold text-white font-playfair mb-7 text-center">
-          Register your NGO
-        </h2>
-        {step === "form" ? (
-          <form
-            onSubmit={handleFormNext}
-            className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2"
-            autoComplete="off"
-          >
-            <div>
-              <label
-                className="block text-gray-200 font-medium mb-1"
-                htmlFor="orgName"
-              >
-                Organization Name<span className="text-fuchsia-300">*</span>
-              </label>
-              <input
-                id="orgName"
-                type="text"
-                className="w-full px-2 py-1.5 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
-                placeholder="Your Organization"
-                value={orgName}
-                onChange={(e) => setOrgName(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label
-                className="block text-gray-200 font-medium mb-1"
-                htmlFor="email"
-              >
-                Organization Email<span className="text-fuchsia-300">*</span>
-              </label>
-              <input
-                id="email"
-                type="email"
-                autoComplete="email"
-                className="w-full px-2 py-1.5 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
-                placeholder="contact@yourorg.org"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label
-                className="block text-gray-200 font-medium mb-1"
-                htmlFor="telephone"
-              >
-                Telephone<span className="text-fuchsia-300">*</span>
-              </label>
-              <input
-                id="telephone"
-                type="tel"
-                autoComplete="tel"
-                className="w-full px-2 py-1.5 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
-                placeholder="+1 555-555-5555"
-                value={telephone}
-                onChange={(e) => setTelephone(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label
-                className="block text-gray-200 font-medium mb-1"
-                htmlFor="country"
-              >
-                Country<span className="text-fuchsia-300">*</span>
-              </label>
-              <Select value={country} onValueChange={(val) => setCountry(val)}>
-                <SelectTrigger className="w-full px-2 py-1.5 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400">
-                  <SelectValue placeholder="Select country" />
-                </SelectTrigger>
-                <SelectContent>
-                  {COUNTRY_OPTIONS.map((c) => (
-                    <SelectItem key={c} value={c}>
-                      {c}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="md:col-span-2 flex flex-col">
-              <label
-                className="block text-gray-200 font-medium mb-1"
-                htmlFor="password"
-              >
-                Password<span className="text-fuchsia-300">*</span>
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  className="w-full px-2 py-1.5 pr-10 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
-                  placeholder="Choose a strong password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  minLength={6}
-                />
-                <button
-                  type="button"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  className="absolute top-2 right-3 text-violet-300 hover:text-fuchsia-400"
-                  tabIndex={-1}
-                  onClick={() => setShowPassword((v) => !v)}
-                  style={{ top: "0.5rem", right: "0.5rem" }}
-                >
-                  <Eye size={18} />
-                </button>
+    <div className="flex h-screen w-full bg-white overflow-hidden">
+      {/* Left Column - Same as Login page */}
+      <div className="hidden md:flex md:w-1/2 items-center justify-center">
+        <LeftColumnContent />
+      </div>
+
+      {/* Right Column - Registration Form */}
+      <div className="w-full md:w-1/2 flex items-center justify-center px-8 py-10 overflow-y-auto">
+        <div className="w-full max-w-md">
+          {/* Logo */}
+          <div className="flex justify-center mb-8">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
+              alt="Orbit ERP Logo"
+              className="w-16 h-16"
+            />
+          </div>
+
+          {step === "form" ? (
+            <>
+              {/* Welcome message */}
+              <div className="mb-6">
+                <div className="flex items-center gap-2">
+                  <h1 className="text-3xl font-bold text-gray-900">Hello there</h1>
+                  <span className="h-6 w-6 text-yellow-500 animate-pulse">👋</span>
+                </div>
+                <p className="text-gray-500 mt-1">Register your NGO</p>
               </div>
-            </div>
-            <div className="md:col-span-2 flex flex-col gap-1">
-              <label
-                className="block text-gray-200 font-medium mb-1"
-                htmlFor="modules-list"
-              >
-                Select Modules
-              </label>
-              <div
-                id="modules-list"
-                className="bg-violet-950 bg-opacity-50 rounded-md px-3 py-2 flex flex-wrap gap-y-3 gap-x-4 items-center"
-              >
-                {MODULES.map((mod) => (
-                  <label
-                    key={mod.id}
-                    className="flex items-center gap-2 text-sm text-violet-200 cursor-pointer"
-                    title={mod.description}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedModules.includes(mod.id)}
-                      onChange={(e) => handleCheckbox(mod.id, e.target.checked)}
-                      className="accent-fuchsia-500 w-4 h-4 rounded border-violet-500"
+
+              {/* Registration form */}
+              <form className="space-y-5" onSubmit={handleContinue}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Organization Name */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="orgName" className="block text-sm font-medium text-gray-700">
+                      Organization Name<span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="orgName"
+                      value={orgName}
+                      onChange={(e) => setOrgName(e.target.value)}
+                      placeholder="Your organization"
+                      className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
+                      required
                     />
-                    {mod.name}
-                  </label>
-                ))}
+                  </div>
+
+                  {/* Organization Email */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                      Organization Email<span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="contact@yourorg.org"
+                      className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
+                      required
+                    />
+                  </div>
+
+                  {/* Telephone */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="telephone" className="block text-sm font-medium text-gray-700">
+                      Telephone<span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="telephone"
+                      type="tel"
+                      value={telephone}
+                      onChange={(e) => setTelephone(e.target.value)}
+                      placeholder="+2348012345678"
+                      className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
+                      required
+                    />
+                  </div>
+
+                  {/* Country */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                      Country<span className="text-red-500">*</span>
+                    </Label>
+                    <Select value={country} onValueChange={setCountry}>
+                      <SelectTrigger className="w-full h-10 rounded-sm border border-gray-300 bg-gray-50">
+                        <SelectValue placeholder="Select country" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {COUNTRY_OPTIONS.map((country) => (
+                          <SelectItem key={country} value={country}>
+                            {country}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* Password - full width */}
+                <div className="space-y-1.5">
+                  <Label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    Password<span className="text-red-500">*</span>
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Create a strong password"
+                      className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50 pr-10"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    >
+                      {showPassword ? (
+                        <EyeOffIcon className="h-5 w-5 text-gray-400" />
+                      ) : (
+                        <EyeIcon className="h-5 w-5 text-gray-400" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Module Selection */}
+                <div className="space-y-3">
+                  <Label className="block text-sm font-medium text-gray-700">
+                    Select Modules
+                  </Label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-gray-50 rounded-md border border-gray-200">
+                    {MODULES.map((module) => (
+                      <div key={module.id} className="flex items-start gap-2" title={module.description}>
+                        <Checkbox
+                          id={module.id}
+                          checked={selectedModules.includes(module.id)}
+                          onCheckedChange={(checked) => 
+                            handleModuleToggle(module.id, checked === true)
+                          }
+                          className="mt-1"
+                        />
+                        <Label htmlFor={module.id} className="text-sm cursor-pointer">
+                          {module.name}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Create Account Button */}
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full h-10 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-sm py-2 text-base transition-colors"
+                >
+                  Continue
+                </Button>
+
+                {/* Login Link */}
+                <p className="mt-6 text-center text-gray-500">
+                  Already have an account?{" "}
+                  <Link
+                    to="/"
+                    className="text-violet-600 hover:text-violet-700 font-medium"
+                  >
+                    Sign in
+                  </Link>
+                </p>
+              </form>
+            </>
+          ) : (
+            // Confirmation Screen
+            <div className="w-full">
+              <h2 className="text-2xl font-bold text-center text-gray-900 mb-6">
+                Confirm Registration Details
+              </h2>
+
+              <div className="bg-gray-50 p-5 rounded-md border border-gray-200 mb-6">
+                <dl className="space-y-4">
+                  <div>
+                    <dt className="text-sm text-gray-500">Organization Name</dt>
+                    <dd className="font-medium text-gray-900">{orgName}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-gray-500">Email</dt>
+                    <dd className="font-medium text-gray-900">{email}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-gray-500">Telephone</dt>
+                    <dd className="font-medium text-gray-900">{telephone}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-gray-500">Country</dt>
+                    <dd className="font-medium text-gray-900">{country}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-gray-500">Selected Modules</dt>
+                    <dd>
+                      <ul className="list-disc pl-5 mt-1">
+                        {MODULES.filter(m => selectedModules.includes(m.id)).map(module => (
+                          <li key={module.id} className="font-medium text-gray-900">
+                            {module.name}
+                          </li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                </dl>
               </div>
+
+              <div className="flex gap-4">
+                <Button
+                  variant="outline"
+                  onClick={handleBack}
+                  className="w-1/2"
+                  disabled={isLoading}
+                >
+                  Back
+                </Button>
+                <Button
+                  onClick={handleRegister}
+                  className="w-1/2 bg-violet-600 hover:bg-violet-700 text-white"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Registering..." : "Confirm & Register"}
+                </Button>
+              </div>
+
+              {/* Login Link */}
+              <p className="mt-6 text-center text-gray-500">
+                Already have an account?{" "}
+                <Link
+                  to="/"
+                  className="text-violet-600 hover:text-violet-700 font-medium"
+                >
+                  Sign in
+                </Link>
+              </p>
             </div>
-            <div className="md:col-span-2 flex justify-center mt-2">
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full max-w-xs bg-fuchsia-600 text-white font-semibold rounded-md py-2 hover:bg-fuchsia-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                Next
-              </Button>
-            </div>
-          </form>
-        ) : (
-          // Confirmation Step
-          <div className="w-full flex flex-col items-center mt-2">
-            <h3 className="text-lg text-white font-bold mb-5">
-              Confirm Registration Details
-            </h3>
-            <div className="bg-violet-950/70 rounded-lg p-5 w-full max-w-md flex flex-col gap-3 mb-4">
-              <div className="flex flex-col gap-1">
-                <span className="text-sm text-violet-200">
-                  Organization Name
-                </span>
-                <span className="text-base text-white font-semibold">
-                  {orgName}
-                </span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-sm text-violet-200">Email</span>
-                <span className="text-base text-white font-semibold">
-                  {email}
-                </span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-sm text-violet-200">Telephone</span>
-                <span className="text-base text-white font-semibold">
-                  {telephone}
-                </span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-sm text-violet-200">Country</span>
-                <span className="text-base text-white font-semibold">
-                  {country}
-                </span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-sm text-violet-200">
-                  Selected Modules
-                </span>
-                <ul className="list-disc ml-5 text-white text-sm">
-                  {selectedModuleNames.map((name) => (
-                    <li key={name} className="mb-1">
-                      {name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="flex gap-2 w-full max-w-xs">
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => setStep("form")}
-                className="w-1/2"
-              >
-                Edit
-              </Button>
-              <Button
-                type="button"
-                onClick={handleRegister}
-                className="w-1/2 bg-fuchsia-600 text-white hover:bg-fuchsia-700"
-                disabled={isLoading}
-              >
-                {isLoading ? "Registering..." : "Confirm & Register"}
-              </Button>
+          )}
+
+          {/* Footer */}
+          <div className="mt-12 text-center text-xs text-gray-400">
+            <div className="mb-4">© 2025 Orbit ERP. All rights reserved.</div>
+            <div className="flex justify-center space-x-4">
+              <a href="#" className="hover:text-violet-600">Privacy Policy</a>
+              <a href="#" className="hover:text-violet-600">Terms of Service</a>
+              <a href="#" className="hover:text-violet-600">Contact Us</a>
             </div>
           </div>
-        )}
-        <div className="w-full flex justify-center mt-6">
-          <span className="text-sm text-gray-200">
-            Already have an account?{" "}
-            <Link
-              to="/"
-              className="text-fuchsia-300 hover:text-fuchsia-200 hover:underline font-semibold transition"
-            >
-              Sign in
-            </Link>
-          </span>
-        </div>
-        <div className="mt-5 w-full flex flex-col items-center">
-          <span className="text-xs text-gray-400 mb-1">
-            Powered by <span className="text-fuchsia-400 font-bold">Orbit</span>{" "}
-            for NGOs
-          </span>
         </div>
       </div>
     </div>
