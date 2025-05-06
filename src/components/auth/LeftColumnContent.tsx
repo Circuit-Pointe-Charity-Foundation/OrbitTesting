@@ -21,7 +21,7 @@ const LeftColumnContent: React.FC = () => {
 
   return (
     <div className="flex items-center justify-end mr-auto p-8">
-      <div className="relative w-full min-h-[400px] h-96 max-w-sm overflow-hidden">
+      <div className="relative w-full min-h-[400px] h-96 max-w-sm">
         {/* Violet colored rectangle background with gradient */}
         <div 
           className="absolute inset-0 rounded-lg shadow-lg z-0"
