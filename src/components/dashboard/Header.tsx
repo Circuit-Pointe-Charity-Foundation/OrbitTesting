@@ -1,9 +1,10 @@
+
 import React from "react";
 
 export const Header: React.FC = () => {
   return (
     <div className="bg-white flex w-full items-center justify-between px-6 py-4 shadow-sm">
-      <div className="text-gray-700 text-sm font-medium">
+      <div className="text-gray-700 text-sm">
         Good Afternoon, <span className="font-bold">Chioma Ike</span>
       </div>
 
@@ -15,12 +16,12 @@ export const Header: React.FC = () => {
             className="w-6 h-6 object-contain"
             alt="Notifications"
           />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white badge-text rounded-full h-4 w-4 flex items-center justify-center">
             4
           </span>
         </div>
 
-        <div className="bg-violet-100 text-violet-600 px-3 py-1 rounded-md text-sm font-medium">
+        <div className="bg-violet-100 text-violet-600 px-3 py-1 rounded-md text-xs font-medium">
           404 Mode
         </div>
 

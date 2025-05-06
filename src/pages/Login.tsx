@@ -57,16 +57,16 @@ const Login: React.FC = () => {
           alt="Orbit ERP Logo"
           className="w-24 h-24 mb-4"
         />
-        <h1 className="text-3xl font-extrabold text-white mb-6 text-center">
+        <h1 className="text-xl font-extrabold text-white mb-6 text-center">
           Orbit ERP
         </h1>
-        <p className="text-gray-300 mb-7 text-center text-base">
+        <p className="text-gray-300 mb-7 text-center text-sm">
           One platform for all your NGO operations.
         </p>
         <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit}>
           <div>
             <label
-              className="block text-gray-200 font-medium mb-1"
+              className="block text-gray-200 font-medium mb-1 text-sm"
               htmlFor="email"
             >
               Organization Email
@@ -75,7 +75,7 @@ const Login: React.FC = () => {
               id="email"
               type="email"
               autoComplete="email"
-              className="w-full px-4 py-2 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
+              className="w-full px-4 py-2 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 text-sm"
               placeholder="you@yourorg.org"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -83,7 +83,7 @@ const Login: React.FC = () => {
           </div>
           <div>
             <label
-              className="block text-gray-200 font-medium mb-1"
+              className="block text-gray-200 font-medium mb-1 text-sm"
               htmlFor="password"
             >
               Password
@@ -92,7 +92,7 @@ const Login: React.FC = () => {
               id="password"
               type="password"
               autoComplete="current-password"
-              className="w-full px-4 py-2 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400"
+              className="w-full px-4 py-2 rounded-md border border-gray-400 bg-violet-900 text-white placeholder-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 text-sm"
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -101,7 +101,7 @@ const Login: React.FC = () => {
           <Button
             type="submit"
             disabled={isLoading}
-            className="mt-2 bg-violet-600 text-white font-semibold rounded-md py-2 hover:bg-violet-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+            className="mt-2 bg-violet-600 text-white font-semibold rounded-md py-2 hover:bg-violet-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed text-sm"
           >
             {isLoading ? "Signing In..." : "Sign In"}
           </Button>

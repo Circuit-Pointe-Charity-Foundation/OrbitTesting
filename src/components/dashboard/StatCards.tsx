@@ -1,3 +1,4 @@
+
 import React from "react";
 
 interface StatCardProps {
@@ -15,8 +16,8 @@ const StatCard: React.FC<StatCardProps> = ({ icon, value, label, bgColor }) => {
       >
         <img src={icon} className="w-9 h-9 object-contain mb-4" alt="" />
         <div className="text-center">
-          <div className="text-gray-800 text-xl font-semibold">{value}</div>
-          <div className="text-gray-500 text-xs font-normal mt-2">{label}</div>
+          <div className="text-gray-800 card-title">{value}</div>
+          <div className="text-gray-500 caption-text mt-2">{label}</div>
         </div>
       </div>
     </div>

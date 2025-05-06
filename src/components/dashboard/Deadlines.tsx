@@ -61,7 +61,7 @@ const Deadline: React.FC<DeadlineProps> = ({ item, index, isLast }) => {
           <div className="w-1 h-[18px] bg-gray-300" />
         )}
         {/* Circle with number (centered number) */}
-        <div className="flex items-center justify-center w-7 h-7 rounded-full border-2 border-gray-300 bg-white text-gray-700 font-semibold text-sm">
+        <div className="flex items-center justify-center w-7 h-7 rounded-full border-2 border-gray-300 bg-white text-gray-700 font-semibold text-xs">
           {index + 1}
         </div>
         {/* Long bottom line */}
@@ -73,12 +73,12 @@ const Deadline: React.FC<DeadlineProps> = ({ item, index, isLast }) => {
       <div className={`flex-1 ml-4 mb-6`}>
         <div className={`p-4 rounded-lg ${cardBgColors[item.status]} mb-2`}>
           <div className="flex flex-col gap-1">
-            <h4 className="text-lg font-medium text-gray-800">{item.title}</h4>
-            <p className="text-xs text-gray-600">{item.organization}</p>
+            <h4 className="card-title text-gray-800">{item.title}</h4>
+            <p className="caption-text text-gray-600">{item.organization}</p>
             <div className="flex items-center justify-between mt-2">
-              <span className="text-sm text-gray-500">{item.dueDate}</span>
+              <span className="text-xs text-gray-500">{item.dueDate}</span>
               <span
-                className={`${statusBgColors[item.status]} text-white text-xs px-3 py-1.5 rounded-md font-medium`}
+                className={`${statusBgColors[item.status]} text-white badge-text px-3 py-1.5 rounded-md`}
               >
                 {item.status}
               </span>

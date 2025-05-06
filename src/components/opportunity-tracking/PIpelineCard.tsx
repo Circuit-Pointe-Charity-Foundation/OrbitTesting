@@ -1,3 +1,4 @@
+
 import React from "react";
 import { format } from "date-fns";
 import { Opportunity } from "@/types/opportunity";
@@ -78,13 +79,13 @@ const PipelineCard: React.FC<PipelineCardProps> = ({
       className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-3 hover:shadow-md transition-shadow"
       onClick={() => onClick(opportunity)}
     >
-      <div className="font-medium text-base truncate mb-1">
+      <div className="font-medium text-sm truncate mb-1">
         {opportunity.title}
       </div>
-      <div className="text-sm text-gray-600">{opportunity.donorName}</div>
+      <div className="text-xs text-gray-600">{opportunity.donorName}</div>
 
       <div className="flex justify-between items-center mt-3">
-        <div className={`text-sm ${deadlineClass}`}>{formattedDeadline}</div>
+        <div className={`text-xs ${deadlineClass}`}>{formattedDeadline}</div>
         <div className="flex items-center">
           <StatusIcon status={opportunity.pipeline} />
         </div>

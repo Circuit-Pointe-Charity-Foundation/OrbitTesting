@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 interface Notification {
@@ -36,10 +37,10 @@ const NotificationItem: React.FC<NotificationProps> = ({
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm text-gray-800 font-medium">
+          <p className="body-text text-gray-800 font-medium">
             {notification.message}
           </p>
-          <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
+          <p className="caption-text mt-1">{notification.time}</p>
         </div>
 
         <button
@@ -118,7 +119,7 @@ export const Notifications: React.FC = () => {
           />
         ))}
         {notifications.length === 0 && (
-          <div className="text-center text-gray-500 py-4">
+          <div className="text-center text-gray-500 py-4 body-text">
             No new notifications
           </div>
         )}

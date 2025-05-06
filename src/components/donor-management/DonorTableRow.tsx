@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { EditIcon } from "../icons/EditIcon";
 import { DeleteIcon } from "../icons/DeleteIcon";
@@ -35,20 +36,20 @@ const DonorTableRow: React.FC<DonorTableRowProps> = ({ donor }) => {
         className="border-b border-[#E9E9E9] hover:bg-gray-50 cursor-pointer"
         onClick={handleViewDetails}
       >
-        <td className="py-3 px-4 text-base text-[#232323]">{donor.id}.</td>
-        <td className="py-3 px-4 text-base text-[#232323]">{donor.name}</td>
-        <td className="py-3 px-4 text-base text-[#232323]">
+        <td className="py-3 px-4 text-[#232323] table-cell">{donor.id}.</td>
+        <td className="py-3 px-4 text-[#232323] table-cell">{donor.name}</td>
+        <td className="py-3 px-4 text-[#232323] table-cell">
           {donor.email || donor.contact}
         </td>
-        <td className="py-3 px-4 text-base text-[#232323]">
+        <td className="py-3 px-4 text-[#232323] table-cell">
           {donor.lastDonation}
         </td>
-        <td className="py-3 px-4 text-base text-[#232323]">
+        <td className="py-3 px-4 text-[#232323] table-cell">
           <div className="flex flex-wrap gap-1">
             {donor.interestTags.slice(0, 2).map((tag, index) => (
               <span
                 key={index}
-                className="px-2 py-1 text-xs rounded-sm"
+                className="px-2 py-1 badge-text rounded-sm"
                 style={{
                   backgroundColor:
                     tag === "Health"
@@ -66,13 +67,13 @@ const DonorTableRow: React.FC<DonorTableRowProps> = ({ donor }) => {
               </span>
             ))}
             {donor.interestTags.length > 2 && (
-              <span className="px-2 py-1 text-xs">
+              <span className="px-2 py-1 badge-text">
                 +{donor.interestTags.length - 2}
               </span>
             )}
           </div>
         </td>
-        <td className="py-3 px-4 text-base text-[#232323]">
+        <td className="py-3 px-4 table-cell">
           <div className="flex gap-2">
             <button onClick={handleEdit} aria-label="Edit donor">
               <EditIcon />

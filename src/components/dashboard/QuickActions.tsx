@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -28,7 +29,7 @@ const QuickAction: React.FC<QuickActionProps> = ({
         className="aspect-[1] object-contain w-5 shrink-0"
         alt=""
       />
-      <div className="whitespace-nowrap">{label}</div>
+      <div className="whitespace-nowrap text-sm">{label}</div>
     </Link>
   );
 };
