@@ -69,7 +69,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 h-10 rounded-lg border border-gray-300 focus:border-violet-500 focus:ring focus:ring-violet-200 bg-gray-50"
+            className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 focus:border-violet-500 focus:ring focus:ring-violet-200 bg-gray-50"
           />
         </div>
 
@@ -90,7 +90,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 h-10 rounded-lg border border-gray-300 focus:border-violet-500 focus:ring focus:ring-violet-200 bg-gray-50"
+              className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 focus:border-violet-500 focus:ring focus:ring-violet-200 bg-gray-50"
             />
             <button
               type="button"
@@ -109,7 +109,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-10 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-lg py-2 text-base transition-colors"
+          className="w-full h-10 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-sm py-2 text-base transition-colors"
         >
           {isLoading ? "Signing In..." : "Sign In"}
         </Button>
