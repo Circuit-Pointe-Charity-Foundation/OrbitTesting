@@ -33,7 +33,7 @@ const Login: React.FC = () => {
       </div>
 
       {/* Right Column - Login Form - Now pushed to the left */}
-      <div className="w-full md:w-1/2 flex items-center justify-start px-8"">
+      <div className="w-full md:w-1/2 flex items-center justify-start px-8">
         <div className="max-w-sm w-full">
           <LoginForm onLoginSuccess={handleLoginSuccess} />
         </div>
