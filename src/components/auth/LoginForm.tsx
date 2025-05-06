@@ -111,7 +111,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
           disabled={isLoading}
           className="w-full h-10 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-sm py-2 text-base transition-colors"
         >
-          {isLoading ? "Signing In..." : "Sign In"}
+          {isLoading ? "Login In.." : "Login"}
         </Button>
       </form>
 
