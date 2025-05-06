@@ -26,7 +26,7 @@ const LeftColumnContent: React.FC = () => {
         <div 
           className="absolute inset-0 rounded-lg shadow-lg z-0"
           style={{ 
-            background: 'linear-gradient(to bottom, #9b87f5 0%, #6E59A5 100%)' 
+            background: 'linear-gradient(to bottom, #a37aea 0%, #7c3aed 100%)' 
           }}
         ></div>
 
