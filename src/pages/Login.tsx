@@ -17,10 +17,11 @@ const Login: React.FC = () => {
   }, [navigate]);
 
   const handleLoginSuccess = () => {
-    if (mounted.current) {
-      // Redirect to the modules/fundraising page
-      navigate("/modules/fundraising/dashboard");
-    }
+    navigate("/modules/fundraising/dashboard");
+    // if (mounted.current) {
+    //   // Redirect to the modules/fundraising page
+    //   navigate("/modules/fundraising/dashboard");
+    // }
   };
 
   return (
