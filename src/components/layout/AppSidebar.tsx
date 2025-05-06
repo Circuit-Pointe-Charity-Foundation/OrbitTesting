@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Menu, ArrowRight, DollarSign, Briefcase, Archive, ChartBar, Book, FileText, Users, ShoppingCart, Award, Calendar, PlusCircle, Kanban } from "lucide-react";
@@ -234,8 +235,8 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
       to={fullPath}
       className={`flex items-center gap-4 py-2 px-2 rounded-md cursor-pointer hover:text-white transition-colors ${
         isActive
-          ? "text-white font-bold bg-violet-700"
-          : "text-[rgba(202,179,255,1)] hover:bg-violet-700/50"
+          ? "text-white font-bold bg-primary"
+          : "text-gray-300 hover:bg-primary/50"
       } ${collapsed ? "justify-center" : ""}`}
       style={{ minHeight: '44px' }}
     >
@@ -305,7 +306,7 @@ const AppSidebar: React.FC<{
 
   return (
     <div
-      className={`bg-violet-600 fixed h-full z-10 flex-col font-medium overflow-hidden transition-all duration-300 ease-in-out ${
+      className={`bg-[#1A1F2C] fixed h-full z-10 flex-col font-medium overflow-hidden transition-all duration-300 ease-in-out ${
         collapsed ? "w-[70px]" : "w-[22%] max-w-[280px]"
       }`}
     >
@@ -320,7 +321,7 @@ const AppSidebar: React.FC<{
         </div>
         <button
           onClick={onToggle}
-          className="text-white hover:bg-violet-700 rounded-full p-1 transition-colors"
+          className="text-white hover:bg-primary/20 rounded-full p-1 transition-colors"
         >
           {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
@@ -349,12 +350,12 @@ const AppSidebar: React.FC<{
       </div>
       
       {/* Module Switcher */}
-      <div className={`absolute bottom-0 left-0 right-0 border-t border-violet-500 py-2 ${collapsed ? 'px-2' : 'px-4'}`}>
+      <div className={`absolute bottom-0 left-0 right-0 border-t border-gray-700 py-2 ${collapsed ? 'px-2' : 'px-4'}`}>
         <button
           onClick={toggleModuleSwitcher}
           className={`w-full rounded-md py-3 flex items-center transition-colors ${
             collapsed ? 'justify-center' : 'justify-between px-4'
-          } text-white hover:bg-violet-700`}
+          } text-white hover:bg-primary/20`}
         >
           <Menu size={20} />
           {!collapsed && (
@@ -368,15 +369,15 @@ const AppSidebar: React.FC<{
         {/* Module List - Adjusted height to show all modules */}
         {showModuleSwitcher && (
           <ScrollArea 
-            className={`mt-2 p-2 bg-violet-700 rounded-md ${collapsed ? 'absolute bottom-16 left-0 w-[220px]' : ''}`} 
-            style={{ maxHeight: "400px" }} // Increased height to show all modules
+            className={`mt-2 p-2 bg-[#222] rounded-md ${collapsed ? 'absolute bottom-16 left-0 w-[220px]' : ''}`} 
+            style={{ maxHeight: "400px" }}
           >
             {subscribedModules.map((module) => (
               <button
                 key={module.id}
                 onClick={() => handleModuleChange(module)}
                 className={`w-full text-left p-2 rounded-md mb-1 flex items-center gap-2 ${
-                  activeModule.id === module.id ? 'bg-violet-800 text-white' : 'text-violet-200 hover:bg-violet-800/50'
+                  activeModule.id === module.id ? 'bg-primary text-white' : 'text-gray-300 hover:bg-primary/20'
                 }`}
               >
                 {getModuleIcon(module.id)}
