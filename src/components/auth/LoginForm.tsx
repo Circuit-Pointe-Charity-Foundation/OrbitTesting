@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import ForgotPasswordDialog from "./ForgotPasswordDialog";
 
 interface LoginFormProps {
   onLoginSuccess: () => void;
@@ -15,6 +16,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,9 +80,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
             <label className="block text-sm font-medium text-gray-700" htmlFor="password">
               Password
             </label>
-            <a href="#" className="text-sm text-violet-600 hover:text-violet-500 font-medium">
+            <button 
+              type="button"
+              onClick={() => setForgotPasswordOpen(true)} 
+              className="text-sm text-violet-600 hover:text-violet-500 font-medium"
+            >
               Forgot password?
-            </a>
+            </button>
           </div>
           <div className="relative">
             <Input
@@ -133,6 +139,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
           <a href="#" className="hover:text-violet-600">Contact Us</a>
         </div>
       </div>
+
+      {/* Forgot Password Dialog */}
+      <ForgotPasswordDialog
+        open={forgotPasswordOpen}
+        onOpenChange={setForgotPasswordOpen}
+      />
     </div>
   );
 };

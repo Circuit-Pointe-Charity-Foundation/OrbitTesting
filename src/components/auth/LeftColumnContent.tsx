@@ -2,7 +2,7 @@
 import React from "react";
 import womanImage from "../../assets/images/woman.png";
 import blackLogo from "../../assets/images/black_logo.png";
-import starAsset from "../../assets/images/four_star.png"; // Import the star asset
+import starAsset from "../../assets/images/four_star.png";
 
 const LeftColumnContent: React.FC = () => {
   // Stars configuration with different sizes and positions
