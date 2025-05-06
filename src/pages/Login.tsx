@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Hand } from "lucide-react";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -51,38 +51,12 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen w-full">
-      {/* Left column - Image section */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-violet-700 overflow-hidden">
-        <img 
-          src="https://tapped.lovable.dev/UxuvYwyPNx26sMeSGvit42/da12dca0-3f0b-4a76-9310-64549bea1f6c/login-bg.png" 
-          alt="Background" 
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 flex flex-col justify-center items-center">
-          <img 
-            src="https://tapped.lovable.dev/UxuvYwyPNx26sMeSGvit42/da12dca0-3f0b-4a76-9310-64549bea1f6c/login-person.png" 
-            alt="Person with laptop" 
-            className="max-w-md w-full z-10"
-          />
-          <img 
-            src="https://tapped.lovable.dev/UxuvYwyPNx26sMeSGvit42/da12dca0-3f0b-4a76-9310-64549bea1f6c/login-star.png" 
-            alt="Star decoration" 
-            className="absolute top-1/4 left-1/4 w-16 h-16 z-0 animate-pulse"
-          />
-          <img 
-            src="https://tapped.lovable.dev/UxuvYwyPNx26sMeSGvit42/da12dca0-3f0b-4a76-9310-64549bea1f6c/login-sparkle.png" 
-            alt="Sparkle decoration" 
-            className="absolute bottom-1/3 right-1/4 w-12 h-12 z-0 animate-pulse"
-          />
-        </div>
-      </div>
-
-      {/* Right column - Login form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white p-6">
-        <div className="max-w-md w-full">
-          {/* Logo - Only visible on mobile */}
-          <div className="flex justify-center mb-8 lg:hidden">
+    <div className="flex flex-col h-screen w-full bg-white">
+      {/* Login content */}
+      <div className="flex justify-center items-center flex-1 px-6 py-12">
+        <div className="w-full max-w-md">
+          {/* Logo */}
+          <div className="flex justify-center mb-8">
             <img
               src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
               alt="Orbit ERP Logo"
@@ -90,15 +64,20 @@ const Login: React.FC = () => {
             />
           </div>
           
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back!</h1>
-            <p className="text-gray-500">Sign in to continue to your account</p>
+          {/* Welcome message */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
+              <Hand className="h-7 w-7 text-yellow-500 animate-pulse" />
+            </div>
+            <p className="text-gray-500 mt-1">Sign in to continue to your account</p>
           </div>
 
+          {/* Login form */}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700" htmlFor="email">
-                Email Address
+                Organization Email
               </label>
               <Input
                 id="email"
@@ -154,12 +133,12 @@ const Login: React.FC = () => {
           </form>
 
           <p className="mt-8 text-center text-gray-500">
-            Don't have an account?{" "}
+            New NGO?{" "}
             <Link
               to="/register"
               className="text-violet-600 hover:text-violet-700 font-medium"
             >
-              Sign Up
+              Create an account
             </Link>
           </p>
 
