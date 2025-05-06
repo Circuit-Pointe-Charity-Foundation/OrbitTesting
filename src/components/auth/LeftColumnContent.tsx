@@ -26,7 +26,7 @@ const LeftColumnContent: React.FC = () => {
         </div>
         
         {/* Transparent blurred rectangle with logo and text */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-30 backdrop-blur-md px-6 py-4 rounded-xl">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-30 backdrop-blur-md px-6 py-4 rounded-xl z-30">
           <div className="flex justify-center mb-2">
             <img
               src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
