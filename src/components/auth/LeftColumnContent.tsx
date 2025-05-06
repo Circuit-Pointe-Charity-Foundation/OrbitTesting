@@ -1,6 +1,6 @@
-
 import React from "react";
 import womanImage from "../../assets/images/woman.png";
+import blackLogo from "../../assets/images/black_logo.png";
 
 const LeftColumnContent: React.FC = () => {
   return (
@@ -25,11 +25,7 @@ const LeftColumnContent: React.FC = () => {
         {/* Transparent blurred rectangle with logo and text - widened for tagline */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-30 backdrop-blur-md px-8 py-4 rounded-xl z-30 w-5/6">
           <div className="flex justify-center mb-2">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
-              alt="Orbit ERP Logo"
-              className="w-10 h-10"
-            />
+            <img src={blackLogo} alt="Orbit ERP Logo" className="w-12 h-10" />
           </div>
           <h2 className="text-black text-lg font-semibold text-center">
             Orbit ERP
