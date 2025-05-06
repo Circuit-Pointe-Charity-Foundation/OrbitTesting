@@ -51,7 +51,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
       <div className="mb-6">
         <div className="flex items-center gap-2">
           <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
-          <span className="h-7 w-7 text-yellow-500 animate-pulse">👋</span>
+          <span className="h-10 w-10 text-yellow-500 animate-pulse">👋</span>
         </div>
         <p className="text-gray-500 mt-1">Sign in to continue to your account</p>
       </div>
