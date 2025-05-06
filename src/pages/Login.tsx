@@ -143,7 +143,7 @@ const Login: React.FC = () => {
           </p>
 
           <div className="mt-16 text-center text-xs text-gray-400">
-            <div className="mb-1">© 2023 Orbit ERP. All rights reserved.</div>
+            <div className="mb-4">© 2023 Orbit ERP. All rights reserved.</div>
             <div className="flex justify-center space-x-4">
               <a href="#" className="hover:text-violet-600">Privacy Policy</a>
               <a href="#" className="hover:text-violet-600">Terms of Service</a>
