@@ -69,7 +69,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 focus:border-violet-500 focus:ring focus:ring-violet-200 bg-gray-50"
+            className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
           />
         </div>
 
