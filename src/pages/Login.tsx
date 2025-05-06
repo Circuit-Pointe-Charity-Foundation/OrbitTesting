@@ -53,9 +53,9 @@ const Login: React.FC = () => {
   return (
     <div className="flex h-screen w-full bg-white">
       {/* Left Column - Custom Image */}
-      <div className="hidden md:flex md:w-1/2 relative overflow-hidden">
+      <div className="hidden md:flex md:w-1/2 relative overflow-hidden px-10 lg:px-16 xl:px-24">
         <div className="absolute inset-0 flex items-center justify-center p-8">
-          <div className="relative w-full h-full max-w-md">
+          <div className="relative w-full h-[80%] max-w-sm">
             {/* Violet colored rectangle background */}
             <div className="absolute inset-0 bg-violet-600 rounded-lg shadow-lg"></div>
             
@@ -95,8 +95,8 @@ const Login: React.FC = () => {
       </div>
 
       {/* Right Column - Login Form */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-12 bg-white">
-        <div className="w-full max-w-md">
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-8 bg-white md:px-10 lg:px-16 xl:px-24">
+        <div className="w-full max-w-sm">
           {/* Logo */}
           <div className="flex justify-center mb-8">
             <img
@@ -107,7 +107,7 @@ const Login: React.FC = () => {
           </div>
           
           {/* Welcome message */}
-          <div className="mb-8">
+          <div className="mb-6">
             <div className="flex items-center gap-2">
               <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
               <Hand className="h-7 w-7 text-yellow-500 animate-pulse" />
@@ -116,8 +116,8 @@ const Login: React.FC = () => {
           </div>
 
           {/* Login form */}
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-2">
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            <div className="space-y-1.5">
               <label className="block text-sm font-medium text-gray-700" htmlFor="email">
                 Organization Email
               </label>
@@ -128,11 +128,11 @@ const Login: React.FC = () => {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 h-12 rounded-lg border border-gray-300 focus:border-violet-500 focus:ring focus:ring-violet-200"
+                className="w-full px-4 py-2 h-10 rounded-lg border border-gray-300 focus:border-violet-500 focus:ring focus:ring-violet-200 bg-gray-50"
               />
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="block text-sm font-medium text-gray-700" htmlFor="password">
                   Password
@@ -149,7 +149,7 @@ const Login: React.FC = () => {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2 h-12 rounded-lg border border-gray-300 focus:border-violet-500 focus:ring focus:ring-violet-200"
+                  className="w-full px-4 py-2 h-10 rounded-lg border border-gray-300 focus:border-violet-500 focus:ring focus:ring-violet-200 bg-gray-50"
                 />
                 <button
                   type="button"
@@ -168,13 +168,13 @@ const Login: React.FC = () => {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-lg py-2 text-base transition-colors"
+              className="w-full h-10 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-lg py-2 text-base transition-colors"
             >
               {isLoading ? "Signing In..." : "Sign In"}
             </Button>
           </form>
 
-          <p className="mt-8 text-center text-gray-500">
+          <p className="mt-6 text-center text-gray-500">
             New NGO?{" "}
             <Link
               to="/register"
@@ -184,7 +184,7 @@ const Login: React.FC = () => {
             </Link>
           </p>
 
-          <div className="mt-16 text-center text-xs text-gray-400">
+          <div className="mt-12 text-center text-xs text-gray-400">
             <div className="mb-4">© 2023 Orbit ERP. All rights reserved.</div>
             <div className="flex justify-center space-x-4">
               <a href="#" className="hover:text-violet-600">Privacy Policy</a>
