@@ -26,7 +26,7 @@ const LeftColumnContent: React.FC = () => {
         </div>
         
         {/* Transparent blurred rectangle with logo and text */}
-        <div className="absolute bottom-6 inset-x-0 flex items-center justify-center z-30">
+        <div className="absolute inset-x-0 flex items-center justify-center z-30">
           <div className="bg-white/20 p-6 rounded-lg w-4/5 shadow-lg border border-white/30">
             <div className="flex justify-center mb-4">
               <img
