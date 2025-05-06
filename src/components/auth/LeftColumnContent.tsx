@@ -3,7 +3,7 @@ import React from "react";
 
 const LeftColumnContent: React.FC = () => {
   return (
-    <div className="absolute inset-0 flex items-center justify-center p-8">
+    <div className="flex items-center justify-end mr-auto p-8">
       <div className="relative w-full h-[80%] max-w-sm">
         {/* Violet colored rectangle background */}
         <div className="absolute inset-0 bg-violet-600 rounded-lg shadow-lg"></div>
