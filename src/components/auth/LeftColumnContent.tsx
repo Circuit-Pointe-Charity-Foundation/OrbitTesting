@@ -26,18 +26,20 @@ const LeftColumnContent: React.FC = () => {
         </div>
         
         {/* Transparent blurred rectangle with logo and text */}
-        <div className="absolute bottom-6 inset-x-0 flex items-center justify-center z-30">
-          <div className="bg-white/20 p-6 rounded-lg w-4/5 shadow-lg border border-white/30">
-            <div className="flex justify-center mb-4">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
-                alt="Orbit ERP Logo"
-                className="w-12 h-12"
-              />
-            </div>
-            <h2 className="text-white text-xl font-bold text-center">Orbit ERP</h2>
-            <p className="text-white text-sm text-center mt-2">Your fundraising command center</p>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-30 backdrop-blur-md px-6 py-4 rounded-xl">
+          <div className="flex justify-center mb-2">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
+              alt="Orbit ERP Logo"
+              className="w-10 h-10"
+            />
           </div>
+          <h2 className="text-white text-lg font-semibold text-center">
+            Orbit ERP
+          </h2>
+          <p className="text-white text-sm text-center mt-1">
+            Your fundraising command center
+          </p>
         </div>
       </div>
     </div>
