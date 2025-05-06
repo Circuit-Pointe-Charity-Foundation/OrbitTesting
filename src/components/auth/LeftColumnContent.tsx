@@ -1,19 +1,54 @@
+
 import React from "react";
 import womanImage from "../../assets/images/woman.png";
 import blackLogo from "../../assets/images/black_logo.png";
+import starAsset from "../../assets/images/star.png"; // Import the star asset
 
 const LeftColumnContent: React.FC = () => {
+  // Stars configuration with different sizes and positions
+  const stars = [
+    { top: '8%', left: '10%', size: '24px' },
+    { top: '15%', right: '15%', size: '16px' },
+    { top: '30%', left: '15%', size: '20px' },
+    { top: '25%', right: '25%', size: '14px' },
+    { top: '45%', left: '8%', size: '18px' },
+    { top: '50%', right: '12%', size: '22px' },
+    { top: '65%', left: '18%', size: '16px' },
+    { top: '75%', right: '18%', size: '20px' },
+    { top: '85%', left: '22%', size: '14px' },
+    { top: '70%', right: '8%', size: '18px' },
+  ];
+
   return (
     <div className="flex items-center justify-end mr-auto p-8">
-      <div className="relative w-full min-h-[400px] h-96 max-w-sm">
-        {/* Violet colored rectangle background with increased visibility */}
-        <div className="absolute inset-0 bg-violet-600 rounded-lg shadow-lg z-0"></div>
+      <div className="relative w-full min-h-[400px] h-96 max-w-sm overflow-hidden">
+        {/* Violet colored rectangle background with gradient */}
+        <div 
+          className="absolute inset-0 rounded-lg shadow-lg z-0"
+          style={{ 
+            background: 'linear-gradient(to bottom, #9b87f5 0%, #6E59A5 100%)' 
+          }}
+        ></div>
 
-        {/* Stars scattered with increased visibility */}
-        <div className="absolute top-10 left-10 w-4 h-4 bg-white opacity-80 rotate-45 z-10"></div>
-        <div className="absolute top-20 right-20 w-3 h-3 bg-white opacity-80 rotate-45 z-10"></div>
-        <div className="absolute bottom-20 left-20 w-5 h-5 bg-white opacity-80 rotate-45 z-10"></div>
-        <div className="absolute bottom-40 right-40 w-3 h-3 bg-white opacity-80 rotate-45 z-10"></div>
+        {/* Stars scattered using imported star asset */}
+        {stars.map((star, index) => (
+          <div 
+            key={index} 
+            className="absolute z-10"
+            style={{ 
+              top: star.top, 
+              left: star.left, 
+              right: star.right,
+            }}
+          >
+            <img 
+              src={starAsset} 
+              alt="" 
+              style={{ width: star.size, height: star.size }}
+              className="opacity-80"
+            />
+          </div>
+        ))}
 
         {/* Woman image positioned at the bottom of the rectangle */}
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-center z-20">
