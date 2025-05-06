@@ -115,6 +115,7 @@ const Registration: React.FC = () => {
           </div>
 
           {step === "form" ? (
+            // Registration Form
             <>
               {/* Welcome message */}
               <div className="mb-6">
