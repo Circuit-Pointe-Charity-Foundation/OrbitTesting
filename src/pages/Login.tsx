@@ -25,13 +25,13 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex h-screen w-full bg-white">
-      {/* Left Column - Custom Image - Now pushed to the right */}
-      <div className="hidden md:flex md:w-1/2 relative overflow-hidden px-10 lg:px-16 xl:px-24 justify-end">
+      {/* Left Column - Custom Image */}
+      <div className="hidden md:flex md:w-1/2 relative overflow-hidden justify-center items-center">
         <LeftColumnContent />
       </div>
 
-      {/* Right Column - Login Form - Now pushed to the left */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-start px-6 py-8 bg-white md:px-10 lg:px-16 xl:px-24">
+      {/* Right Column - Login Form */}
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-8 bg-white md:px-10 lg:px-16 xl:px-24">
         <LoginForm onLoginSuccess={handleLoginSuccess} />
       </div>
     </div>

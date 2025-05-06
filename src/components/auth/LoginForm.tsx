@@ -37,7 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className="w-full max-w-sm ml-auto">
+    <div className="w-full max-w-sm">
       {/* Logo */}
       <div className="flex justify-center mb-8">
         <img
