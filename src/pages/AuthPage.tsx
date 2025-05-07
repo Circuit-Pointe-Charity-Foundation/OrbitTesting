@@ -124,8 +124,8 @@ const AuthPage: React.FC<AuthPageProps> = ({ initialView = "login" }) => {
         </div>
       </div>
 
-      {/* Right Column - Dynamic Auth Form - Reduced the px-8 to px-4 and justify-start to justify-center */}
-      <div className="w-full md:w-1/2 flex items-center justify-center">
+      {/* Right Column - Dynamic Auth Form - Changed justify-center to justify-start and added pl-8 */}
+      <div className="w-full md:w-1/2 flex items-center justify-start pl-8">
         {renderAuthContent()}
       </div>
     </div>
