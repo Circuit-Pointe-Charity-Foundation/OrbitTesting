@@ -55,7 +55,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
           <div key={status} className="flex flex-col h-full">
             {/* Column Header */}
             <div
-              className={`bg-gray-400 p-2 rounded-full flex items-center`}
+              className={`bg-[#938b97] p-2 rounded-full flex items-center`}
             >
               <div className="flex items-center gap-3 w-full justify-start">
                 <span
