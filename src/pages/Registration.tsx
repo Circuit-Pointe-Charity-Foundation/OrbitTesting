@@ -95,9 +95,18 @@ const Registration: React.FC = () => {
     }, 1000);
   };
 
-  // Registration Form Component
-  const RegistrationForm = () => (
-    <>
+  // Registration form content
+  const renderFormContent = () => (
+    <div className="max-w-sm w-full">
+      {/* Logo */}
+      <div className="flex justify-center mb-8">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
+          alt="Orbit ERP Logo"
+          className="w-16 h-16"
+        />
+      </div>
+
       {/* Welcome message */}
       <div className="mb-6">
         <div className="flex items-center gap-2">
@@ -250,12 +259,31 @@ const Registration: React.FC = () => {
           </Link>
         </p>
       </form>
-    </>
+
+      {/* Footer */}
+      <div className="mt-12 text-center text-xs text-gray-400">
+        <div className="mb-4">© 2025 Orbit ERP. All rights reserved.</div>
+        <div className="flex justify-center space-x-4">
+          <a href="#" className="hover:text-violet-600">Privacy Policy</a>
+          <a href="#" className="hover:text-violet-600">Terms of Service</a>
+          <a href="#" className="hover:text-violet-600">Contact Us</a>
+        </div>
+      </div>
+    </div>
   );
 
-  // Confirmation Screen Component
-  const ConfirmationScreen = () => (
-    <div className="w-full">
+  // Confirmation Screen Content
+  const renderConfirmationContent = () => (
+    <div className="max-w-sm w-full">
+      {/* Logo */}
+      <div className="flex justify-center mb-8">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
+          alt="Orbit ERP Logo"
+          className="w-16 h-16"
+        />
+      </div>
+      
       <h2 className="text-2xl font-bold text-center text-gray-900 mb-6">
         Confirm Registration Details
       </h2>
@@ -321,41 +349,29 @@ const Registration: React.FC = () => {
           Sign in
         </Link>
       </p>
+
+      {/* Footer */}
+      <div className="mt-12 text-center text-xs text-gray-400">
+        <div className="mb-4">© 2025 Orbit ERP. All rights reserved.</div>
+        <div className="flex justify-center space-x-4">
+          <a href="#" className="hover:text-violet-600">Privacy Policy</a>
+          <a href="#" className="hover:text-violet-600">Terms of Service</a>
+          <a href="#" className="hover:text-violet-600">Contact Us</a>
+        </div>
+      </div>
     </div>
   );
 
   return (
     <div className="flex h-screen w-full bg-white overflow-hidden">
-      {/* Left Column - Same as Login page */}
+      {/* Left Column - Image and Content (same as Login page) */}
       <div className="hidden md:flex md:w-1/2 items-center justify-center">
         <LeftColumnContent />
       </div>
 
-      {/* Right Column - Registration Form */}
+      {/* Right Column - Registration Form or Confirmation */}
       <div className="w-full md:w-1/2 flex items-center justify-start px-8">
-        <div className="max-w-sm w-full">
-          {/* Logo */}
-          <div className="flex justify-center mb-8">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
-              alt="Orbit ERP Logo"
-              className="w-16 h-16"
-            />
-          </div>
-
-          {/* Show either registration form or confirmation screen */}
-          {step === "form" ? <RegistrationForm /> : <ConfirmationScreen />}
-          
-          {/* Footer */}
-          <div className="mt-12 text-center text-xs text-gray-400">
-            <div className="mb-4">© 2025 Orbit ERP. All rights reserved.</div>
-            <div className="flex justify-center space-x-4">
-              <a href="#" className="hover:text-violet-600">Privacy Policy</a>
-              <a href="#" className="hover:text-violet-600">Terms of Service</a>
-              <a href="#" className="hover:text-violet-600">Contact Us</a>
-            </div>
-          </div>
-        </div>
+        {step === "form" ? renderFormContent() : renderConfirmationContent()}
       </div>
     </div>
   );
