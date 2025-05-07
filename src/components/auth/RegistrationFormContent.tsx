@@ -1,13 +1,11 @@
 
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import LeftColumnContent from "@/components/auth/LeftColumnContent";
 import {
   Select,
   SelectTrigger,
@@ -42,17 +40,27 @@ const MODULES = [
   { id: "hr-management", name: "Human Resource Management", description: "Staff management and HR functions" },
 ];
 
-const Registration: React.FC = () => {
+interface RegistrationFormContentProps {
+  onContinue: (formData: {
+    orgName: string;
+    email: string;
+    telephone: string;
+    country: string;
+    password: string;
+    selectedModules: string[];
+  }) => void;
+  onLoginClick: () => void;
+}
+
+const RegistrationFormContent: React.FC<RegistrationFormContentProps> = ({ onContinue, onLoginClick }) => {
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
   const [telephone, setTelephone] = useState("");
   const [country, setCountry] = useState("Nigeria");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedModules, setSelectedModules] = useState<string[]>(["fundraising"]); // Default select fundraising
+  const [selectedModules, setSelectedModules] = useState<string[]>(["fundraising"]);
   const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState<"form" | "confirm">("form");
-  const navigate = useNavigate();
 
   const handleModuleToggle = (moduleId: string, checked: boolean) => {
     setSelectedModules(prev => 
@@ -62,7 +70,7 @@ const Registration: React.FC = () => {
     );
   };
 
-  const handleContinue = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -75,28 +83,24 @@ const Registration: React.FC = () => {
       toast.error("Please select at least one module");
       return;
     }
-    
-    // Move to confirmation step
-    setStep("confirm");
-  };
 
-  const handleBack = () => {
-    setStep("form");
-  };
-
-  const handleRegister = () => {
     setIsLoading(true);
     
-    // Simulate registration process
+    // Simulate a brief loading state before proceeding
     setTimeout(() => {
       setIsLoading(false);
-      toast.success("Registration successful! Please sign in.");
-      navigate("/");
-    }, 1000);
+      onContinue({ 
+        orgName, 
+        email, 
+        telephone, 
+        country, 
+        password, 
+        selectedModules 
+      });
+    }, 300);
   };
 
-  // Registration form content
-  const renderFormContent = () => (
+  return (
     <div className="max-w-sm w-full">
       {/* Logo */}
       <div className="flex justify-center mb-8">
@@ -117,7 +121,7 @@ const Registration: React.FC = () => {
       </div>
 
       {/* Registration form */}
-      <form className="space-y-5" onSubmit={handleContinue}>
+      <form className="space-y-5" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Organization Name */}
           <div className="space-y-1.5">
@@ -245,18 +249,19 @@ const Registration: React.FC = () => {
           disabled={isLoading}
           className="w-full h-10 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-sm py-2 text-base transition-colors"
         >
-          Continue
+          {isLoading ? "Processing..." : "Continue"}
         </Button>
 
         {/* Login Link */}
         <p className="mt-6 text-center text-gray-500">
           Already have an account?{" "}
-          <Link
-            to="/"
+          <button
+            type="button"
+            onClick={onLoginClick}
             className="text-violet-600 hover:text-violet-700 font-medium"
           >
             Sign in
-          </Link>
+          </button>
         </p>
       </form>
 
@@ -271,110 +276,6 @@ const Registration: React.FC = () => {
       </div>
     </div>
   );
-
-  // Confirmation Screen Content
-  const renderConfirmationContent = () => (
-    <div className="max-w-sm w-full">
-      {/* Logo */}
-      <div className="flex justify-center mb-8">
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
-          alt="Orbit ERP Logo"
-          className="w-16 h-16"
-        />
-      </div>
-      
-      <h2 className="text-2xl font-bold text-center text-gray-900 mb-6">
-        Confirm Registration Details
-      </h2>
-
-      <div className="bg-gray-50 p-5 rounded-md border border-gray-200 mb-6">
-        <dl className="space-y-4">
-          <div>
-            <dt className="text-sm text-gray-500">Organization Name</dt>
-            <dd className="font-medium text-gray-900">{orgName}</dd>
-          </div>
-          <div>
-            <dt className="text-sm text-gray-500">Email</dt>
-            <dd className="font-medium text-gray-900">{email}</dd>
-          </div>
-          <div>
-            <dt className="text-sm text-gray-500">Telephone</dt>
-            <dd className="font-medium text-gray-900">{telephone}</dd>
-          </div>
-          <div>
-            <dt className="text-sm text-gray-500">Country</dt>
-            <dd className="font-medium text-gray-900">{country}</dd>
-          </div>
-          <div>
-            <dt className="text-sm text-gray-500">Selected Modules</dt>
-            <dd>
-              <ul className="list-disc pl-5 mt-1">
-                {MODULES.filter(m => selectedModules.includes(m.id)).map(module => (
-                  <li key={module.id} className="font-medium text-gray-900">
-                    {module.name}
-                  </li>
-                ))}
-              </ul>
-            </dd>
-          </div>
-        </dl>
-      </div>
-
-      <div className="flex gap-4">
-        <Button
-          variant="outline"
-          onClick={handleBack}
-          className="w-1/2"
-          disabled={isLoading}
-        >
-          Back
-        </Button>
-        <Button
-          onClick={handleRegister}
-          className="w-1/2 bg-violet-600 hover:bg-violet-700 text-white"
-          disabled={isLoading}
-        >
-          {isLoading ? "Registering..." : "Confirm & Register"}
-        </Button>
-      </div>
-
-      {/* Login Link */}
-      <p className="mt-6 text-center text-gray-500">
-        Already have an account?{" "}
-        <Link
-          to="/"
-          className="text-violet-600 hover:text-violet-700 font-medium"
-        >
-          Sign in
-        </Link>
-      </p>
-
-      {/* Footer */}
-      <div className="mt-12 text-center text-xs text-gray-400">
-        <div className="mb-4">© 2025 Orbit ERP. All rights reserved.</div>
-        <div className="flex justify-center space-x-4">
-          <a href="#" className="hover:text-violet-600">Privacy Policy</a>
-          <a href="#" className="hover:text-violet-600">Terms of Service</a>
-          <a href="#" className="hover:text-violet-600">Contact Us</a>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="flex h-screen w-full bg-white overflow-hidden">
-      {/* Left Column - Image and Content (same as Login page) */}
-      <div className="hidden md:flex md:w-1/2 items-center justify-center">
-        <LeftColumnContent />
-      </div>
-
-      {/* Right Column - Registration Form or Confirmation */}
-      <div className="w-full md:w-1/2 flex items-center justify-start px-8">
-        {step === "form" ? renderFormContent() : renderConfirmationContent()}
-      </div>
-    </div>
-  );
 };
 
-export default Registration;
+export default RegistrationFormContent;

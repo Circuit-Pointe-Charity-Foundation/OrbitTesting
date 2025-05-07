@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,8 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-route
 
 import { MainLayout } from "./components/layout/MainLayout";
 import NotFound from "./pages/NotFound";
-import Login from "./pages/Login";
-import Registration from "./pages/Registration";
+import AuthPage from "./pages/AuthPage";
 import FeaturePlaceholder from "./components/common/FeaturePlaceholder";
 import OpportunityTracking from "./pages/OpportunityTracking";
 
@@ -25,10 +23,10 @@ import LearningDashboard from "./modules/learning/pages/Dashboard";
 import DocumentDashboard from "./modules/document/pages/Dashboard";
 import HRDashboard from "./modules/hr/pages/Dashboard";
 
-// Force component remount when navigating to Login
-const LoginWithReset: React.FC = () => {
+// Force component remount when navigating to Auth pages
+const AuthWithReset: React.FC<{ initialView?: "login" | "register" | "confirmation" }> = ({ initialView }) => {
   const location = useLocation();
-  return <Login key={location.key} />;
+  return <AuthPage key={location.key} initialView={initialView} />;
 };
 
 const queryClient = new QueryClient();
@@ -40,8 +38,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginWithReset />} />
-          <Route path="/register" element={<Registration />} />
+          <Route path="/" element={<AuthWithReset initialView="login" />} />
+          <Route path="/register" element={<AuthWithReset initialView="register" />} />
           
           <Route element={<MainLayout />}>
             {/* Fundraising module routes */}

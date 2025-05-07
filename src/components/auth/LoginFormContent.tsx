@@ -1,17 +1,21 @@
 
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import ForgotPasswordDialog from "./ForgotPasswordDialog";
 
-interface LoginFormProps {
+interface LoginFormContentProps {
   onLoginSuccess: () => void;
+  onRegisterClick: () => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
+const LoginFormContent: React.FC<LoginFormContentProps> = ({ 
+  onLoginSuccess,
+  onRegisterClick
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -123,12 +127,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
       <p className="mt-6 text-center text-gray-500">
         New NGO?{" "}
-        <Link
-          to="/register"
+        <button
+          onClick={onRegisterClick}
           className="text-violet-600 hover:text-violet-700 font-medium"
         >
           Create an account
-        </Link>
+        </button>
       </p>
 
       <div className="mt-12 text-center text-xs text-gray-400">
@@ -149,4 +153,4 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   );
 };
 
-export default LoginForm;
+export default LoginFormContent;
