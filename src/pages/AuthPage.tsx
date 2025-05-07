@@ -117,15 +117,15 @@ const AuthPage: React.FC<AuthPageProps> = ({ initialView = "login" }) => {
 
   return (
     <div className="flex h-screen w-full bg-white overflow-hidden">
-      {/* Left Column - Image and Content - Reduced the px-8 to px-4 and added gap-0 */}
-      <div className="hidden md:flex md:w-1/2 items-center justify-center">
+      {/* Left Column - Image and Content */}
+      <div className="hidden md:flex md:w-1/2 items-center justify-end px-8">
         <div className="max-w-md w-full">
           <LeftColumnContent />
         </div>
       </div>
 
-      {/* Right Column - Dynamic Auth Form - Changed justify-center to justify-start and added pl-8 */}
-      <div className="w-full md:w-1/2 flex items-center justify-start pl-8">
+      {/* Right Column - Dynamic Auth Form */}
+      <div className="w-full md:w-1/2 flex items-center justify-start px-8">
         {renderAuthContent()}
       </div>
     </div>
