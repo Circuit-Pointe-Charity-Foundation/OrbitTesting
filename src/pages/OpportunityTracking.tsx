@@ -141,10 +141,6 @@ const OpportunityTracking: React.FC = () => {
             <div className="w-3 h-3 rounded-full bg-[#e59346] mr-2"></div>
             <span className="text-sm text-gray-600">Due Soon</span>
           </div>
-          <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-[#09c127] mr-2"></div>
-            <span className="text-sm text-gray-600">Completed</span>
-          </div>
         </div>
       </div>
 
