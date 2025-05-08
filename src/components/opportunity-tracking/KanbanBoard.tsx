@@ -20,15 +20,9 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
     "Declined",
   ];
 
+  // Updated to use only gray color for all headers
   const getColumnHeaderColor = (status: OpportunityStatus) => {
-    const colors = {
-      "To Review": "bg-[#938b97]",
-      "In Progress": "bg-[#e59346]",
-      Submitted: "bg-[#4f46e5]",
-      Awarded: "bg-[#09c127]",
-      Declined: "bg-[#fa2d2d]",
-    };
-    return colors[status];
+    return "bg-[#b2b2b2]";
   };
 
   return (
@@ -59,8 +53,8 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
               </div>
             </div>
 
-            {/* Opportunities List */}
-            <div className="mt-2 space-y-2 flex-1 overflow-y-auto">
+            {/* Opportunities List - removed overflow-y-auto */}
+            <div className="mt-2 space-y-2 flex-1">
               {columnOpportunities.length > 0 ? (
                 columnOpportunities.map((opportunity) => (
                   <OpportunityCard

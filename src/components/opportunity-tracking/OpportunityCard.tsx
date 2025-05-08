@@ -123,7 +123,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
       <Tooltip>
         <TooltipTrigger asChild>
           <div
-            className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-3 cursor-pointer hover:shadow-md transition-shadow h-[180px] w-full"
+            className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-3 cursor-pointer hover:shadow-md transition-shadow h-[220px] w-full"
             onClick={() => onClick(opportunity)}
           >
             <div className="font-medium text-base truncate mb-1">
@@ -150,7 +150,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
                   .map((name) => name[0])
                   .join("")}
               </div>
-              <span className="text-xs text-gray-500 ml-2 font-medium">
+              <span className="text-sm text-gray-700 ml-2 font-bold">
                 {opportunity.assignedTo}
               </span>
             </div>

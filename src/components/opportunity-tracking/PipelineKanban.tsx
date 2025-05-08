@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Opportunity, OpportunityPipeline } from "@/types/opportunity";
 import PipelineCard from "./PIpelineCard";
@@ -18,24 +19,14 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
     "Approved",
   ];
 
+  // Updated to use only gray color for all headers
   const getColumnHeaderColor = (status: OpportunityPipeline) => {
-    const colors = {
-      Identified: "bg-[#938b97]",
-      Qualified: "bg-[#e59346]",
-      Sent: "bg-[#4f46e5]",
-      Approved: "bg-[#09c127]",
-    };
-    return colors[status];
+    return "bg-[#b2b2b2]";
   };
 
+  // Updated to use a consistent text color for count
   const getCountTextColor = (status: OpportunityPipeline) => {
-    const colors = {
-      Identified: "text-[#938b97]",
-      Qualified: "text-[#e59346]",
-      Sent: "text-[#4f46e5]",
-      Approved: "text-[#09c127]",
-    };
-    return colors[status];
+    return "text-gray-700";
   };
 
   return (
@@ -70,8 +61,8 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
               </div>
             </div>
 
-            {/* Opportunities List */}
-            <div className="mt-2 space-y-2 flex-1 overflow-y-auto">
+            {/* Opportunities List - removed overflow-y-auto */}
+            <div className="mt-2 space-y-2 flex-1">
               {columnOpportunities.length > 0 ? (
                 columnOpportunities.map((opportunity) => (
                   <PipelineCard
