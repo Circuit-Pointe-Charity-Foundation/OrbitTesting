@@ -1,14 +1,6 @@
-
 import React from "react";
 import { format, differenceInDays } from "date-fns";
 import { Opportunity } from "@/types/opportunity";
-import {
-  CircleCheck,
-  CircleX,
-  CircleMinus,
-  CircleAlert,
-  CircleDot,
-} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -21,60 +13,6 @@ interface OpportunityCardProps {
   onClick: (opportunity: Opportunity) => void;
 }
 
-// Helper to check if a deadline is urgent (within 7 days)
-const isUrgent = (deadline: string) => {
-  const today = new Date();
-  const deadlineDate = new Date(deadline);
-  const diffTime = deadlineDate.getTime() - today.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays <= 7 && diffDays >= 0;
-};
-
-// Helper to check if a deadline is due soon (within 14 days)
-const isDueSoon = (deadline: string) => {
-  const today = new Date();
-  const deadlineDate = new Date(deadline);
-  const diffTime = deadlineDate.getTime() - today.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays <= 14 && diffDays > 7;
-};
-
-// Helper to determine status color
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case "To Review":
-      return "bg-gray-400";
-    case "In Progress":
-      return "bg-orange-400";
-    case "Submitted":
-      return "bg-blue-500";
-    case "Awarded":
-      return "bg-green-500";
-    case "Declined":
-      return "bg-red-500";
-    default:
-      return "bg-gray-400";
-  }
-};
-
-// Helper to determine status icon
-const StatusIcon = ({ status }: { status: string }) => {
-  switch (status) {
-    case "To Review":
-      return <CircleDot className="h-5 w-5 text-gray-600" />;
-    case "In Progress":
-      return <CircleAlert className="h-5 w-5 text-orange-600" />;
-    case "Submitted":
-      return <CircleMinus className="h-5 w-5 text-blue-600" />;
-    case "Awarded":
-      return <CircleCheck className="h-5 w-5 text-green-600" />;
-    case "Declined":
-      return <CircleX className="h-5 w-5 text-red-600" />;
-    default:
-      return <CircleDot className="h-5 w-5 text-gray-600" />;
-  }
-};
-
 // Helper to get days remaining until deadline
 const getDaysRemaining = (deadline: string): number => {
   const today = new Date();
@@ -82,18 +20,44 @@ const getDaysRemaining = (deadline: string): number => {
   return differenceInDays(deadlineDate, today);
 };
 
+// Helper to determine deadline urgency
+const getDeadlineUrgency = (deadline: string) => {
+  const daysRemaining = getDaysRemaining(deadline);
+
+  if (daysRemaining < 0) {
+    return "passed";
+  } else if (daysRemaining <= 14) {
+    return "urgent";
+  } else {
+    // "Due Soon" up to 30 days
+    return "dueSoon";
+  }
+};
+
 // Helper to get urgency text for tooltip
 const getUrgencyText = (deadline: string): string => {
   const daysRemaining = getDaysRemaining(deadline);
-  
+
   if (daysRemaining < 0) {
     return "Passed deadline";
-  } else if (daysRemaining <= 7) {
-    return `Urgent: Due in ${daysRemaining} day${daysRemaining === 1 ? '' : 's'}`;
   } else if (daysRemaining <= 14) {
-    return `Due Soon: ${daysRemaining} days left`;
+    return `Urgent: Due in ${daysRemaining} day${
+      daysRemaining === 1 ? "" : "s"
+    }`;
   } else {
-    return `${daysRemaining} days until deadline`;
+    return `Due Soon: ${daysRemaining} days left`;
+  }
+};
+
+// Helper to determine background color based on urgency
+const getDeadlineBackgroundColorClass = (urgency: string): string => {
+  switch (urgency) {
+    case "passed":
+      return "bg-gray-100 text-black";
+    case "urgent":
+      return "bg-red-300 text-black";
+    case "dueSoon":
+      return "bg-green-300 text-black";
   }
 };
 
@@ -102,28 +66,20 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
   onClick,
 }) => {
   const deadlineDate = new Date(opportunity.deadline);
-  const formattedDeadline = format(deadlineDate, "MMM dd, yyyy");
+  const formattedDeadline = format(deadlineDate, "MMM dd, yyyy"); // Included year
+  const deadlineUrgency = getDeadlineUrgency(opportunity.deadline);
+  const deadlineBgColorClass = getDeadlineBackgroundColorClass(deadlineUrgency);
 
-  // Determine the deadline urgency class
-  let deadlineClass = "text-green-500"; // Default - not urgent
-  let deadlineBgClass = "bg-green-50/40";
-  
-  if (isUrgent(opportunity.deadline)) {
-    deadlineClass = "text-red-500 font-bold";
-    deadlineBgClass = "bg-red-50/40";
-  } else if (isDueSoon(opportunity.deadline)) {
-    deadlineClass = "text-orange-500";
-    deadlineBgClass = "bg-orange-50/40";
-  }
-
-  const tooltipText = `Click to view details. ${getUrgencyText(opportunity.deadline)}`;
+  const tooltipText = `Click to view details. ${getUrgencyText(
+    opportunity.deadline
+  )}`;
 
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <div
-            className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-3 cursor-pointer hover:shadow-md transition-shadow h-[220px] w-full"
+            className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-3 cursor-pointer hover:shadow-md transition-shadow w-full"
             onClick={() => onClick(opportunity)}
           >
             <div className="font-medium text-base truncate mb-1">
@@ -133,14 +89,15 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
               {opportunity.donorName}
             </div>
 
-            <div className="flex justify-between items-center mt-3">
-              <div className={`text-base ${deadlineClass} px-3 py-1 rounded-md flex items-center ${deadlineBgClass}`}>
-                <span className={`inline-block w-2 h-2 rounded-full ${deadlineClass} mr-2`}></span>
-                {formattedDeadline}
-              </div>
-              <div className="flex items-center">
-                <StatusIcon status={opportunity.status} />
-              </div>
+            <div
+              className={`${deadlineBgColorClass} p-2 rounded-md flex items-center mt-2`}
+            >
+              <div
+                className={`w-3 h-3 rounded-full mr-2 ${
+                  deadlineBgColorClass.split(" ")[0]
+                }`}
+              ></div>
+              <span className="text-md font-medium">{formattedDeadline}</span>
             </div>
 
             <div className="flex items-center mt-4 pt-3 border-t border-gray-300">

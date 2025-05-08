@@ -33,7 +33,7 @@ export const mockOpportunities: Opportunity[] = [
     contactEmail: "nigeria@unicef.com",
     contactPhone: "+234 123 4567",
     amount: 50000,
-    deadline: "2025-04-15",
+    deadline: "2025-05-15",
     type: "RFP",
     status: "To Review",
     pipeline: "Identified",

@@ -130,20 +130,6 @@ const OpportunityTracking: React.FC = () => {
         </div>
       </div>
 
-      {/* Add the color indicators here */}
-      <div className="flex justify-end mb-7">
-        <div className="flex items-center gap-5">
-          <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-[#fa2d2d] mr-2"></div>
-            <span className="text-sm text-gray-600">Urgent</span>
-          </div>
-          <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-[#e59346] mr-2"></div>
-            <span className="text-sm text-gray-600">Due Soon</span>
-          </div>
-        </div>
-      </div>
-
       <div className="mt-4">
         <KanbanBoard
           opportunities={filteredOpportunities}
