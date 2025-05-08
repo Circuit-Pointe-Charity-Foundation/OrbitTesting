@@ -59,8 +59,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
             >
               <div className="flex items-center gap-3 w-full justify-start">
                 <span
-                  className={`bg-white px-2.5 py-0.5 rounded-full text-base font-medium ${getCountTextColor(
-                    status
+                  className={`bg-white px-2.5 py-0.5 rounded-full text-base font-medium bg-[#b2b2b2] 
                   )}`}
                 >
                   {count}
