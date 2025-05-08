@@ -1,5 +1,6 @@
+
 import React from "react";
-import { format } from "date-fns";
+import { format, differenceInDays } from "date-fns";
 import { Opportunity } from "@/types/opportunity";
 import {
   CircleCheck,
@@ -8,6 +9,12 @@ import {
   CircleAlert,
   CircleDot,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
@@ -68,6 +75,28 @@ const StatusIcon = ({ status }: { status: string }) => {
   }
 };
 
+// Helper to get days remaining until deadline
+const getDaysRemaining = (deadline: string): number => {
+  const today = new Date();
+  const deadlineDate = new Date(deadline);
+  return differenceInDays(deadlineDate, today);
+};
+
+// Helper to get urgency text for tooltip
+const getUrgencyText = (deadline: string): string => {
+  const daysRemaining = getDaysRemaining(deadline);
+  
+  if (daysRemaining < 0) {
+    return "Passed deadline";
+  } else if (daysRemaining <= 7) {
+    return `Urgent: Due in ${daysRemaining} day${daysRemaining === 1 ? '' : 's'}`;
+  } else if (daysRemaining <= 14) {
+    return `Due Soon: ${daysRemaining} days left`;
+  } else {
+    return `${daysRemaining} days until deadline`;
+  }
+};
+
 const OpportunityCard: React.FC<OpportunityCardProps> = ({
   opportunity,
   onClick,
@@ -77,41 +106,61 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
 
   // Determine the deadline urgency class
   let deadlineClass = "text-green-500"; // Default - not urgent
+  let deadlineBgClass = "bg-green-50/40";
+  
   if (isUrgent(opportunity.deadline)) {
     deadlineClass = "text-red-500 font-bold";
+    deadlineBgClass = "bg-red-50/40";
   } else if (isDueSoon(opportunity.deadline)) {
     deadlineClass = "text-orange-500";
+    deadlineBgClass = "bg-orange-50/40";
   }
 
+  const tooltipText = `Click to view details. ${getUrgencyText(opportunity.deadline)}`;
+
   return (
-    <div
-      className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-3 cursor-pointer hover:shadow-md transition-shadow"
-      onClick={() => onClick(opportunity)}
-    >
-      <div className="font-medium text-base truncate mb-1">
-        {opportunity.title}
-      </div>
-      <div className="text-sm text-gray-600">{opportunity.donorName}</div>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div
+            className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-3 cursor-pointer hover:shadow-md transition-shadow h-[180px] w-full"
+            onClick={() => onClick(opportunity)}
+          >
+            <div className="font-medium text-base truncate mb-1">
+              {opportunity.title}
+            </div>
+            <div className="text-sm text-gray-600 line-clamp-2 h-10">
+              {opportunity.donorName}
+            </div>
 
-      <div className="flex justify-between items-center mt-3">
-        <div className={`text-sm ${deadlineClass}`}>{formattedDeadline}</div>
-        <div className="flex items-center">
-          <StatusIcon status={opportunity.status} />
-        </div>
-      </div>
+            <div className="flex justify-between items-center mt-3">
+              <div className={`text-base ${deadlineClass} px-3 py-1 rounded-md flex items-center ${deadlineBgClass}`}>
+                <span className={`inline-block w-2 h-2 rounded-full ${deadlineClass} mr-2`}></span>
+                {formattedDeadline}
+              </div>
+              <div className="flex items-center">
+                <StatusIcon status={opportunity.status} />
+              </div>
+            </div>
 
-      <div className="flex items-center mt-4 pt-3 border-t border-gray-300">
-        <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-800 text-xs font-medium">
-          {opportunity.assignedTo
-            .split(" ")
-            .map((name) => name[0])
-            .join("")}
-        </div>
-        <span className="text-xs text-gray-500 ml-2">
-          {opportunity.assignedTo}
-        </span>
-      </div>
-    </div>
+            <div className="flex items-center mt-4 pt-3 border-t border-gray-300">
+              <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-800 text-xs font-medium">
+                {opportunity.assignedTo
+                  .split(" ")
+                  .map((name) => name[0])
+                  .join("")}
+              </div>
+              <span className="text-xs text-gray-500 ml-2 font-medium">
+                {opportunity.assignedTo}
+              </span>
+            </div>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{tooltipText}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

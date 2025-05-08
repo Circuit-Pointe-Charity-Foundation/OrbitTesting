@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Opportunity, OpportunityStatus } from "@/types/opportunity";
 import OpportunityCard from "./OpportunityCard";
@@ -30,17 +31,6 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
     return colors[status];
   };
 
-  const getCountTextColor = (status: OpportunityStatus) => {
-    const colors = {
-      "To Review": "text-[#938b97]",
-      "In Progress": "text-[#e59346]",
-      Submitted: "text-[#4f46e5]",
-      Awarded: "text-[#09c127]",
-      Declined: "text-[#fa2d2d]",
-    };
-    return colors[status];
-  };
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
       {columns.map((status) => {
@@ -55,12 +45,11 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
           <div key={status} className="flex flex-col h-full">
             {/* Column Header */}
             <div
-              className={`bg-[#b2b2b2] p-2 rounded-full flex items-center`}
+              className={`${getColumnHeaderColor(status)} p-2 rounded-full flex items-center`}
             >
               <div className="flex items-center gap-3 w-full justify-start">
                 <span
-                  className={`bg-white px-2.5 py-0.5 rounded-full text-base font-medium bg-[#b2b2b2] 
-                  )}`}
+                  className="bg-white px-2.5 py-0.5 rounded-full text-base font-medium"
                 >
                   {count}
                 </span>
