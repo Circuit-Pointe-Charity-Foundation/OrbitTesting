@@ -107,7 +107,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
                   .map((name) => name[0])
                   .join("")}
               </div>
-              <span className="text-sm text-gray-700 ml-2 font-bold">
+              <span className="text-sm text-gray-700 ml-2 font-semibold">
                 {opportunity.assignedTo}
               </span>
             </div>

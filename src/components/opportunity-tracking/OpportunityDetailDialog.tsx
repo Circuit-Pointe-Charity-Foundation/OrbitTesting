@@ -56,11 +56,11 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
   // Status color mapping matching Kanban headers
   const getStatusColor = (status: string) => {
     const colors = {
-      "To Review": { bg: "bg-[#938b97]", text: "text-white" },
-      "In Progress": { bg: "bg-[#e59346]", text: "text-white" },
-      Submitted: { bg: "bg-[#4f46e5]", text: "text-white" },
-      Awarded: { bg: "bg-[#09c127]", text: "text-white" },
-      Declined: { bg: "bg-[#fa2d2d]", text: "text-white" },
+      "To Review": { bg: "bg-[#e0d8e6]", text: "text-[#938b97]" }, // Lighter purple-ish
+      "In Progress": { bg: "bg-[#f9dfc8]", text: "text-[#e59346]" }, // Lighter orange-ish
+      Submitted: { bg: "bg-[#dcd6f7]", text: "text-[#4f46e5]" }, // Lighter blue-ish
+      Awarded: { bg: "bg-[#dbfae7]", text: "text-[#09c127]" }, // Light green
+      Declined: { bg: "bg-[#fddddd]", text: "text-[#fa2d2d]" }, // Lighter red-ish
     };
     return colors[status] || { bg: "bg-gray-200", text: "text-gray-800" };
   };
@@ -133,59 +133,52 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                   {opportunity.title}
                 </DialogTitle>
                 <Badge
-                  className={`${statusColor.bg} ${statusColor.text} rounded-sm p-2`}
+                  className={`${statusColor.bg} ${statusColor.text} rounded-md flex items-center justify-center p-2 px-5`}
                 >
                   {opportunity.status}
                 </Badge>
               </div>
-              <DialogClose className="absolute right-6 top-6 p-1 rounded-full hover:bg-gray-100 transition-colors">
-                <span className="sr-only">Close</span>
-              </DialogClose>
+              {/* <DialogClose className="absolute right-6 top-6 p-1 rounded-full hover:bg-gray-100 transition-colors">
+      <X className="h-4 w-4" />
+    </DialogClose> 
+    */}
             </div>
           </DialogHeader>
 
           <div className="mt-6">
             <div className="grid grid-cols-4 gap-6">
-              {/* Left Column (2/3 width) */}
+              {/* Left Column */}
               <div className="col-span-2 space-y-4">
                 {/* Donor Profile Section */}
-                <h3 className="text-lg font-medium mb-2">Donor Profile</h3>
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <div>
-                        <h4 className="font-medium">{opportunity.donorName}</h4>
-                        <div className="flex items-center text-sm text-gray-600 mt-1">
-                          <Mail className="h-4 w-4 mr-1" />
-                          <span>
-                            {opportunity.contactEmail || "No email provided"}
-                          </span>
-                        </div>
-                        <div className="flex items-center text-sm text-gray-600 mt-1">
-                          <Phone className="h-4 w-4 mr-1" />
-                          <span>
-                            {opportunity.contactPhone || "No phone provided"}
-                          </span>
-                        </div>
-                      </div>
+                <h3 className="text-lg font-medium mb-0">Donor Profile</h3>
+                <div className="bg-white p-4 rounded-lg border border-gray-200 space-y-3">
+                  <div>
+                    <h4 className="font-lg">{opportunity.donorName}</h4>
+                    <div className="flex items-center text-sm text-gray-600 mt-1">
+                      <Mail className="h-4 w-4 mr-1" />
+                      <span>
+                        {opportunity.contactEmail || "No email provided"}
+                      </span>
                     </div>
-
-                    <div className="pt-2 border-t">
-                      <div className="text-sm text-gray-600">
-                        <span className="font-medium">Funding Timeline:</span>
-                        <span className="ml-2">
-                          {opportunity.startDate
-                            ? format(
-                                new Date(opportunity.startDate),
-                                "MMM yyyy"
-                              )
-                            : "No start date"}{" "}
-                          -
-                          {opportunity.endDate
-                            ? format(new Date(opportunity.endDate), "MMM yyyy")
-                            : "No end date"}
-                        </span>
-                      </div>
+                    <div className="flex items-center text-sm text-gray-600 mt-1">
+                      <Phone className="h-4 w-4 mr-1" />
+                      <span>
+                        {opportunity.contactPhone || "No phone provided"}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t">
+                    <div className="text-sm text-gray-600">
+                      <span className="font-medium">Funding Timeline:</span>
+                      <span className="ml-2">
+                        {opportunity.startDate
+                          ? format(new Date(opportunity.startDate), "MMM yyyy")
+                          : "No start date"}{" "}
+                        -
+                        {opportunity.endDate
+                          ? format(new Date(opportunity.endDate), "MMM yyyy")
+                          : "No end date"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -295,7 +288,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                 </div>
               </div>
 
-              {/* Right Column (1/3 width) */}
+              {/* Right Column */}
               <div className="col-span-2 space-y-4">
                 {/* Status Timeline */}
                 <div className="bg-white p-4 rounded-lg border border-gray-200">
