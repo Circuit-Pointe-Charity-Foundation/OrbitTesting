@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { donorData, availableInterestTags } from "@/data/donorData";
+import { X } from "lucide-react";
 
 interface EditDonorDialogProps {
   open: boolean;
@@ -30,9 +31,17 @@ const EditDonorDialog: React.FC<EditDonorDialogProps> = ({ open, onOpenChange, d
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-0">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-0 relative bg-white">
+        <button
+          type="button"
+          onClick={() => onOpenChange(false)}
+          className="absolute right-4 top-4 z-10 p-2 rounded-full hover:bg-gray-100"
+          aria-label="Close"
+        >
+          <X className="h-5 w-5" />
+        </button>
         <DialogHeader>
-          <DialogTitle className="flex items-center">
+          <DialogTitle className="flex items-center text-xl font-bold mb-4">
             <Button 
               variant="ghost" 
               className="hover:bg-gray-100 hover:text-black mr-2"
@@ -40,7 +49,7 @@ const EditDonorDialog: React.FC<EditDonorDialogProps> = ({ open, onOpenChange, d
             >
               ← Back to Donor Profile
             </Button>
-            <h2 className="text-xl font-medium">Edit Donor Profile</h2>
+            <h2>Edit Donor Profile</h2>
           </DialogTitle>
         </DialogHeader>
         
@@ -133,11 +142,11 @@ const EditDonorDialog: React.FC<EditDonorDialogProps> = ({ open, onOpenChange, d
             </div>
           </div>
           
-          <DialogFooter className="pt-4">
+          <DialogFooter className="pt-4 gap-2 sm:gap-0">
             <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit" className="bg-[#A273F2] hover:bg-[#8b5cf6]">
+            <Button type="submit" className="bg-black text-white hover:bg-gray-900">
               Save Changes
             </Button>
           </DialogFooter>

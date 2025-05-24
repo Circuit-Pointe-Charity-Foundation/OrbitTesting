@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +22,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, X } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Opportunity } from "@/types/opportunity";
@@ -33,6 +34,12 @@ interface AddOpportunityDialogProps {
   onAddOpportunity: (opportunity: Opportunity) => void;
   donors: Array<{ id: string; name: string }>;
 }
+
+const TYPE_OPTIONS = [
+  { value: "RFP", label: "RFP - Request for Proposal" },
+  { value: "LOI", label: "LOI - Letter of Interest" },
+  { value: "CFP", label: "CFP - Call for Proposal" },
+];
 
 const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
   isOpen,
@@ -91,12 +98,20 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] relative bg-white p-0">
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 z-10 p-2 rounded-full hover:bg-gray-100"
+          aria-label="Close"
+        >
+          <X className="h-5 w-5" />
+        </button>
         <DialogHeader>
-          <DialogTitle>Add New Opportunity</DialogTitle>
+          <DialogTitle className="text-xl font-bold mb-4 text-black">Add New Opportunity</DialogTitle>
         </DialogHeader>
 
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 py-4 px-6">
           <div className="space-y-2">
             <Label htmlFor="title">Title *</Label>
             <Input
@@ -127,15 +142,17 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
               <Label htmlFor="type">Type *</Label>
               <Select
                 value={type}
-                onValueChange={(value: "RFP" | "LOI" | "CFP") => setType(value)}
+                onValueChange={(value: string) => setType(value as "RFP" | "LOI" | "CFP")}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="RFP">RFP</SelectItem>
-                  <SelectItem value="LOI">LOI</SelectItem>
-                  <SelectItem value="CFP">CFP</SelectItem>
+                  {TYPE_OPTIONS.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -177,6 +194,7 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
                     selected={deadline}
                     onSelect={setDeadline}
                     initialFocus
+                    className={cn("p-3 pointer-events-auto")}
                   />
                 </PopoverContent>
               </Popover>
@@ -203,12 +221,17 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
             </div>
           </div>
         </div>
-
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 p-6 pt-0">
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit}>Add Opportunity</Button>
+          <Button
+            onClick={handleSubmit}
+            className="bg-black text-white hover:bg-gray-900"
+            type="button"
+          >
+            Add Opportunity
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
