@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   X,
@@ -31,6 +32,9 @@ import AddNoteDialog from "./AddNoteDialog";
 import AddFileDialog from "./AddFileDialog";
 import AddTaskDialog from "./AddTaskDialog";
 import { useToast } from "@/components/ui/use-toast";
+
+// Fixed section height for uniformity
+const SECTION_HEIGHT = "h-72"; // Adjust height as appropriate for UI (18rem = 288px), can tweak if needed
 
 interface OpportunityDetailDialogProps {
   opportunity: Opportunity | null;
@@ -69,7 +73,7 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
   const deadlineDate = new Date(opportunity.deadline);
   const formattedDeadline = format(deadlineDate, "MMMM dd, yyyy");
 
-  // Status timeline data
+  // Status timeline data (as before)
   const statusTimeline = [
     {
       status: "Opportunity Identified",
@@ -146,13 +150,18 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
             <div className="grid grid-cols-4 gap-6">
               {/* Left Column */}
               <div className="col-span-2 space-y-6">
-                {/* Donor Profile Section */}
-                <h3 className="text-md font-semibold mb-2">Donor Profile</h3>
-                <div className="bg-white p-4 rounded-lg border border-gray-200 space-y-3">
-                  <div className="flex flex-col gap-3">
-                    <div>
-                      <h4 className="font-lg">{opportunity.donorName}</h4>
-                    </div>
+                {/* Donor Profile Section with Icon and Timeline, uniform height, internal scroll */}
+                <div className={`bg-white p-4 rounded-lg border border-gray-200 flex flex-col gap-3 relative ${SECTION_HEIGHT} overflow-y-auto`}>
+                  {/* Donor Icon */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="bg-violet-100 p-2 rounded-full">
+                      <User className="h-6 w-6 text-violet-600" />
+                    </span>
+                    <h3 className="text-md font-semibold">Donor Profile</h3>
+                  </div>
+                  {/* Donor Info */}
+                  <div className="flex flex-col gap-1 mt-1">
+                    <h4 className="font-lg">{opportunity.donorName}</h4>
                     <div className="flex items-center text-sm text-gray-600">
                       <Mail className="h-4 w-4 mr-1" />
                       <span>
@@ -165,32 +174,51 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                         {opportunity.contactPhone || "No phone provided"}
                       </span>
                     </div>
-                    <div className="flex flex-row items-center text-sm text-gray-600">
-                      <span className="font-medium min-w-[100px]">Funding Areas:</span>
-                      <span className="ml-2">
-                        {opportunity.sector || "No funding area"}
+                  </div>
+                  {/* Timeline Row */}
+                  <div className="flex flex-col gap-2 mt-2">
+                    <div className="flex items-center text-xs text-gray-500">
+                      <Clock className="h-4 w-4 mr-1" />
+                      <span>
+                        <span className="font-semibold mr-1">Opened:</span>
+                        {format(new Date(opportunity.createdAt), "MMM dd, yyyy")}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-xs text-gray-500">
+                      <CalendarIcon className="h-4 w-4 mr-1" />
+                      <span>
+                        <span className="font-semibold mr-1">Deadline:</span>
+                        {formattedDeadline}
                       </span>
                     </div>
                   </div>
+                  {/* Bottom border after Timeline */}
+                  <div className="border-b border-gray-200 my-2"></div>
+                  {/* Funding Areas */}
+                  <div className="flex flex-row items-center text-sm text-gray-600">
+                    <span className="font-medium min-w-[100px]">Funding Areas:</span>
+                    <span className="ml-2">
+                      {opportunity.sector || "No funding area"}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Notes Section */}
-                <div className="mt-6">
+                {/* Notes Section, uniform height, internal scroll */}
+                <div className={`bg-white p-4 rounded-lg border border-gray-200 flex flex-col ${SECTION_HEIGHT}`}>
                   <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
                     <FileText className="h-4 w-4" />
                     Description / Notes
                   </h3>
-                  <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <div className="flex justify-end mb-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-black text-white hover:bg-gray-900"
-                        onClick={() => setShowAddNoteDialog(true)}
-                      >
-                        Add Note
-                      </Button>
-                    </div>
+                  <div className="flex justify-end mb-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowAddNoteDialog(true)}
+                    >
+                      Add Note
+                    </Button>
+                  </div>
+                  <div className="flex-1 overflow-y-auto">
                     {notes.length > 0 ? (
                       <div className="space-y-3">
                         {notes.map((note) => (
@@ -217,23 +245,22 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                   </div>
                 </div>
 
-                {/* Tasks Section */}
-                <div className="mt-6">
+                {/* Tasks Section, uniform height, internal scroll */}
+                <div className={`bg-white p-4 rounded-lg border border-gray-200 flex flex-col ${SECTION_HEIGHT}`}>
                   <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
                     <ListTodo className="h-4 w-4" />
                     Tasks
                   </h3>
-                  <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <div className="flex justify-end mb-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-black text-white hover:bg-gray-900"
-                        onClick={() => setShowAddTaskDialog(true)}
-                      >
-                        Add Task
-                      </Button>
-                    </div>
+                  <div className="flex justify-end mb-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowAddTaskDialog(true)}
+                    >
+                      Add Task
+                    </Button>
+                  </div>
+                  <div className="flex-1 overflow-y-auto">
                     {tasks.length > 0 ? (
                       <div className="space-y-2">
                         {tasks.map((task) => (
@@ -283,62 +310,59 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
 
               {/* Right Column */}
               <div className="col-span-2 space-y-6">
-                {/* Status Timeline */}
-                <div className="mt-0">
+                {/* Status Timeline, moved to top as a card, same height and style */}
+                <div className={`bg-white p-4 rounded-lg border border-gray-200 flex flex-col ${SECTION_HEIGHT} overflow-y-auto`}>
                   <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
                     <Clock className="h-4 w-4" />
                     Status Timeline
                   </h3>
-                  <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <div className="space-y-3">
-                      {statusTimeline.map((item, index) => (
-                        <div key={index} className="flex items-start gap-3">
-                          <div
-                            className={`mt-1 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center 
-                            ${item.completed ? "bg-green-500" : "bg-gray-200"}`}
-                          >
-                            {item.completed ? (
-                              <Check className="h-3 w-3 text-white" />
-                            ) : (
-                              <Circle className="h-3 w-3 text-gray-400" />
-                            )}
-                          </div>
-                          <div className="flex-1">
-                            <div className="text-sm font-medium">
-                              {item.status}
-                            </div>
-                            {item.date && (
-                              <div className="text-xs text-gray-500">
-                                {format(new Date(item.date), "MMM dd, yyyy")}
-                              </div>
-                            )}
-                          </div>
-                          {index < statusTimeline.length - 1 && (
-                            <ChevronRight className="h-4 w-4 text-gray-400" />
+                  <div className="space-y-3 flex-1 overflow-y-auto">
+                    {statusTimeline.map((item, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div
+                          className={`mt-1 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center 
+                          ${item.completed ? "bg-green-500" : "bg-gray-200"}`}
+                        >
+                          {item.completed ? (
+                            <Check className="h-3 w-3 text-white" />
+                          ) : (
+                            <Circle className="h-3 w-3 text-gray-400" />
                           )}
                         </div>
-                      ))}
-                    </div>
+                        <div className="flex-1">
+                          <div className="text-sm font-medium">
+                            {item.status}
+                          </div>
+                          {item.date && (
+                            <div className="text-xs text-gray-500">
+                              {format(new Date(item.date), "MMM dd, yyyy")}
+                            </div>
+                          )}
+                        </div>
+                        {index < statusTimeline.length - 1 && (
+                          <ChevronRight className="h-4 w-4 text-gray-400" />
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                {/* Attachments Section */}
-                <div className="mt-6">
+                {/* Attachments Section, uniform height, internal scroll */}
+                <div className={`bg-white p-4 rounded-lg border border-gray-200 flex flex-col ${SECTION_HEIGHT}`}>
                   <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
                     <Paperclip className="h-4 w-4" />
                     Attachments
                   </h3>
-                  <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <div className="flex justify-end mb-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-black text-white hover:bg-gray-900"
-                        onClick={() => setShowAddFileDialog(true)}
-                      >
-                        Add File
-                      </Button>
-                    </div>
+                  <div className="flex justify-end mb-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowAddFileDialog(true)}
+                    >
+                      Add File
+                    </Button>
+                  </div>
+                  <div className="flex-1 overflow-y-auto">
                     {files.length > 0 ? (
                       <div className="space-y-2">
                         {files.map((file) => (
@@ -371,31 +395,26 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
                 </div>
 
                 {/* Quick Actions */}
-                <div className="mt-6">
+                <div className={`bg-white p-4 rounded-lg border border-gray-200 flex flex-col space-y-2`}>
                   <h3 className="text-md font-semibold mb-2">Quick Actions</h3>
-                  <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <div className="space-y-2">
-                      <Button variant="outline" className="w-full justify-start">
-                        <Send className="h-4 w-4 mr-2" />
-                        Send to Review
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start">
-                        <CalendarIcon className="h-4 w-4 mr-2" />
-                        Schedule Meeting
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start">
-                        <Mail className="h-4 w-4 mr-2" />
-                        Email Donor
-                      </Button>
-                    </div>
-                  </div>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Send className="h-4 w-4 mr-2" />
+                    Send to Review
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <CalendarIcon className="h-4 w-4 mr-2" />
+                    Schedule Meeting
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Mail className="h-4 w-4 mr-2" />
+                    Email Donor
+                  </Button>
                 </div>
               </div>
             </div>
           </div>
         </DialogContent>
       </Dialog>
-
       {/* Dialog for adding notes */}
       <AddNoteDialog
         isOpen={showAddNoteDialog}
