@@ -132,11 +132,7 @@ const App = () => (
             <Route path="/dashboard" element={<Navigate to="/modules/fundraising/dashboard" replace />} />
             <Route path="/donor-management" element={<Navigate to="/modules/fundraising/donor-management" replace />} />
             <Route path="/opportunity-tracking" element={<Navigate to="/modules/fundraising/opportunity-tracking" replace />} />
-            <Route path="/proposal-development" element={<Navigate to="/modules/fundraising/proposal-development" replace />} />
-            <Route path="/proposal-library" element={<Navigate to="/modules/fundraising/proposal-library" replace />} />
-            <Route path="/ai-proposal-wizard" element={<Navigate to="/modules/fundraising/ai-proposal-wizard" replace />} />
-            <Route path="/internal-workflow" element={<Navigate to="/modules/fundraising/internal-workflow" replace />} />
-            <Route path="/calendar" element={<Navigate to="/modules/fundraising/calendar" replace />} />
+            <Route path="/proposal-management" element={<Navigate to="/modules/fundraising/proposal-management" replace />} />
             <Route path="/fundraising-analytics" element={<Navigate to="/modules/fundraising/fundraising-analytics" replace />} />
             <Route path="/settings" element={<Navigate to="/modules/fundraising/settings" replace />} />
             
