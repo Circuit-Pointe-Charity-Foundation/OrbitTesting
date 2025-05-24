@@ -126,14 +126,6 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto bg-white relative rounded-lg">
-          <button
-            type="button"
-            onClick={onClose}
-            className="absolute right-4 top-4 z-10 p-2 rounded-full hover:bg-gray-100"
-            aria-label="Close"
-          >
-            <X className="h-5 w-5" />
-          </button>
           <DialogHeader>
             <DialogTitle className="text-xl font-bold mb-4 text-black">{opportunity.title}</DialogTitle>
             <div className="flex items-center gap-3">
@@ -144,7 +136,6 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
               </Badge>
             </div>
           </DialogHeader>
-
           <div className="mt-6">
             <div className="grid grid-cols-4 gap-6">
               {/* Left Column */}
