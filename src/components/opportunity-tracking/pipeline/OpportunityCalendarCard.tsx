@@ -30,7 +30,7 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
 
   // Responsive calendar fill
   const today = new Date();
-  const cardMonth = new Date(year, month, 1);
+  // const cardMonth = new Date(year, month, 1);  // Not needed
 
   // Helper for reminders per day by ISO string
   const getDailyReminder = (date: Date) =>
@@ -99,13 +99,14 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
           </button>
         </div>
       </div>
-      <div className="flex-grow flex flex-col">
+      {/* Calendar now fills the card horizontally and is centered */}
+      <div className="flex flex-1 items-center justify-center w-full h-full mt-2">
         <Calendar
           mode="single"
           onSelect={onDayClick}
           selected={selectedDay}
           month={new Date(year, month, 1)}
-          className={cn("pointer-events-auto flex-1 w-full h-full")}
+          className={cn("pointer-events-auto w-full max-w-none")}
           showOutsideDays={false}
           modifiers={{
             hasReminder: (date) => !!getDailyReminder(date),
@@ -118,7 +119,6 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
           components={{
             DayContent: DayContent,
           }}
-          // ...all other Calendar props
         />
       </div>
       {/* Add Reminder Modal */}
@@ -136,4 +136,3 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
 };
 
 export default OpportunityCalendarCard;
-

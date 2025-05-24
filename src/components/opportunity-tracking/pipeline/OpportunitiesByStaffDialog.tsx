@@ -7,19 +7,34 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Opportunity } from "@/types/opportunity";
-import { StaffMember } from "../staffData";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
+// Hardcoded sample staff for development (match the card)
+const devStaffMetric = [
+  {
+    name: "Amina Yusuf",
+    completed: 2,
+    total: 4,
+  },
+  {
+    name: "Fatima Bello",
+    completed: 1,
+    total: 3,
+  },
+  {
+    name: "Emeka Nwankwo",
+    completed: 3,
+    total: 3,
+  },
+];
 
 interface OpportunitiesByStaffDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  opportunities: Opportunity[];
-  staffData: StaffMember[];
-  month: number;
-  year: number;
   setMonth: (n: number) => void;
   setYear: (n: number) => void;
+  month: number;
+  year: number;
 }
 
 const MONTHS = [
@@ -30,27 +45,11 @@ const MONTHS = [
 const OpportunitiesByStaffDialog: React.FC<OpportunitiesByStaffDialogProps> = ({
   isOpen,
   onClose,
-  opportunities,
-  staffData,
   month,
   year,
   setMonth,
-  setYear
+  setYear,
 }) => {
-  // Staff metric (all staff)
-  const metric = staffData.map((s) => {
-    const assigned = opportunities.filter(o =>
-      o.assignedTo === s.name &&
-      (() => {
-        const deadline = new Date(o.deadline);
-        return deadline.getMonth() === month && deadline.getFullYear() === year;
-      })()
-    );
-    const completed = assigned.filter(o => o.status === "Awarded" || o.status === "Declined").length;
-    const total = assigned.length;
-    return { ...s, completed, total };
-  });
-
   const handleMonthChange = (inc: number) => {
     let m = month + inc;
     let y = year;
@@ -66,9 +65,8 @@ const OpportunitiesByStaffDialog: React.FC<OpportunitiesByStaffDialogProps> = ({
         <DialogHeader>
           <DialogTitle>Opportunities by Staff</DialogTitle>
         </DialogHeader>
-        {/* Month/Year Controls */}
+        {/* Buttons only, no 'Month/Year:' label */}
         <div className="mb-3 flex gap-2 items-center">
-          <div className="text-sm font-medium">Month/Year:</div>
           <button onClick={() => handleMonthChange(-1)} className="hover:bg-accent p-1 rounded">
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -80,11 +78,11 @@ const OpportunitiesByStaffDialog: React.FC<OpportunitiesByStaffDialogProps> = ({
           </button>
         </div>
         <div className="space-y-5 max-h-72 overflow-y-auto">
-          {metric.map((s) => (
+          {devStaffMetric.map((s) => (
             <div key={s.name} className="w-full">
               <div className="flex items-center justify-between mb-1">
-                <span className="font-medium">{s.name}</span>
-                <span className="text-sm font-semibold text-gray-700">{s.completed}/{s.total} completed opportunities</span>
+                <span className="font-bold">{s.name}</span>
+                <span className="text-sm text-gray-500">{s.completed}/{s.total} completed opportunities</span>
               </div>
               <div className="w-full bg-gray-100 rounded h-2 overflow-hidden">
                 <div
@@ -97,9 +95,9 @@ const OpportunitiesByStaffDialog: React.FC<OpportunitiesByStaffDialogProps> = ({
             </div>
           ))}
         </div>
-        <div className="pt-4">
+        <div className="pt-4 flex justify-end">
           <Button
-            variant="outline"
+            variant="default"
             onClick={() => {
               alert("Download not implemented in demo");
             }}

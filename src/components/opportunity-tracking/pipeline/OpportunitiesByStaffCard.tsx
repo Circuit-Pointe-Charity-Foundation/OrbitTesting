@@ -1,37 +1,33 @@
 
 import React from "react";
 import { Card } from "@/components/ui/card";
-import { Opportunity } from "@/types/opportunity";
-import { StaffMember } from "../staffData";
+
+// Demo: Hardcoded staff with completion/outstanding for development
+const devStaffMetric = [
+  {
+    name: "Amina Yusuf",
+    completed: 2,
+    total: 4,
+  },
+  {
+    name: "Fatima Bello",
+    completed: 1,
+    total: 3,
+  },
+  {
+    name: "Emeka Nwankwo",
+    completed: 3,
+    total: 3,
+  },
+];
 
 interface OpportunitiesByStaffCardProps {
-  opportunities: Opportunity[];
-  staffData: StaffMember[];
-  month: number;
-  year: number;
   onViewAll: () => void;
 }
 
 const OpportunitiesByStaffCard: React.FC<OpportunitiesByStaffCardProps> = ({
-  opportunities, staffData, month, year, onViewAll
+  onViewAll,
 }) => {
-  // Filter out NGO Manager
-  const staff = staffData.filter(s => s.title !== "NGO Manager");
-
-  // Count completed, total assigned
-  const metric = staff.map(s => {
-    const assigned = opportunities.filter(o =>
-      o.assignedTo === s.name &&
-      (() => {
-        const deadline = new Date(o.deadline);
-        return deadline.getMonth() === month && deadline.getFullYear() === year;
-      })()
-    );
-    const completed = assigned.filter(o => o.status === "Awarded" || o.status === "Declined").length;
-    const total = assigned.length;
-    return { ...s, completed, total };
-  });
-
   return (
     <Card className="p-6 h-full flex flex-col">
       <div className="flex justify-between items-center mb-4">
@@ -44,19 +40,16 @@ const OpportunitiesByStaffCard: React.FC<OpportunitiesByStaffCardProps> = ({
         </button>
       </div>
       <div className="space-y-6 flex-1">
-        {metric.length === 0 && (
-          <div className="text-sm text-gray-500 text-center">No staff to show.</div>
-        )}
-        {metric.map(s => (
+        {devStaffMetric.map(s => (
           <div key={s.name}>
             <div className="flex items-center justify-between mb-1">
-              <span className="font-medium">{s.name}</span>
-              <span className="text-sm font-semibold text-gray-700">{s.completed}/{s.total} completed opportunities</span>
+              <span className="font-bold">{s.name}</span>
+              <span className="text-sm text-gray-500">{s.completed}/{s.total} completed opportunities</span>
             </div>
             <div className="w-full bg-gray-100 rounded h-2 overflow-hidden">
               <div
                 className="bg-violet-500 h-2 rounded"
-                style={{ width: s.total > 0 ? `${Math.round((s.completed/s.total)*100)}%` : "0%" }}
+                style={{ width: s.total > 0 ? `${Math.round((s.completed / s.total) * 100)}%` : "0%" }}
               />
             </div>
           </div>
