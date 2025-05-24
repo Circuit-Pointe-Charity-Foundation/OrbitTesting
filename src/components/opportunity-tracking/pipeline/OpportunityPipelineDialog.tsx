@@ -35,12 +35,10 @@ const OpportunityPipelineDialog: React.FC<OpportunityPipelineDialogProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={v => { if (!v) onClose(); }}>
       <DialogContent
-        className="!max-w-[1200px] !w-full max-h-[95vh] overflow-y-auto relative bg-[rgba(245,247,250,1)]"
-        style={{ padding: 0 }}
+        className="max-w-[98vw] w-full sm:max-w-[1200px] max-h-[94vh] min-h-[320px] overflow-y-auto relative bg-[rgba(245,247,250,1)] p-0 rounded-lg shadow-xl"
+        style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
       >
-        <button aria-label="Close" className="absolute right-2 top-2 z-10 rounded hover:bg-gray-100 p-2" onClick={onClose}>
-          <X className="w-5 h-5" />
-        </button>
+        {/* Remove manual close button; DialogClose already exists */}
         <div className="p-8 pt-5">
           <h2 className="text-2xl font-bold mb-6">Opportunity Pipeline</h2>
           <OpportunitySummaryCards opportunities={allOpportunities} month={month} year={year} />

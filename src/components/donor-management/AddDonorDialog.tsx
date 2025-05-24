@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { availableInterestTags } from "@/data/donorData";
-import { X } from "lucide-react";
 
 interface AddDonorDialogProps {
   open: boolean;
@@ -32,19 +31,11 @@ const AddDonorDialog: React.FC<AddDonorDialogProps> = ({ open, onOpenChange, onS
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto p-0 relative bg-white">
-        <button
-          type="button"
-          onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 z-10 p-2 rounded-full hover:bg-gray-100"
-          aria-label="Close"
-        >
-          <X className="h-5 w-5" />
-        </button>
+      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto bg-white rounded-lg p-0">
+        {/* Removed duplicate close button here */}
         <DialogHeader>
           <DialogTitle className="text-xl">Add new donor</DialogTitle>
         </DialogHeader>
-        
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="space-y-2">
             <Label htmlFor="orgName">Name of Organization</Label>
