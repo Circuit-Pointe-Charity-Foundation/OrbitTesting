@@ -18,17 +18,18 @@ const OpportunitiesByStaffCard: React.FC<OpportunitiesByStaffCardProps> = ({
   // Filter out NGO Manager
   const staff = staffData.filter(s => s.title !== "NGO Manager");
 
-  // Count completed for staff (Awarded or Declined in period)
+  // Count completed, total assigned
   const metric = staff.map(s => {
-    const completed = opportunities.filter(o =>
+    const assigned = opportunities.filter(o =>
       o.assignedTo === s.name &&
-      (o.status === "Awarded" || o.status === "Declined") &&
       (() => {
         const deadline = new Date(o.deadline);
         return deadline.getMonth() === month && deadline.getFullYear() === year;
       })()
-    ).length;
-    return { ...s, completed };
+    );
+    const completed = assigned.filter(o => o.status === "Awarded" || o.status === "Declined").length;
+    const total = assigned.length;
+    return { ...s, completed, total };
   });
 
   return (
@@ -42,23 +43,22 @@ const OpportunitiesByStaffCard: React.FC<OpportunitiesByStaffCardProps> = ({
           View All
         </button>
       </div>
-      <div className="space-y-4 flex-1">
+      <div className="space-y-6 flex-1">
         {metric.length === 0 && (
           <div className="text-sm text-gray-500 text-center">No staff to show.</div>
         )}
         {metric.map(s => (
-          <div key={s.name} className="flex items-center justify-between">
-            <div>
+          <div key={s.name}>
+            <div className="flex items-center justify-between mb-1">
               <span className="font-medium">{s.name}</span>
-              <span className="ml-2 text-xs text-gray-500">({s.title})</span>
+              <span className="text-sm font-semibold text-gray-700">{s.completed}/{s.total} completed opportunities</span>
             </div>
-            <div className="w-28 bg-gray-100 rounded h-3 mx-2 overflow-hidden">
+            <div className="w-full bg-gray-100 rounded h-2 overflow-hidden">
               <div
-                className="bg-violet-500 h-3"
-                style={{ width: `${s.completed * 34}%` }}
+                className="bg-violet-500 h-2 rounded"
+                style={{ width: s.total > 0 ? `${Math.round((s.completed/s.total)*100)}%` : "0%" }}
               />
             </div>
-            <div className="font-semibold text-sm">{s.completed}</div>
           </div>
         ))}
       </div>

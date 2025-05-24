@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import OpportunitySummaryCards from "@/components/opportunity-tracking/pipeline/OpportunitySummaryCards";
 import StageDonutChart from "@/components/opportunity-tracking/pipeline/StageDonutChart";
