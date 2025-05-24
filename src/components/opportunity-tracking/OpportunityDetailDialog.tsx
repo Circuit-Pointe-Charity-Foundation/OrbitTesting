@@ -125,9 +125,15 @@ const OpportunityDetailDialog: React.FC<OpportunityDetailDialogProps> = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto bg-white relative rounded-lg">
+        <DialogContent
+          className={
+            "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 grid w-full max-w-3xl bg-white rounded-lg shadow-lg border p-6 max-h-[90vh] overflow-y-auto"
+          }
+        >
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold mb-4 text-black">{opportunity.title}</DialogTitle>
+            <DialogTitle className="text-xl font-bold mb-4 text-black">
+              {opportunity.title}
+            </DialogTitle>
             <div className="flex items-center gap-3">
               <Badge
                 className={`${statusColor.bg} ${statusColor.text} rounded-md flex items-center justify-center p-2 px-5`}
