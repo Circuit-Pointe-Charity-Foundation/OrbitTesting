@@ -1,12 +1,15 @@
-
 import React, { useState } from "react";
-import { Calendar as CalendarIcon, ArrowLeft, ArrowRight, BellPlus } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  ArrowLeft,
+  ArrowRight,
+  BellPlus,
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import ReminderForm from "./ReminderForm";
 
-// Per-day reminders for demo (local state only)
 type Reminder = { date: string; text: string };
 
 interface OpportunityCalendarCardProps {
@@ -17,24 +20,33 @@ interface OpportunityCalendarCardProps {
 }
 
 const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
-  month, year, setMonth, setYear,
+  month,
+  year,
+  setMonth,
+  setYear,
 }) => {
   const [selectedDay, setSelectedDay] = useState<Date | undefined>();
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [showReminderForm, setShowReminderForm] = useState(false);
-
-  // Responsive calendar fill
   const today = new Date();
-  // const cardMonth = new Date(year, month, 1);  // Not needed
 
-  // Helper for reminders per day by ISO string
   const getDailyReminder = (date: Date) =>
-    reminders.find(r => r.date === date.toISOString().substring(0,10));
+    reminders.find((r) => r.date === date.toISOString().substring(0, 10));
 
   const onDayClick = (date?: Date) => {
     if (!date) return;
@@ -44,11 +56,12 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
 
   const handleReminderSave = (reminderText: string) => {
     if (!selectedDay) return setShowReminderForm(false);
-    const key = selectedDay.toISOString().substring(0,10);
+    const key = selectedDay.toISOString().substring(0, 10);
     setReminders((prev) => {
-      // Replace if exists
-      const filtered = prev.filter(r => r.date !== key);
-      return reminderText ? [...filtered, { date: key, text: reminderText }] : filtered;
+      const filtered = prev.filter((r) => r.date !== key);
+      return reminderText
+        ? [...filtered, { date: key, text: reminderText }]
+        : filtered;
     });
     setShowReminderForm(false);
     setSelectedDay(undefined);
@@ -57,17 +70,21 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
   const handleMonthChange = (inc: number) => {
     let m = month + inc;
     let y = year;
-    if (m > 11) { m = 0; y++; }
-    else if (m < 0) { m = 11; y--; }
+    if (m > 11) {
+      m = 0;
+      y++;
+    } else if (m < 0) {
+      m = 11;
+      y--;
+    }
     setMonth(m);
     setYear(y);
   };
 
-  // Custom DayContent for react-day-picker
-  const DayContent = (props: { date: Date; }) => {
+  const DayContent = (props: { date: Date }) => {
     const reminder = getDailyReminder(props.date);
     return (
-      <div 
+      <div
         className={cn(
           "relative flex items-center justify-center w-full h-full",
           reminder ? "bg-violet-500 text-white rounded-full" : ""
@@ -90,24 +107,53 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
           Opportunity Calendar
         </div>
         <div className="flex items-center gap-1">
-          <button onClick={() => handleMonthChange(-1)} className="hover:bg-accent p-1 rounded">
+          <button
+            onClick={() => handleMonthChange(-1)}
+            className="hover:bg-accent p-1 rounded"
+          >
             <ArrowLeft className="h-4 w-4" />
           </button>
-          <span className="px-2 text-sm font-medium">{MONTHS[month]} {year}</span>
-          <button onClick={() => handleMonthChange(1)} className="hover:bg-accent p-1 rounded">
+          <span className="px-2 text-sm font-medium">
+            {MONTHS[month]} {year}
+          </span>
+          <button
+            onClick={() => handleMonthChange(1)}
+            className="hover:bg-accent p-1 rounded"
+          >
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
       </div>
-      {/* Calendar now fills the card horizontally and is centered */}
-      <div className="flex flex-1 items-center justify-center w-full h-full mt-2">
+      <div className="flex-1 w-full mt-2">
         <Calendar
           mode="single"
           onSelect={onDayClick}
           selected={selectedDay}
           month={new Date(year, month, 1)}
-          className={cn("pointer-events-auto w-full max-w-none")}
+          className="w-full"
+          classNames={{
+            root: "w-full",
+            months: "w-full",
+            table: "w-full",
+            head_cell: "w-[14.28%] text-center",
+            cell: "w-[14.28%] text-center",
+            day: "m-auto",
+            nav: "hidden", // Hide the default navigation
+          }}
+          styles={{
+            root: {
+              width: "100%",
+            },
+            month: {
+              width: "100%",
+            },
+            table: {
+              width: "100%",
+              tableLayout: "fixed",
+            },
+          }}
           showOutsideDays={false}
+          disableNavigation={true} // Disable built-in navigation
           modifiers={{
             hasReminder: (date) => !!getDailyReminder(date),
             today: (date) => date.toDateString() === today.toDateString(),
@@ -121,13 +167,14 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
           }}
         />
       </div>
-      {/* Add Reminder Modal */}
       {showReminderForm && (
         <ReminderForm
           open={showReminderForm}
           onClose={() => setShowReminderForm(false)}
           date={selectedDay}
-          initialValue={selectedDay && getDailyReminder(selectedDay)?.text || ""}
+          initialValue={
+            (selectedDay && getDailyReminder(selectedDay)?.text) || ""
+          }
           onSave={handleReminderSave}
         />
       )}
