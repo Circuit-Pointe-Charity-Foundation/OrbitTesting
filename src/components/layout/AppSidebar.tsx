@@ -24,8 +24,7 @@ import {
   AVAILABLE_MODULES,
   Module,
 } from "@/contexts/ModuleContext";
-import whiteLogo from "@/assets/images/white_logo.png";
-import blackLogo from "@/assets/images/black_logo.png"; // Using the black logo you mentioned
+import blackLogo from "@/assets/images/black_logo.png";
 
 // Module navigation links configuration
 const moduleNavigationLinks = {
@@ -43,28 +42,8 @@ const moduleNavigationLinks = {
     },
     {
       icon: <FileText size={16} />,
-      label: "Proposal Development",
-      to: "/proposal-development",
-    },
-    {
-      icon: <Archive size={16} />,
-      label: "Proposal Library",
-      to: "/proposal-library",
-    },
-    {
-      icon: <PlusCircle size={16} />,
-      label: "AI Proposal Wizard",
-      to: "/ai-proposal-wizard",
-    },
-    {
-      icon: <Kanban size={16} />,
-      label: "Internal Workflow & Review",
-      to: "/internal-workflow",
-    },
-    {
-      icon: <Calendar size={16} />,
-      label: "Calendar & Reminders",
-      to: "/calendar",
+      label: "Proposal Management",
+      to: "/proposal-management",
     },
     {
       icon: <ChartBar size={16} />,
@@ -230,7 +209,7 @@ const AppSidebar: React.FC<{
       <div className="flex items-center justify-between px-6 pt-[31px]">
         <div className="flex items-center gap-2 text-lg text-gray-800">
           <img
-            src={collapsed ? whiteLogo : blackLogo}
+            src={collapsed ? blackLogo : blackLogo}
             className="aspect-[1] object-contain w-[30px] shrink-0 my-auto"
             alt="Orbit Logo"
           />
