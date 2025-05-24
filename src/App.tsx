@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,7 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import FeaturePlaceholder from "./components/common/FeaturePlaceholder";
 import OpportunityTracking from "./pages/OpportunityTracking";
+import OpportunityPipeline from "./pages/OpportunityPipeline";
 
 // Fundraising module pages - Only these are fully implemented
 import FundraisingDashboard from "./modules/fundraising/pages/Dashboard";
@@ -51,7 +51,10 @@ const App = () => (
               
               {/* Update Opportunity Tracking route to use the implemented component */}
               <Route path="opportunity-tracking" element={<OpportunityTracking />} />
-              
+
+              {/* Add new Opportunity Pipeline route */}
+              <Route path="opportunity-pipeline" element={<OpportunityPipeline />} />
+
               {/* Placeholder routes for other fundraising features */}
               <Route path="proposal-management" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Proposal Management" />} />
               <Route path="fundraising-analytics" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Fundraising Analytics" />} />
