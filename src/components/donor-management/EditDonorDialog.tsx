@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -32,11 +31,11 @@ const EditDonorDialog: React.FC<EditDonorDialogProps> = ({ open, onOpenChange, d
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-0">
-        <DialogHeader className="bg-[#A273F2] p-4 text-white">
+        <DialogHeader>
           <DialogTitle className="flex items-center">
             <Button 
               variant="ghost" 
-              className="text-white hover:bg-[#9265E6] hover:text-white mr-2"
+              className="hover:bg-gray-100 hover:text-black mr-2"
               onClick={() => onOpenChange(false)}
             >
               ← Back to Donor Profile

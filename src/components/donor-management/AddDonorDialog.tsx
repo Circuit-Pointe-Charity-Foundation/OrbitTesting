@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -32,7 +31,7 @@ const AddDonorDialog: React.FC<AddDonorDialogProps> = ({ open, onOpenChange, onS
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto p-0">
-        <DialogHeader className="bg-[#A273F2] p-4 text-white rounded-t-md">
+        <DialogHeader>
           <DialogTitle className="text-xl">Add new donor</DialogTitle>
         </DialogHeader>
         

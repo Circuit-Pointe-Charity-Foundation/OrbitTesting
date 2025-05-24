@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -109,11 +108,11 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[700px] h-[80vh] overflow-y-auto p-0">
-        <DialogHeader className="bg-[#A273F2] p-4 text-white">
+        <DialogHeader>
           <DialogTitle className="text-xl flex items-center">
             <Button 
               variant="ghost" 
-              className="mr-2 text-white hover:bg-[#9265E6] hover:text-white" 
+              className="mr-2 hover:bg-gray-100 hover:text-black" 
               onClick={() => onOpenChange(false)}
             >
               ← Back to Donor Management
