@@ -53,11 +53,7 @@ const App = () => (
               <Route path="opportunity-tracking" element={<OpportunityTracking />} />
               
               {/* Placeholder routes for other fundraising features */}
-              <Route path="proposal-development" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Proposal Development" />} />
-              <Route path="proposal-library" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Proposal Library" />} />
-              <Route path="ai-proposal-wizard" element={<FeaturePlaceholder moduleName="Fundraising" featureName="AI Proposal Wizard" />} />
-              <Route path="internal-workflow" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Internal Workflow & Review" />} />
-              <Route path="calendar" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Calendar & Reminders" />} />
+              <Route path="proposal-management" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Proposal Management" />} />
               <Route path="fundraising-analytics" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Fundraising Analytics" />} />
               <Route path="settings" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Settings" />} />
               
