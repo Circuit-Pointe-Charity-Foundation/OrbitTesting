@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { staffData } from "../staffData";
@@ -34,8 +33,7 @@ const OpportunityPipelineDialog: React.FC<OpportunityPipelineDialogProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={v => { if (!v) onClose(); }}>
       <DialogContent
-        className="max-w-[98vw] w-full sm:max-w-[1200px] max-h-[94vh] min-h-[320px] overflow-y-auto relative bg-[rgba(245,247,250,1)] p-0 rounded-lg shadow-xl"
-        // Removed problematic style={{ top: ..., left: ..., transform: ... }}
+        className="max-w-[98vw] sm:max-w-[1200px] max-h-[94vh] min-h-[320px] overflow-y-auto bg-[rgba(245,247,250,1)] p-0 rounded-lg shadow-xl"
       >
         {/* No manual close button; relies on DialogClose */}
         <div className="p-8 pt-5">
