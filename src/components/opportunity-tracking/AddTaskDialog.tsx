@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,6 +38,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import StaffSelect from "./StaffSelect";
 
 interface AddTaskDialogProps {
   isOpen: boolean;
@@ -201,7 +201,11 @@ const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
                 <FormItem>
                   <FormLabel>Assign To</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter team member name" {...field} />
+                    <StaffSelect
+                      value={field.value}
+                      onChange={field.onChange}
+                      id="task-assignedTo"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

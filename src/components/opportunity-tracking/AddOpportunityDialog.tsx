@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { Opportunity } from "@/types/opportunity";
 import { useToast } from "@/components/ui/use-toast";
 import { staffData } from "./staffData";
+import StaffSelect from "./StaffSelect";
 
 interface AddOpportunityDialogProps {
   isOpen: boolean;
@@ -197,21 +198,11 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="assignedTo">Assign To</Label>
-              <Select
+              <StaffSelect
                 value={assignedTo}
-                onValueChange={setAssignedTo}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select staff member" />
-                </SelectTrigger>
-                <SelectContent>
-                  {staffData.map((staff) => (
-                    <SelectItem key={staff.name} value={staff.name}>
-                      {staff.name} ({staff.title})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                onChange={setAssignedTo}
+                id="assignedTo"
+              />
             </div>
 
             <div className="space-y-2">
@@ -242,3 +233,5 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
 };
 
 export default AddOpportunityDialog;
+
+// This file now uses the shared StaffSelect component for staff assignment.
