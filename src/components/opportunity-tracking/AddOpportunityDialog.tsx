@@ -26,6 +26,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Opportunity } from "@/types/opportunity";
 import { useToast } from "@/components/ui/use-toast";
+import { staffData } from "./staffData";
 
 interface AddOpportunityDialogProps {
   isOpen: boolean;
@@ -99,7 +100,9 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] bg-white p-0">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold mb-4 text-black">Add New Opportunity</DialogTitle>
+          <DialogTitle className="text-xl font-bold mb-4 text-black px-6 pt-4">
+            Add New Opportunity
+          </DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4 px-6">
           <div className="space-y-2">
@@ -193,12 +196,22 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="assignedTo">Assigned To</Label>
-              <Input
-                id="assignedTo"
+              <Label htmlFor="assignedTo">Assign To</Label>
+              <Select
                 value={assignedTo}
-                onChange={(e) => setAssignedTo(e.target.value)}
-              />
+                onValueChange={setAssignedTo}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select staff member" />
+                </SelectTrigger>
+                <SelectContent>
+                  {staffData.map((staff) => (
+                    <SelectItem key={staff.name} value={staff.name}>
+                      {staff.name} ({staff.title})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
