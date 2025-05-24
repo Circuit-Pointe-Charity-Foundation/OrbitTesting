@@ -63,6 +63,25 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
     setYear(y);
   };
 
+  // Custom DayContent for react-day-picker
+  const DayContent = (props: { date: Date; }) => {
+    const reminder = getDailyReminder(props.date);
+    return (
+      <div 
+        className={cn(
+          "relative flex items-center justify-center w-full h-full",
+          reminder ? "bg-violet-500 text-white rounded-full" : ""
+        )}
+        style={{ minWidth: 24, minHeight: 24 }}
+      >
+        <span>{props.date.getDate()}</span>
+        {reminder && (
+          <BellPlus className="absolute left-2 top-2 h-4 w-4 text-white bg-violet-500 rounded-full" />
+        )}
+      </div>
+    );
+  };
+
   return (
     <Card className="p-6 flex flex-col h-full">
       <div className="flex justify-between items-center mb-2">
@@ -88,7 +107,6 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
           month={new Date(year, month, 1)}
           className={cn("pointer-events-auto flex-1 w-full h-full")}
           showOutsideDays={false}
-          // Date cell styling for reminders
           modifiers={{
             hasReminder: (date) => !!getDailyReminder(date),
             today: (date) => date.toDateString() === today.toDateString(),
@@ -97,15 +115,10 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
             hasReminder: "bg-violet-500 text-white rounded-full cursor-pointer",
             today: "border border-blue-500",
           }}
-          // Custom day render to show reminder icon
-          renderDay={(date) => (
-            <div className="relative flex items-center justify-center w-full h-full">
-              <span>{date.getDate()}</span>
-              {getDailyReminder(date) && (
-                <BellPlus className="absolute left-2 top-2 h-4 w-4 text-white bg-violet-500 rounded-full" />
-              )}
-            </div>
-          )}
+          components={{
+            DayContent: DayContent,
+          }}
+          // ...all other Calendar props
         />
       </div>
       {/* Add Reminder Modal */}
@@ -123,3 +136,4 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
 };
 
 export default OpportunityCalendarCard;
+

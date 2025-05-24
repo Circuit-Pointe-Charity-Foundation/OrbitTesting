@@ -53,7 +53,8 @@ const OpportunityPipeline: React.FC = () => {
         <OpportunityCalendarCard
           month={selectedMonth}
           year={selectedYear}
-          onMonthChange={handleMonthChange}
+          setMonth={setSelectedMonth}
+          setYear={setSelectedYear}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -78,6 +79,8 @@ const OpportunityPipeline: React.FC = () => {
         staffData={staffData}
         month={selectedMonth}
         year={selectedYear}
+        setMonth={setSelectedMonth}
+        setYear={setSelectedYear}
       />
     </div>
   );
