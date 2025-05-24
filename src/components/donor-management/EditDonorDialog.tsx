@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -32,14 +33,7 @@ const EditDonorDialog: React.FC<EditDonorDialogProps> = ({ open, onOpenChange, d
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-0 relative bg-white">
-        <button
-          type="button"
-          onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 z-10 p-2 rounded-full hover:bg-gray-100"
-          aria-label="Close"
-        >
-          <X className="h-5 w-5" />
-        </button>
+        {/* Removed manual custom close button; DialogClose will handle close */}
         <DialogHeader>
           <DialogTitle className="flex items-center text-xl font-bold mb-4">
             <Button 

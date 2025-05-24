@@ -8,7 +8,7 @@ import OpportunityCalendarCard from "./OpportunityCalendarCard";
 import StaffOverloadCard from "./StaffOverloadCard";
 import OpportunitiesByStaffCard from "./OpportunitiesByStaffCard";
 import OpportunitiesByStaffDialog from "./OpportunitiesByStaffDialog";
-import { X } from "lucide-react";
+// Removed: import { X } from "lucide-react";
 
 interface OpportunityPipelineDialogProps {
   isOpen: boolean;
@@ -29,16 +29,15 @@ const OpportunityPipelineDialog: React.FC<OpportunityPipelineDialogProps> = ({
   setMonth,
   setYear,
 }) => {
-  // Open OpportunitiesByStaffDialog if needed
   const [showStaffDialog, setShowStaffDialog] = React.useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={v => { if (!v) onClose(); }}>
       <DialogContent
         className="max-w-[98vw] w-full sm:max-w-[1200px] max-h-[94vh] min-h-[320px] overflow-y-auto relative bg-[rgba(245,247,250,1)] p-0 rounded-lg shadow-xl"
-        style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+        // Removed problematic style={{ top: ..., left: ..., transform: ... }}
       >
-        {/* Remove manual close button; DialogClose already exists */}
+        {/* No manual close button; relies on DialogClose */}
         <div className="p-8 pt-5">
           <h2 className="text-2xl font-bold mb-6">Opportunity Pipeline</h2>
           <OpportunitySummaryCards opportunities={allOpportunities} month={month} year={year} />
