@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import OpportunitySummaryCards from "@/components/opportunity-tracking/pipeline/OpportunitySummaryCards";
 import StageDonutChart from "@/components/opportunity-tracking/pipeline/StageDonutChart";
@@ -58,25 +59,12 @@ const OpportunityPipeline: React.FC = () => {
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <StaffOverloadCard
-          opportunities={mockOpportunities}
-          staffData={staffData}
-          month={selectedMonth}
-          year={selectedYear}
-        />
-        <OpportunitiesByStaffCard
-          opportunities={mockOpportunities}
-          staffData={staffData}
-          month={selectedMonth}
-          year={selectedYear}
-          onViewAll={() => setShowStaffDialog(true)}
-        />
+        <StaffOverloadCard />
+        <OpportunitiesByStaffCard onViewAll={() => setShowStaffDialog(true)} />
       </div>
       <OpportunitiesByStaffDialog
         isOpen={showStaffDialog}
         onClose={() => setShowStaffDialog(false)}
-        opportunities={mockOpportunities}
-        staffData={staffData}
         month={selectedMonth}
         year={selectedYear}
         setMonth={setSelectedMonth}
