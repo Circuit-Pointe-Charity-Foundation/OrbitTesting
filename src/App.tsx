@@ -11,6 +11,7 @@ import Registration from "./pages/Registration";
 import FeaturePlaceholder from "./components/common/FeaturePlaceholder";
 import OpportunityTracking from "./pages/OpportunityTracking";
 import OpportunityPipeline from "./pages/OpportunityPipeline";
+import ProposalManagement from "./pages/ProposalManagement";
 
 // Fundraising module pages - Only these are fully implemented
 import FundraisingDashboard from "./modules/fundraising/pages/Dashboard";
@@ -48,15 +49,11 @@ const App = () => (
             <Route path="/modules/fundraising">
               <Route path="dashboard" element={<FundraisingDashboard />} />
               <Route path="donor-management" element={<DonorManagement />} />
-              
-              {/* Update Opportunity Tracking route to use the implemented component */}
               <Route path="opportunity-tracking" element={<OpportunityTracking />} />
-
-              {/* Add new Opportunity Pipeline route */}
               <Route path="opportunity-pipeline" element={<OpportunityPipeline />} />
 
-              {/* Placeholder routes for other fundraising features */}
-              <Route path="proposal-management" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Proposal Management" />} />
+              <Route path="proposal-management" element={<ProposalManagement />} />
+
               <Route path="fundraising-analytics" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Fundraising Analytics" />} />
               <Route path="settings" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Settings" />} />
               
