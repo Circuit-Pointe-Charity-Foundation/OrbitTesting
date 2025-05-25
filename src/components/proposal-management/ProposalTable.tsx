@@ -1,16 +1,56 @@
 
 import React, { useState } from "react";
-import { proposals } from "./ProposalData";
-import { Search } from "lucide-react";
+import { proposals as initialProposals, reviewers } from "./ProposalData";
+import { Search, Edit, Trash2, MoreVertical } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import EditProposalDialog from "./EditProposalDialog";
 
 const ProposalTable: React.FC = () => {
   const [search, setSearch] = useState("");
+  const [proposals, setProposals] = useState(initialProposals);
+  const [editIdx, setEditIdx] = useState<number | null>(null);
+  const [deleteIdx, setDeleteIdx] = useState<number | null>(null);
+
+  // For reviewer dropdown state per proposal
+  const handleReviewerChange = (idx: number, reviewer: string) => {
+    const updated = proposals.map((p, i) =>
+      i === idx ? { ...p, reviewer } : p
+    );
+    setProposals(updated);
+  };
 
   const filtered = !search
     ? proposals
     : proposals.filter((p) =>
         p.name.toLowerCase().includes(search.toLowerCase())
       );
+
+  // Filtered index to absolute proposals index
+  const getAbsoluteIdx = (filteredIdx: number) => {
+    const searched = !search
+      ? proposals
+      : proposals.filter((p) =>
+          p.name.toLowerCase().includes(search.toLowerCase())
+        );
+    const name = searched[filteredIdx].name;
+    return proposals.findIndex((p) => p.name === name);
+  };
 
   return (
     <div className="bg-white mt-12 pt-8 pb-4 px-6 rounded-[5px] shadow-sm">
@@ -76,11 +116,83 @@ const ProposalTable: React.FC = () => {
                     <span className="text-gray-300 ml-1 font-bold text-lg leading-none">+</span>
                   </div>
                 </td>
-                <td className="py-3 pr-2">{row.reviewer}</td>
+                {/* Reviewer Dropdown */}
                 <td className="py-3 pr-2">
-                  <button className="hover:bg-gray-100 rounded-full p-2">
-                    <svg className="w-6 h-6" fill="none" stroke="#8a8a91" strokeWidth={2} viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
-                  </button>
+                  <select
+                    value={row.reviewer}
+                    onChange={e =>
+                      handleReviewerChange(getAbsoluteIdx(idx), e.target.value)
+                    }
+                    className="px-2 py-1 border rounded text-sm bg-gray-50"
+                  >
+                    {reviewers.map((rev, ridx) => (
+                      <option value={rev} key={ridx}>
+                        {rev}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                {/* Action Dropdown */}
+                <td className="py-3 pr-2">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className="hover:bg-gray-100 rounded-full p-2 focus:outline-none focus:ring">
+                        <MoreVertical className="w-6 h-6 text-[#8a8a91]" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="z-50 bg-white">
+                      <DropdownMenuItem
+                        onSelect={() => setEditIdx(getAbsoluteIdx(idx))}
+                        className="gap-2 cursor-pointer"
+                      >
+                        <Edit className="w-4 h-4 text-violet-600" />
+                        Edit
+                      </DropdownMenuItem>
+                      <AlertDialog open={deleteIdx === getAbsoluteIdx(idx)} onOpenChange={open => setDeleteIdx(open ? getAbsoluteIdx(idx) : null)}>
+                        <AlertDialogTrigger asChild>
+                          <button
+                            className="flex items-center gap-2 w-full px-2 py-1.5 text-sm hover:bg-gray-100 text-red-700"
+                            onClick={e => {
+                              e.preventDefault();
+                              setDeleteIdx(getAbsoluteIdx(idx));
+                            }}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            Delete
+                          </button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Proposal</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you absolutely sure? This cannot be undone. This proposal will be permanently deleted from the Proposals Under Development.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel onClick={() => setDeleteIdx(null)}>
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-red-600 hover:bg-red-700"
+                              onClick={() => {
+                                setProposals(prev =>
+                                  prev.filter((_, i) => i !== getAbsoluteIdx(idx))
+                                );
+                                setDeleteIdx(null);
+                              }}
+                            >
+                              Yes, Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  {/* Edit Dialog */}
+                  <EditProposalDialog
+                    open={editIdx === getAbsoluteIdx(idx)}
+                    onOpenChange={open => setEditIdx(open ? getAbsoluteIdx(idx) : null)}
+                  />
                 </td>
               </tr>
             ))}
