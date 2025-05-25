@@ -1,25 +1,7 @@
-
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { proposals as initialProposals, reviewers } from "./ProposalData";
-import { Search, Edit, Trash2, MoreVertical } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import EditProposalDialog from "./EditProposalDialog";
+import { Search } from "lucide-react";
+import ProposalRowActions from "./ProposalRowActions";
 
 /*
   NOTE: This file is getting large (200+ lines). After this fix, 
@@ -33,12 +15,16 @@ const ProposalTable: React.FC = () => {
   const [editName, setEditName] = useState<string | null>(null);
   const [deleteName, setDeleteName] = useState<string | null>(null);
 
-  const handleReviewerChange = (proposalName: string, reviewer: string) => {
-    const updated = proposals.map((p) =>
-      p.name === proposalName ? { ...p, reviewer } : p
+  const handleReviewerChange = useCallback((proposalName: string, reviewer: string) => {
+    setProposals(prev =>
+      prev.map((p) => (p.name === proposalName ? { ...p, reviewer } : p))
     );
-    setProposals(updated);
-  };
+  }, []);
+
+  const handleDelete = useCallback((proposalName: string) => {
+    setProposals(prev => prev.filter((p) => p.name !== proposalName));
+    setDeleteName(null);
+  }, []);
 
   const filtered = !search
     ? proposals
@@ -84,7 +70,7 @@ const ProposalTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((row, idx) => (
+            {filtered.map((row) => (
               <tr key={row.name} className="border-b last:border-0 text-[#383839] text-sm relative">
                 <td className="py-3 pr-2">{row.name}</td>
                 <td className="py-3 pr-2">{row.dueDate}</td>
@@ -128,62 +114,13 @@ const ProposalTable: React.FC = () => {
                 </td>
                 {/* Action Dropdown */}
                 <td className="py-3 pr-2">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button className="hover:bg-gray-100 rounded-full p-2 focus:outline-none focus:ring">
-                        <MoreVertical className="w-6 h-6 text-[#8a8a91]" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="z-50 bg-white">
-                      <DropdownMenuItem
-                        onSelect={() => setEditName(row.name)}
-                        className="gap-2 cursor-pointer"
-                      >
-                        <Edit className="w-4 h-4 text-violet-600" />
-                        Edit
-                      </DropdownMenuItem>
-                      <AlertDialog open={deleteName === row.name} onOpenChange={open => setDeleteName(open ? row.name : null)}>
-                        <AlertDialogTrigger asChild>
-                          <button
-                            className="flex items-center gap-2 w-full px-2 py-1.5 text-sm hover:bg-gray-100 text-red-700"
-                            onClick={e => {
-                              e.preventDefault();
-                              setDeleteName(row.name);
-                            }}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                            Delete
-                          </button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Proposal</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you absolutely sure? This cannot be undone. This proposal will be permanently deleted from the Proposals Under Development.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel onClick={() => setDeleteName(null)}>
-                              Cancel
-                            </AlertDialogCancel>
-                            <AlertDialogAction
-                              className="bg-red-600 hover:bg-red-700"
-                              onClick={() => {
-                                setProposals(prev => prev.filter((p) => p.name !== row.name));
-                                setDeleteName(null);
-                              }}
-                            >
-                              Yes, Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                  {/* Edit Dialog */}
-                  <EditProposalDialog
-                    open={editName === row.name}
-                    onOpenChange={open => setEditName(open ? row.name : null)}
+                  <ProposalRowActions
+                    proposalName={row.name}
+                    editName={editName}
+                    setEditName={setEditName}
+                    deleteName={deleteName}
+                    setDeleteName={setDeleteName}
+                    onDelete={handleDelete}
                   />
                 </td>
               </tr>
@@ -199,3 +136,5 @@ const ProposalTable: React.FC = () => {
 };
 
 export default ProposalTable;
+
+// This file is ~200 lines. It's recommended to continue splitting subcomponents like ProposalRowActions for easier maintainability.

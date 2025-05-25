@@ -18,7 +18,7 @@ export default function ProposalDialog({ open, onOpenChange }: Props) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="max-w-[70vw] w-[70vw] animate-slide-in-right data-[state=closed]:animate-slide-out-right"
+        className="!max-w-[70vw] !w-[70vw] animate-slide-in-right data-[state=closed]:animate-slide-out-right"
       >
         <SheetHeader>
           <SheetTitle className="text-2xl">Create Proposal</SheetTitle>
