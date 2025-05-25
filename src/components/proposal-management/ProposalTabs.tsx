@@ -1,7 +1,6 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Calendar, FileText, Menu, Plus } from "lucide-react";
-import ProposalDialog from "./ProposalDialog";
 
 const tabs = [
   { label: "Overview", icon: Menu },
@@ -16,8 +15,6 @@ type Props = {
 };
 
 const ProposalTabs: React.FC<Props> = ({ activeTab, setActiveTab }) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2 md:gap-6">
@@ -41,12 +38,11 @@ const ProposalTabs: React.FC<Props> = ({ activeTab, setActiveTab }) => {
       </div>
       <button
         className="inline-flex items-center gap-2 bg-violet-600 rounded px-5 py-2 text-white font-medium text-sm hover:bg-violet-700 shadow"
-        onClick={() => setDialogOpen(true)}
+        // Placeholder - later open create proposal dialog
       >
         <Plus size={20} />
         Create Proposal
       </button>
-      <ProposalDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
   );
 };
