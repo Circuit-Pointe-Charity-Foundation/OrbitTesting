@@ -21,16 +21,21 @@ import {
 } from "@/components/ui/alert-dialog";
 import EditProposalDialog from "./EditProposalDialog";
 
+/*
+  NOTE: This file is getting large (200+ lines). After this fix, 
+  you should consider refactoring it into smaller components for better maintainability.
+*/
+
 const ProposalTable: React.FC = () => {
   const [search, setSearch] = useState("");
   const [proposals, setProposals] = useState(initialProposals);
-  const [editIdx, setEditIdx] = useState<number | null>(null);
-  const [deleteIdx, setDeleteIdx] = useState<number | null>(null);
+  // Instead of index, use proposal name for dialog states, since name is unique in this dataset.
+  const [editName, setEditName] = useState<string | null>(null);
+  const [deleteName, setDeleteName] = useState<string | null>(null);
 
-  // For reviewer dropdown state per proposal
-  const handleReviewerChange = (idx: number, reviewer: string) => {
-    const updated = proposals.map((p, i) =>
-      i === idx ? { ...p, reviewer } : p
+  const handleReviewerChange = (proposalName: string, reviewer: string) => {
+    const updated = proposals.map((p) =>
+      p.name === proposalName ? { ...p, reviewer } : p
     );
     setProposals(updated);
   };
@@ -40,17 +45,6 @@ const ProposalTable: React.FC = () => {
     : proposals.filter((p) =>
         p.name.toLowerCase().includes(search.toLowerCase())
       );
-
-  // Filtered index to absolute proposals index
-  const getAbsoluteIdx = (filteredIdx: number) => {
-    const searched = !search
-      ? proposals
-      : proposals.filter((p) =>
-          p.name.toLowerCase().includes(search.toLowerCase())
-        );
-    const name = searched[filteredIdx].name;
-    return proposals.findIndex((p) => p.name === name);
-  };
 
   return (
     <div className="bg-white mt-12 pt-8 pb-4 px-6 rounded-[5px] shadow-sm">
@@ -91,7 +85,7 @@ const ProposalTable: React.FC = () => {
           </thead>
           <tbody>
             {filtered.map((row, idx) => (
-              <tr key={idx} className="border-b last:border-0 text-[#383839] text-sm relative">
+              <tr key={row.name} className="border-b last:border-0 text-[#383839] text-sm relative">
                 <td className="py-3 pr-2">{row.name}</td>
                 <td className="py-3 pr-2">{row.dueDate}</td>
                 <td className="py-3 pr-2">
@@ -121,7 +115,7 @@ const ProposalTable: React.FC = () => {
                   <select
                     value={row.reviewer}
                     onChange={e =>
-                      handleReviewerChange(getAbsoluteIdx(idx), e.target.value)
+                      handleReviewerChange(row.name, e.target.value)
                     }
                     className="px-2 py-1 border rounded text-sm bg-gray-50"
                   >
@@ -142,19 +136,19 @@ const ProposalTable: React.FC = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="z-50 bg-white">
                       <DropdownMenuItem
-                        onSelect={() => setEditIdx(getAbsoluteIdx(idx))}
+                        onSelect={() => setEditName(row.name)}
                         className="gap-2 cursor-pointer"
                       >
                         <Edit className="w-4 h-4 text-violet-600" />
                         Edit
                       </DropdownMenuItem>
-                      <AlertDialog open={deleteIdx === getAbsoluteIdx(idx)} onOpenChange={open => setDeleteIdx(open ? getAbsoluteIdx(idx) : null)}>
+                      <AlertDialog open={deleteName === row.name} onOpenChange={open => setDeleteName(open ? row.name : null)}>
                         <AlertDialogTrigger asChild>
                           <button
                             className="flex items-center gap-2 w-full px-2 py-1.5 text-sm hover:bg-gray-100 text-red-700"
                             onClick={e => {
                               e.preventDefault();
-                              setDeleteIdx(getAbsoluteIdx(idx));
+                              setDeleteName(row.name);
                             }}
                           >
                             <Trash2 className="w-4 h-4" />
@@ -169,16 +163,14 @@ const ProposalTable: React.FC = () => {
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel onClick={() => setDeleteIdx(null)}>
+                            <AlertDialogCancel onClick={() => setDeleteName(null)}>
                               Cancel
                             </AlertDialogCancel>
                             <AlertDialogAction
                               className="bg-red-600 hover:bg-red-700"
                               onClick={() => {
-                                setProposals(prev =>
-                                  prev.filter((_, i) => i !== getAbsoluteIdx(idx))
-                                );
-                                setDeleteIdx(null);
+                                setProposals(prev => prev.filter((p) => p.name !== row.name));
+                                setDeleteName(null);
                               }}
                             >
                               Yes, Delete
@@ -190,8 +182,8 @@ const ProposalTable: React.FC = () => {
                   </DropdownMenu>
                   {/* Edit Dialog */}
                   <EditProposalDialog
-                    open={editIdx === getAbsoluteIdx(idx)}
-                    onOpenChange={open => setEditIdx(open ? getAbsoluteIdx(idx) : null)}
+                    open={editName === row.name}
+                    onOpenChange={open => setEditName(open ? row.name : null)}
                   />
                 </td>
               </tr>
