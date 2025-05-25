@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Edit, Trash2, MoreVertical } from "lucide-react";
 import {
@@ -16,7 +15,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import EditProposalDialog from "./EditProposalDialog";
 
@@ -53,44 +51,53 @@ const ProposalRowActions: React.FC<Props> = ({
             <Edit className="w-4 h-4 text-violet-600" />
             Edit
           </DropdownMenuItem>
-          <AlertDialog open={deleteName === proposalName} onOpenChange={open => setDeleteName(open ? proposalName : null)}>
-            <AlertDialogTrigger asChild>
-              <button
-                className="flex items-center gap-2 w-full px-2 py-1.5 text-sm hover:bg-gray-100 text-red-700"
-                onClick={e => {
-                  e.preventDefault();
-                  setDeleteName(proposalName);
-                }}
-              >
-                <Trash2 className="w-4 h-4" />
-                Delete
-              </button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete Proposal</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you absolutely sure? This cannot be undone. This proposal will be permanently deleted from the Proposals Under Development.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setDeleteName(null)}>
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction
-                  className="bg-red-600 hover:bg-red-700"
-                  onClick={() => onDelete(proposalName)}
-                >
-                  Yes, Delete
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <DropdownMenuItem
+            onClick={() => setDeleteName(proposalName)}
+            className="gap-2 cursor-pointer text-red-700"
+          >
+            <Trash2 className="w-4 h-4" />
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog
+        open={deleteName === proposalName}
+        onOpenChange={(open) => {
+          if (!open) setDeleteName(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Proposal</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you absolutely sure? This cannot be undone. This proposal will
+              be permanently deleted.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDeleteName(null)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-600 hover:bg-red-700"
+              onClick={() => {
+                onDelete(proposalName);
+                setDeleteName(null);
+              }}
+            >
+              Yes, Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <EditProposalDialog
         open={editName === proposalName}
-        onOpenChange={open => setEditName(open ? proposalName : null)}
+        onOpenChange={(open) => {
+          if (!open) setEditName(null);
+        }}
       />
     </>
   );

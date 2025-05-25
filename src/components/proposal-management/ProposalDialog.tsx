@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Sheet,
@@ -20,14 +19,20 @@ export default function ProposalDialog({ open, onOpenChange }: Props) {
         side="right"
         className="!max-w-[70vw] !w-[70vw] animate-slide-in-right data-[state=closed]:animate-slide-out-right"
       >
+        {/* Use proper semantic elements - avoid div inside p */}
         <SheetHeader>
           <SheetTitle className="text-2xl">Create Proposal</SheetTitle>
-          <SheetDescription>
+          {/* SheetDescription renders as <p> by default */}
+          <SheetDescription asChild>
             <div className="mt-12 text-lg text-muted-foreground text-center">
-              Proposal creation form goes here.
+              {" "}
+              {/* Use asChild to customize the underlying element */}
+              Create Proposal dialog placeholder.
             </div>
           </SheetDescription>
         </SheetHeader>
+
+        <div className="space-y-4">{/* Form fields here */}</div>
       </SheetContent>
     </Sheet>
   );

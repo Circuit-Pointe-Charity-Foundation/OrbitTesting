@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Sheet,
@@ -22,7 +21,7 @@ export default function EditProposalDialog({ open, onOpenChange }: Props) {
       >
         <SheetHeader>
           <SheetTitle className="text-2xl">Edit Proposal</SheetTitle>
-          <SheetDescription>
+          <SheetDescription asChild>
             <div className="mt-12 text-lg text-muted-foreground text-center">
               Proposal editor placeholder.
             </div>
