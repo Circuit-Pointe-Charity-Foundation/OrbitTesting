@@ -4,7 +4,7 @@ import { AnalyticsStatCards } from "@/components/analytics/AnalyticsStatCards";
 import { AnalyticsCharts } from "@/components/analytics/AnalyticsCharts";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Filter, Export } from "lucide-react";
+import { Filter, Download } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const tabDefs = [
@@ -83,7 +83,7 @@ const FundraisingAnalytics: React.FC = () => {
             </PopoverContent>
           </Popover>
           <Button variant="default" className="gap-2" onClick={handleExport}>
-            <Export size={18} /> Export
+            <Download size={18} /> Export
           </Button>
         </div>
       </div>
