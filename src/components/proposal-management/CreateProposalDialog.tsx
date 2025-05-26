@@ -1,11 +1,11 @@
 
 import React, { useState } from "react";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -30,17 +30,13 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
     .sort((a, b) => a.title.localeCompare(b.title));
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent
-        side="right"
-        className="!w-[85vw] max-w-[1200px] animate-slide-in-right data-[state=closed]:animate-slide-out-right"
-      >
-        <SheetHeader>
-          <SheetTitle>Create a New Proposal</SheetTitle>
-        </SheetHeader>
-
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-[700px] w-full p-8">
+        <DialogHeader>
+          <DialogTitle>Create a New Proposal</DialogTitle>
+        </DialogHeader>
         <form
-          className="mt-8 flex flex-col gap-8 max-w-2xl mx-auto"
+          className="mt-6 flex flex-col gap-8"
           onSubmit={e => {
             e.preventDefault();
             // No submit logic yet
@@ -99,8 +95,7 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
             <Button
               type="button"
               variant="default"
-              className="flex-1"
-              // onClick={...} // Hook up to upload logic
+              className="flex-1 flex items-center justify-center"
             >
               <Upload className="mr-2 w-5 h-5" />
               Upload Donor Template
@@ -108,8 +103,7 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
             <Button
               type="button"
               variant="secondary"
-              className="flex-1"
-              // onClick={...} // Hook up to reuse logic
+              className="flex-1 flex items-center justify-center"
             >
               <FileText className="mr-2 w-5 h-5" />
               Reuse Proposal from Library
@@ -117,16 +111,15 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
             <Button
               type="button"
               variant="outline"
-              className="flex-1"
-              // onClick={...} // Hook up to create manually logic
+              className="flex-1 flex items-center justify-center"
             >
               <FilePlus className="mr-2 w-5 h-5" />
               Create Manually
             </Button>
           </div>
         </form>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   );
 };
 

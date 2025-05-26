@@ -1,11 +1,11 @@
 
 import React from "react";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type Props = {
   open: boolean;
@@ -13,20 +13,21 @@ type Props = {
   proposalName?: string;
 };
 
-const EditProposalDialog: React.FC<Props> = ({ open, onOpenChange, proposalName }) => (
-  <Sheet open={open} onOpenChange={onOpenChange}>
-    <SheetContent
-      side="right"
-      className="!w-[85vw] max-w-[1200px] animate-slide-in-right data-[state=closed]:animate-slide-out-right"
-    >
-      <SheetHeader>
-        <SheetTitle>Edit Proposal</SheetTitle>
-      </SheetHeader>
+const EditProposalDialog: React.FC<Props> = ({
+  open,
+  onOpenChange,
+  proposalName,
+}) => (
+  <Dialog open={open} onOpenChange={onOpenChange}>
+    <DialogContent className="max-w-[700px] w-full p-8">
+      <DialogHeader>
+        <DialogTitle>Edit Proposal</DialogTitle>
+      </DialogHeader>
       <div className="py-12 text-center text-gray-400 text-lg">
         Placeholder for editing proposal "{proposalName}"
       </div>
-    </SheetContent>
-  </Sheet>
+    </DialogContent>
+  </Dialog>
 );
 
 export default EditProposalDialog;
