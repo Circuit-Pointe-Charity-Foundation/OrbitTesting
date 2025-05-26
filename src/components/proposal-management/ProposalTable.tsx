@@ -1,16 +1,72 @@
 
 import React, { useState } from "react";
-import { proposals } from "./ProposalData";
+import { proposals as initialProposals, reviewerOptions, Proposal } from "./ProposalData";
 import { Search } from "lucide-react";
+import ProposalRowActions from "./ProposalRowActions";
+import CreateProposalDialog from "./CreateProposalDialog";
+import EditProposalDialog from "./EditProposalDialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+import { toast } from "@/hooks/use-toast";
 
 const ProposalTable: React.FC = () => {
   const [search, setSearch] = useState("");
+  const [proposals, setProposals] = useState<Proposal[]>(initialProposals);
 
+  // State for dialogs
+  const [showCreate, setShowCreate] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  // For delete confirmation dialog
+  const proposalToDelete = deleteId ? proposals.find(p => p.id === deleteId) : undefined;
+  const proposalToEdit = editId ? proposals.find(p => p.id === editId) : undefined;
+
+  // Filtering
   const filtered = !search
     ? proposals
     : proposals.filter((p) =>
         p.name.toLowerCase().includes(search.toLowerCase())
       );
+
+  // Reviewer update
+  const handleReviewerChange = (proposalId: string, newReviewer: string) => {
+    setProposals((old) =>
+      old.map((p) =>
+        p.id === proposalId ? { ...p, reviewer: newReviewer } : p
+      )
+    );
+    toast({ description: "Reviewer updated", duration: 1500 });
+  };
+
+  // Action menu handlers
+  const handleDelete = (id: string) => setDeleteId(id);
+  const handleEdit = (id: string) => setEditId(id);
+
+  // Confirm deletion
+  const confirmDelete = () => {
+    if (proposalToDelete) {
+      setProposals((prev) => prev.filter(p => p.id !== proposalToDelete.id));
+      setDeleteId(null);
+      toast({ description: "Proposal deleted", duration: 2000 });
+    }
+  };
+
+  // Defensive cleanup
+  React.useEffect(() => {
+    // If proposal got deleted while dialog open, close dialog
+    if (editId && !proposals.find(p => p.id === editId)) setEditId(null);
+    if (deleteId && !proposals.find(p => p.id === deleteId)) setDeleteId(null);
+  }, [proposals, editId, deleteId]);
 
   return (
     <div className="bg-white mt-12 pt-8 pb-4 px-6 rounded-[5px] shadow-sm">
@@ -35,6 +91,27 @@ const ProposalTable: React.FC = () => {
             <svg className="w-5 h-5" fill="none" stroke="#7c3aed" strokeWidth={2} viewBox="0 0 20 20"><path d="M3 3h14M5 7h10M7 11h6M9 15h2" /></svg>
             Filter
           </button>
+          {/* Create Proposal Button */}
+          <button
+            className="inline-flex items-center gap-2 bg-violet-600 rounded px-5 py-2 text-white font-medium text-sm hover:bg-violet-700 shadow"
+            onClick={() => setShowCreate(true)}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 21 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="plus-icon"
+            >
+              <path
+                d="M11.3332 4.99996C11.3332 4.77895 11.2454 4.56698 11.0891 4.4107C10.9328 4.25442 10.7209 4.16663 10.4998 4.16663C10.2788 4.16663 10.0669 4.25442 9.91058 4.4107C9.7543 4.56698 9.6665 4.77895 9.6665 4.99996V9.16663H5.49984C5.27882 9.16663 5.06686 9.25442 4.91058 9.4107C4.7543 9.56698 4.6665 9.77895 4.6665 9.99996C4.6665 10.221 4.7543 10.4329 4.91058 10.5892C5.06686 10.7455 5.27882 10.8333 5.49984 10.8333H9.6665V15C9.6665 15.221 9.7543 15.4329 9.91058 15.5892C10.0669 15.7455 10.2788 15.8333 10.4998 15.8333C10.7209 15.8333 10.9328 15.7455 11.0891 15.5892C11.2454 15.4329 11.3332 15.221 11.3332 15V10.8333H15.4998C15.7209 10.8333 15.9328 10.7455 16.0891 10.5892C16.2454 10.4329 16.3332 10.221 16.3332 9.99996C16.3332 9.77895 16.2454 9.56698 16.0891 9.4107C15.9328 9.25442 15.7209 9.16663 15.4998 9.16663H11.3332V4.99996Z"
+                fill="#fff"
+                fillOpacity="0.85"
+              ></path>
+            </svg>
+            Create Proposal
+          </button>
         </div>
       </div>
       {/* Table */}
@@ -50,8 +127,8 @@ const ProposalTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((row, idx) => (
-              <tr key={idx} className="border-b last:border-0 text-[#383839] text-sm relative">
+            {filtered.map((row) => (
+              <tr key={row.id} className="border-b last:border-0 text-[#383839] text-sm relative">
                 <td className="py-3 pr-2">{row.name}</td>
                 <td className="py-3 pr-2">{row.dueDate}</td>
                 <td className="py-3 pr-2">
@@ -76,11 +153,28 @@ const ProposalTable: React.FC = () => {
                     <span className="text-gray-300 ml-1 font-bold text-lg leading-none">+</span>
                   </div>
                 </td>
-                <td className="py-3 pr-2">{row.reviewer}</td>
-                <td className="py-3 pr-2">
-                  <button className="hover:bg-gray-100 rounded-full p-2">
-                    <svg className="w-6 h-6" fill="none" stroke="#8a8a91" strokeWidth={2} viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
-                  </button>
+                <td className="py-3 pr-2 max-w-[180px]">
+                  <Select
+                    value={row.reviewer}
+                    onValueChange={(val) => handleReviewerChange(row.id, val)}
+                  >
+                    <SelectTrigger className="w-[150px] bg-[#f5f5fa] border border-gray-200 text-[#383839b8]">
+                      <SelectValue placeholder="Reviewer" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {reviewerOptions.map(r => (
+                        <SelectItem key={r} value={r}>
+                          {r}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </td>
+                <td className="py-3 pr-2 w-14">
+                  <ProposalRowActions
+                    onEdit={() => handleEdit(row.id)}
+                    onDelete={() => handleDelete(row.id)}
+                  />
                 </td>
               </tr>
             ))}
@@ -90,6 +184,26 @@ const ProposalTable: React.FC = () => {
           <div className="py-16 text-center text-gray-400">No proposals found.</div>
         )}
       </div>
+
+      {/* Dialogs */}
+      <CreateProposalDialog open={showCreate} onOpenChange={setShowCreate} />
+      <EditProposalDialog open={!!proposalToEdit} onOpenChange={o => o ? undefined : setEditId(null)} proposalName={proposalToEdit?.name} />
+      <AlertDialog open={!!proposalToDelete} onOpenChange={o => o ? undefined : setDeleteId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Proposal?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action <strong className="text-red-500">cannot be undone</strong>. Are you sure you want to permanently delete the proposal <span className="font-medium text-gray-700">{proposalToDelete?.name}</span>?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDeleteId(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-rose-600 text-white hover:bg-rose-700" onClick={confirmDelete}>
+              Yes, Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
