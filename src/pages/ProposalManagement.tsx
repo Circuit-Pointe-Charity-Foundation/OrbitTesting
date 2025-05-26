@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import ProposalTabs from "@/components/proposal-management/ProposalTabs";
 import StatCards from "@/components/proposal-management/StatCards";
 import ProposalTable from "@/components/proposal-management/ProposalTable";
-import CreateProposalDialog from "@/components/proposal-management/CreateProposalDialog"; // need dialog here
+import CreateProposalDialog from "@/components/proposal-management/CreateProposalDialog";
+import ProposalCalendarTab from "@/components/proposal-management/ProposalCalendarTab"; // NEW
 
 const ProposalManagement: React.FC = () => {
   // Tabs: 0=Overview, 1=Past Proposal Library, 2=Browse Templates, 3=Calendar
@@ -34,9 +35,7 @@ const ProposalManagement: React.FC = () => {
           </div>
         )}
         {activeTab === 3 && (
-          <div className="mt-20 flex items-center justify-center text-lg text-gray-400">
-            Calendar (To be implemented)
-          </div>
+          <ProposalCalendarTab />
         )}
       </div>
       <CreateProposalDialog open={showCreate} onOpenChange={setShowCreate} />
