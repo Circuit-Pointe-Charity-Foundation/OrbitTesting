@@ -17,7 +17,7 @@ const EditProposalDialog: React.FC<Props> = ({ open, onOpenChange, proposalName 
   <Sheet open={open} onOpenChange={onOpenChange}>
     <SheetContent
       side="right"
-      className="!w-[70vw] max-w-[70vw] animate-slide-in-right data-[state=closed]:animate-slide-out-right"
+      className="!w-[85vw] max-w-[85vw] animate-slide-in-right data-[state=closed]:animate-slide-out-right"
     >
       <SheetHeader>
         <SheetTitle>Edit Proposal</SheetTitle>
