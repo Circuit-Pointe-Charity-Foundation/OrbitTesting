@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { ArrowLeft, ArrowRight, Calendar as CalendarIcon, Filter, Plus, sync, Download, MoreVertical, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Filter, Plus, Download, MoreVertical, X } from "lucide-react";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { staffData } from "@/components/opportunity-tracking/staffData";
 import AddReminderDialog from "./AddReminderDialog";
 import ReminderDotMenu from "./ReminderDotMenu";
+import MonthButton from "./MonthButton";
 import { format } from "date-fns";
 
 interface Reminder {
@@ -166,9 +167,8 @@ const ProposalCalendarTab: React.FC = () => {
               <ArrowRight size={18} />
             </Button>
             <span className="mx-4 text-gray-400 hidden md:inline">|</span>
-            <Button variant="outline" size="sm" className="hidden md:inline-flex">
-              <CalendarIcon className="mr-2 h-4 w-4" /> Month
-            </Button>
+            {/* MONTH BUTTON with magnifying glass */}
+            <MonthButton />
           </div>
           {/* Right-side action buttons */}
           <div className="flex items-center gap-2 whitespace-nowrap">
@@ -205,9 +205,7 @@ const ProposalCalendarTab: React.FC = () => {
             <Button size="sm" variant="outline" className="gap-2" onClick={() => setAddDialogOpen(true)}>
               <Plus size={16} /> Add Reminder
             </Button>
-            <Button size="sm" variant="outline" className="gap-2">
-              <sync size={16} /> Sync
-            </Button>
+            {/* Removed Sync button as discussed */}
             <Button size="sm" variant="outline" className="gap-2" onClick={handleExport}>
               <Download size={16} /> Export
             </Button>
