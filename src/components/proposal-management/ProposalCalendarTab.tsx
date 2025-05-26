@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { ArrowLeft, ArrowRight, Calendar as CalendarIcon, Filter, Plus, Sync, Download, MoreVertical, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar as CalendarIcon, Filter, Plus, sync, Download, MoreVertical, X } from "lucide-react";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -207,7 +206,7 @@ const ProposalCalendarTab: React.FC = () => {
               <Plus size={16} /> Add Reminder
             </Button>
             <Button size="sm" variant="outline" className="gap-2">
-              <Sync size={16} /> Sync
+              <sync size={16} /> Sync
             </Button>
             <Button size="sm" variant="outline" className="gap-2" onClick={handleExport}>
               <Download size={16} /> Export
