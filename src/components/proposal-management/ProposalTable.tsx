@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { proposals as initialProposals, reviewerOptions, Proposal } from "./ProposalData";
 import { Search } from "lucide-react";
@@ -18,12 +17,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 
-const ProposalTable: React.FC = () => {
+const ProposalTable: React.FC<{
+  onOpenCreate: () => void;
+}> = ({ onOpenCreate }) => {
   const [search, setSearch] = useState("");
   const [proposals, setProposals] = useState<Proposal[]>(initialProposals);
 
   // State for dialogs
-  const [showCreate, setShowCreate] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
@@ -90,27 +90,6 @@ const ProposalTable: React.FC = () => {
             <span className="sr-only">Filter</span>
             <svg className="w-5 h-5" fill="none" stroke="#7c3aed" strokeWidth={2} viewBox="0 0 20 20"><path d="M3 3h14M5 7h10M7 11h6M9 15h2" /></svg>
             Filter
-          </button>
-          {/* Create Proposal Button */}
-          <button
-            className="inline-flex items-center gap-2 bg-violet-600 rounded px-5 py-2 text-white font-medium text-sm hover:bg-violet-700 shadow"
-            onClick={() => setShowCreate(true)}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 21 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="plus-icon"
-            >
-              <path
-                d="M11.3332 4.99996C11.3332 4.77895 11.2454 4.56698 11.0891 4.4107C10.9328 4.25442 10.7209 4.16663 10.4998 4.16663C10.2788 4.16663 10.0669 4.25442 9.91058 4.4107C9.7543 4.56698 9.6665 4.77895 9.6665 4.99996V9.16663H5.49984C5.27882 9.16663 5.06686 9.25442 4.91058 9.4107C4.7543 9.56698 4.6665 9.77895 4.6665 9.99996C4.6665 10.221 4.7543 10.4329 4.91058 10.5892C5.06686 10.7455 5.27882 10.8333 5.49984 10.8333H9.6665V15C9.6665 15.221 9.7543 15.4329 9.91058 15.5892C10.0669 15.7455 10.2788 15.8333 10.4998 15.8333C10.7209 15.8333 10.9328 15.7455 11.0891 15.5892C11.2454 15.4329 11.3332 15.221 11.3332 15V10.8333H15.4998C15.7209 10.8333 15.9328 10.7455 16.0891 10.5892C16.2454 10.4329 16.3332 10.221 16.3332 9.99996C16.3332 9.77895 16.2454 9.56698 16.0891 9.4107C15.9328 9.25442 15.7209 9.16663 15.4998 9.16663H11.3332V4.99996Z"
-                fill="#fff"
-                fillOpacity="0.85"
-              ></path>
-            </svg>
-            Create Proposal
           </button>
         </div>
       </div>
@@ -186,7 +165,7 @@ const ProposalTable: React.FC = () => {
       </div>
 
       {/* Dialogs */}
-      <CreateProposalDialog open={showCreate} onOpenChange={setShowCreate} />
+      {/* Remove CreateProposalDialog from here */}
       <EditProposalDialog open={!!proposalToEdit} onOpenChange={o => o ? undefined : setEditId(null)} proposalName={proposalToEdit?.name} />
       <AlertDialog open={!!proposalToDelete} onOpenChange={o => o ? undefined : setDeleteId(null)}>
         <AlertDialogContent>

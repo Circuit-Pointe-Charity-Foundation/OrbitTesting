@@ -3,20 +3,24 @@ import React, { useState } from "react";
 import ProposalTabs from "@/components/proposal-management/ProposalTabs";
 import StatCards from "@/components/proposal-management/StatCards";
 import ProposalTable from "@/components/proposal-management/ProposalTable";
+import CreateProposalDialog from "@/components/proposal-management/CreateProposalDialog"; // need dialog here
 
 const ProposalManagement: React.FC = () => {
   // Tabs: 0=Overview, 1=Past Proposal Library, 2=Browse Templates, 3=Calendar
   const [activeTab, setActiveTab] = useState(0);
+  // Move create dialog state to here
+  const [showCreate, setShowCreate] = useState(false);
 
   return (
     <div className="bg-[#f4f6f9] min-h-screen p-6 flex flex-col items-center">
       <div className="w-full max-w-6xl">
-        <ProposalTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        <ProposalTabs activeTab={activeTab} setActiveTab={setActiveTab} onOpenCreate={() => setShowCreate(true)} />
         <div className="mt-6" />
         {activeTab === 0 && (
           <>
             <StatCards />
-            <ProposalTable />
+            {/* pass onOpenCreate if needed for future extensions */}
+            <ProposalTable onOpenCreate={() => setShowCreate(true)} />
           </>
         )}
         {activeTab === 1 && (
@@ -35,8 +39,8 @@ const ProposalManagement: React.FC = () => {
           </div>
         )}
       </div>
+      <CreateProposalDialog open={showCreate} onOpenChange={setShowCreate} />
     </div>
   );
 };
-
 export default ProposalManagement;

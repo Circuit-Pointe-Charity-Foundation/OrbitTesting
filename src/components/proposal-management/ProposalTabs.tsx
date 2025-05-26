@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Calendar, FileText, Menu, Plus } from "lucide-react";
 
@@ -12,9 +11,10 @@ const tabs = [
 type Props = {
   activeTab: number;
   setActiveTab: (n: number) => void;
+  onOpenCreate: () => void;
 };
 
-const ProposalTabs: React.FC<Props> = ({ activeTab, setActiveTab }) => {
+const ProposalTabs: React.FC<Props> = ({ activeTab, setActiveTab, onOpenCreate }) => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2 md:gap-6">
@@ -38,7 +38,7 @@ const ProposalTabs: React.FC<Props> = ({ activeTab, setActiveTab }) => {
       </div>
       <button
         className="inline-flex items-center gap-2 bg-violet-600 rounded px-5 py-2 text-white font-medium text-sm hover:bg-violet-700 shadow"
-        // Placeholder - later open create proposal dialog
+        onClick={onOpenCreate}
       >
         <Plus size={20} />
         Create Proposal
