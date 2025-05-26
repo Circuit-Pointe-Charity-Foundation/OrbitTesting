@@ -16,6 +16,7 @@ import ProposalManagement from "./pages/ProposalManagement";
 // Fundraising module pages - Only these are fully implemented
 import FundraisingDashboard from "./modules/fundraising/pages/Dashboard";
 import DonorManagement from "./modules/fundraising/pages/DonorManagement";
+import FundraisingAnalytics from "./pages/FundraisingAnalytics";
 
 // Other module dashboards
 import ProgramDashboard from "./modules/program-management/pages/Dashboard";
@@ -54,7 +55,7 @@ const App = () => (
 
               <Route path="proposal-management" element={<ProposalManagement />} />
 
-              <Route path="fundraising-analytics" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Fundraising Analytics" />} />
+              <Route path="fundraising-analytics" element={<FundraisingAnalytics />} />
               <Route path="settings" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Settings" />} />
               
               <Route index element={<Navigate to="/modules/fundraising/dashboard" replace />} />
