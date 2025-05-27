@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import LeftColumnContent from "@/components/auth/LeftColumnContent";
+import blackLogo from "../../assets/images/black_logo.png";
 import {
   Select,
   SelectTrigger,
@@ -111,7 +112,7 @@ const Registration: React.FC = () => {
           {/* Logo */}
           <div className="flex justify-center mb-8">
             <img
-              src="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/8d57d3330a663501866598decc78666e8126d2f9?placeholderIfAbsent=true"
+              src={blackLogo}
               alt="Orbit ERP Logo"
               className="w-16 h-16"
             />
