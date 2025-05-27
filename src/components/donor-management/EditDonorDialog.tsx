@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -32,12 +31,20 @@ const EditDonorDialog: React.FC<EditDonorDialogProps> = ({ open, onOpenChange, d
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-0 relative bg-white">
-        {/* Removed manual custom close button; DialogClose will handle close */}
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-8 relative bg-white rounded-lg shadow-xl flex flex-col items-center">
+        {/* Absolute close button, top-right */}
+        <button
+          aria-label="Close"
+          onClick={() => onOpenChange(false)}
+          className="absolute right-4 top-4 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
+          type="button"
+        >
+          <X className="w-5 h-5" />
+        </button>
         <DialogHeader>
-          <DialogTitle className="flex items-center text-xl font-bold mb-4">
-            <Button 
-              variant="ghost" 
+          <DialogTitle className="flex items-center text-xl font-bold mb-4 w-full">
+            <Button
+              variant="ghost"
               className="hover:bg-gray-100 hover:text-black mr-2"
               onClick={() => onOpenChange(false)}
             >
@@ -46,8 +53,7 @@ const EditDonorDialog: React.FC<EditDonorDialogProps> = ({ open, onOpenChange, d
             <h2>Edit Donor Profile</h2>
           </DialogTitle>
         </DialogHeader>
-        
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 w-full">
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-4">
               <h3 className="font-medium mb-2">Overview</h3>

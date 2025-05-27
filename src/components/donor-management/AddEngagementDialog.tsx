@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,6 @@ const AddEngagementDialog: React.FC<AddEngagementDialogProps> = ({ open, onOpenC
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here we would normally save the data
     toast({
       title: "Engagement entry added",
       description: "The new engagement entry has been recorded.",
@@ -28,15 +26,19 @@ const AddEngagementDialog: React.FC<AddEngagementDialogProps> = ({ open, onOpenC
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-white text-black relative">
+      <DialogContent className="sm:max-w-[425px] bg-white text-black relative p-8 rounded-lg shadow-xl flex flex-col items-center">
+        <button
+          aria-label="Close"
+          onClick={() => onOpenChange(false)}
+          className="absolute right-4 top-4 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
+          type="button"
+        >
+          <X className="w-5 h-5" />
+        </button>
         <DialogHeader>
-          <DialogTitle>Add Engagement Entry</DialogTitle>
-          <DialogClose aria-label="Close" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <span className="sr-only">Close</span>
-          </DialogClose>
+          <DialogTitle className="text-center text-lg">Add Engagement Entry</DialogTitle>
         </DialogHeader>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 w-full mt-4">
           <div className="space-y-2">
             <Label htmlFor="date">Date</Label>
             <Input 

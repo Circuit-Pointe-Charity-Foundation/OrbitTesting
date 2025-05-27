@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -10,6 +9,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 
 import { useToast } from "@/hooks/use-toast";
 import { EditIcon } from "../icons/EditIcon";
 import { DeleteIcon } from "../icons/DeleteIcon";
+import { X } from "lucide-react";
 
 interface GivingHistoryDialogProps {
   open: boolean;
@@ -48,7 +48,17 @@ const GivingHistoryDialog: React.FC<GivingHistoryDialogProps> = ({ open, onOpenC
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-8 bg-white rounded-lg shadow-xl text-black relative flex flex-col items-center">
+        {/* Absolute close button, top-right */}
+        <button
+          aria-label="Close"
+          onClick={() => onOpenChange(false)}
+          className="absolute right-4 top-4 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
+          type="button"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        
         <DialogHeader>
           <DialogTitle className="flex justify-between items-center">
             <span className="text-xl font-bold">Giving History</span>

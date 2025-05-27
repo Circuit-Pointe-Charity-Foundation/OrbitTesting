@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Upload, FileText, FilePlus } from "lucide-react";
+import { Upload, FileText, FilePlus, X } from "lucide-react";
 import { mockOpportunities } from "@/types/opportunity";
 import { Button } from "@/components/ui/button";
 
@@ -32,15 +32,21 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[700px] w-full p-8 bg-white text-black relative">
+      <DialogContent className="max-w-[700px] w-full p-8 bg-white text-black relative rounded-lg shadow-xl flex flex-col items-center">
+        {/* Close button, absolute top-right */}
+        <button
+          aria-label="Close"
+          onClick={() => onOpenChange(false)}
+          className="absolute right-4 top-4 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
+          type="button"
+        >
+          <X className="w-5 h-5" />
+        </button>
         <DialogHeader>
           <DialogTitle>Create a New Proposal</DialogTitle>
-          <DialogClose aria-label="Close" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <span className="sr-only">Close</span>
-          </DialogClose>
         </DialogHeader>
         <form
-          className="mt-6 flex flex-col gap-8"
+          className="mt-6 flex flex-col gap-8 w-full"
           onSubmit={e => {
             e.preventDefault();
             // No submit logic yet
@@ -59,7 +65,6 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
               required
             />
           </div>
-
           {/* Opportunity Select */}
           <div className="flex flex-col gap-2">
             <Label htmlFor="opportunity-select">
@@ -81,7 +86,6 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
               </SelectContent>
             </Select>
           </div>
-
           {/* Make Available as Template */}
           <div className="flex items-center gap-3">
             <Checkbox
@@ -93,7 +97,6 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
               Make available as template
             </Label>
           </div>
-
           {/* Action Buttons */}
           <div className="flex flex-row gap-4 mt-2">
             <Button
