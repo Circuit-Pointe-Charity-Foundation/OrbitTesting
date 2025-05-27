@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,9 +28,12 @@ const AddEngagementDialog: React.FC<AddEngagementDialogProps> = ({ open, onOpenC
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-white text-black relative">
         <DialogHeader>
           <DialogTitle>Add Engagement Entry</DialogTitle>
+          <DialogClose aria-label="Close" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+            <span className="sr-only">Close</span>
+          </DialogClose>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -57,7 +60,7 @@ const AddEngagementDialog: React.FC<AddEngagementDialogProps> = ({ open, onOpenC
             <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit" className="bg-[#A273F2] hover:bg-[#8b5cf6]">
+            <Button type="submit" className="bg-black text-white hover:bg-gray-900">
               Save Entry
             </Button>
           </DialogFooter>

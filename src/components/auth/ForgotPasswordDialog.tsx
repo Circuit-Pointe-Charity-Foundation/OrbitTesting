@@ -283,16 +283,21 @@ const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({
             </DialogFooter>
           </div>
         );
+      default:
+        return null;
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-white text-black relative">
         <DialogHeader>
           <DialogTitle>
             {step === 'success' ? 'Password Reset Sent' : 'Reset Your Password'}
           </DialogTitle>
+          <DialogClose aria-label="Close" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+            <span className="sr-only">Close</span>
+          </DialogClose>
           <DialogDescription>
             {step === 'email' && "Enter your email to start the password reset process."}
             {step === 'verification' && "Enter the verification code sent to your email."}

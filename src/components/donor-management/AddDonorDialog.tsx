@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,10 +31,12 @@ const AddDonorDialog: React.FC<AddDonorDialogProps> = ({ open, onOpenChange, onS
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto bg-white rounded-lg p-0">
-        {/* Removed duplicate close button here */}
+      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto bg-white text-black rounded-lg p-0 relative">
         <DialogHeader>
           <DialogTitle className="text-xl">Add new donor</DialogTitle>
+          <DialogClose aria-label="Close" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+            <span className="sr-only">Close</span>
+          </DialogClose>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="space-y-2">

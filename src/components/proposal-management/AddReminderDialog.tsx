@@ -1,9 +1,8 @@
 
 import React, { useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 
@@ -37,12 +36,13 @@ const AddReminderDialog: React.FC<Props> = ({ open, onOpenChange, onSubmit, staf
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg bg-white text-black relative">
         <div className="flex items-center justify-between mb-2">
           <div className="text-lg font-semibold">Add Reminder</div>
-          <button onClick={() => onOpenChange(false)} className="p-1 hover:bg-gray-100 rounded-full">
+          <DialogClose aria-label="Close" className="p-1 hover:bg-gray-100 rounded-full">
             <X size={20} />
-          </button>
+            <span className="sr-only">Close</span>
+          </DialogClose>
         </div>
         <div className="flex flex-col gap-4 mt-2 mb-1">
           {/* Title */}

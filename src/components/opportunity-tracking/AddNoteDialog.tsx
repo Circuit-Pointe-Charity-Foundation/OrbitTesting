@@ -63,11 +63,10 @@ const AddNoteDialog: React.FC<AddNoteDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-white text-black relative">
         <DialogHeader>
           <DialogTitle>Add Note</DialogTitle>
-          <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-            <X className="h-4 w-4" />
+          <DialogClose aria-label="Close" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
             <span className="sr-only">Close</span>
           </DialogClose>
         </DialogHeader>
@@ -96,7 +95,7 @@ const AddNoteDialog: React.FC<AddNoteDialogProps> = ({
               <Button type="button" variant="outline" onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="submit">Add Note</Button>
+              <Button type="submit" className="bg-black text-white hover:bg-gray-900">Add Note</Button>
             </DialogFooter>
           </form>
         </Form>

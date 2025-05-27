@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
@@ -75,12 +74,12 @@ const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChang
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-0">
-          <DialogHeader className="bg-[#A273F2] p-4 text-white sticky top-0 z-10 rounded-t-md">
+        <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-0 bg-white text-black relative">
+          <DialogHeader>
             <DialogTitle className="flex items-center justify-between">
               <Button 
                 variant="ghost" 
-                className="text-white hover:bg-[#9265E6] hover:text-white"
+                className="text-black hover:bg-gray-100"
                 onClick={() => onOpenChange(false)}
               >
                 ← Back to Donor Management
@@ -88,11 +87,14 @@ const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChang
               <h2 className="text-xl font-bold">{donor.name}</h2>
               <Button 
                 onClick={handleOpenEdit}
-                className="bg-white text-[#A273F2] hover:bg-gray-100"
+                className="bg-white text-black hover:bg-gray-100"
               >
                 Edit
               </Button>
             </DialogTitle>
+            <DialogClose aria-label="Close" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+              <span className="sr-only">Close</span>
+            </DialogClose>
           </DialogHeader>
           
           <div className="p-6 grid grid-cols-2 gap-8">
