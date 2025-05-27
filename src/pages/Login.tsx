@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "@/components/auth/LoginForm";
 import LeftColumnContent from "@/components/auth/LeftColumnContent";
@@ -7,6 +7,7 @@ const Login: React.FC = () => {
     const mounted = useRef(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const [key, setKey] = useState(Date.now()); // Force re-render
 
     // Set mounted ref when component mounts
     useEffect(() => {
@@ -16,23 +17,20 @@ const Login: React.FC = () => {
         };
     }, [navigate]);
 
-    // Force a re-render if the forceUpdate state is present
+    // Force a re-render if the location changes (including after logout)
     useEffect(() => {
-        if (location.state?.forceUpdate) {
-            // You might want to trigger a state update here if needed
-            console.log("Login component re-rendered due to logout.");
-        }
-    }, [location.state]);
+        setKey(Date.now()); // Changing the key forces a full re-render
+        console.log("Login component re-rendered due to location change.");
+    }, [location]);
 
     const handleLoginSuccess = () => {
         if (mounted.current) {
-            // Redirect to the modules/fundraising page
             navigate("/modules/fundraising/dashboard");
         }
     };
 
     return (
-        <div className="flex h-screen w-full bg-white overflow-hidden">
+        <div key={key} className="flex h-screen w-full bg-white overflow-hidden">
             {/* Left Column - Custom Image */}
             <div className="hidden md:flex md:w-1/2 items-center justify-end px-8">
                 <div className="max-w-md w-full">
