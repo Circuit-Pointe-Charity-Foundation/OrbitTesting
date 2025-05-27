@@ -28,12 +28,10 @@ export const Header: React.FC = () => {
   const { activeModule } = useModuleContext();
 
   const handleLogout = () => {
-    // Clear any user session data
     localStorage.removeItem("activeModuleId");
-    
     toast.success("Logged out successfully");
-    navigate("/");
-  };
+    navigate("/", { replace: true, state: { forceUpdate: Date.now() } });
+};
 
   return (
     <div className="bg-white w-full flex items-center justify-between px-6 py-4 shadow-sm">
