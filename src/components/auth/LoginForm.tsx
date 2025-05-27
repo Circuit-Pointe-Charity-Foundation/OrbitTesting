@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -6,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import ForgotPasswordDialog from "./ForgotPasswordDialog";
-import blackLogo from "/assets/images/black_logo.png";
+// FIX: use correct Vite alias for asset import
+import blackLogo from "@/assets/images/black_logo.png";
 
 interface LoginFormProps {
   onLoginSuccess: () => void;
