@@ -36,7 +36,7 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="bg-white text-black relative max-w-md p-8 rounded-lg shadow-xl flex flex-col items-center">
+      <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-lg font-semibold text-center">
             Are you sure?

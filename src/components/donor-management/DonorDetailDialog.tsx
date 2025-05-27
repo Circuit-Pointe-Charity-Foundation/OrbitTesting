@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -66,7 +65,7 @@ const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChang
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-8 bg-white text-black relative rounded-lg shadow-xl flex flex-col items-center">
+        <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-8">
           {/* Close button, absolute top-right */}
           <button
             aria-label="Close"

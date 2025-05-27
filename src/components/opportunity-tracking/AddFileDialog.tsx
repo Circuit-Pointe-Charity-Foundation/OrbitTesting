@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { X, Upload, File as FileIcon } from "lucide-react";
 

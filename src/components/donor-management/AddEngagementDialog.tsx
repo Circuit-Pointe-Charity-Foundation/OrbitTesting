@@ -27,7 +27,7 @@ const AddEngagementDialog: React.FC<AddEngagementDialogProps> = ({ open, onOpenC
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-white text-black relative p-8 rounded-lg shadow-xl flex flex-col items-center">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-center text-lg">Add Engagement Entry</DialogTitle>
         </DialogHeader>
