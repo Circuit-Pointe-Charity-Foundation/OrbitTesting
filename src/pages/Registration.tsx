@@ -128,66 +128,68 @@ const Registration: React.FC = () => {
 
                             {/* Organization Details Form */}
                             <form className="space-y-5" onSubmit={goToModules}>
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="orgName" className="block text-sm font-medium text-gray-700">
-                                        Organization Name<span className="text-red-500">*</span>
-                                    </Label>
-                                    <Input
-                                        id="orgName"
-                                        value={orgName}
-                                        onChange={(e) => setOrgName(e.target.value)}
-                                        placeholder="Your organization"
-                                        className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
-                                        required
-                                    />
-                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="orgName" className="block text-sm font-medium text-gray-700">
+                                            Organization Name<span className="text-red-500">*</span>
+                                        </Label>
+                                        <Input
+                                            id="orgName"
+                                            value={orgName}
+                                            onChange={(e) => setOrgName(e.target.value)}
+                                            placeholder="Your organization"
+                                            className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
+                                            required
+                                        />
+                                    </div>
 
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                        Organization Email<span className="text-red-500">*</span>
-                                    </Label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="contact@yourorg.org"
-                                        className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
-                                        required
-                                    />
-                                </div>
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                            Organization Email<span className="text-red-500">*</span>
+                                        </Label>
+                                        <Input
+                                            id="email"
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            placeholder="contact@yourorg.org"
+                                            className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
+                                            required
+                                        />
+                                    </div>
 
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="telephone" className="block text-sm font-medium text-gray-700">
-                                        Telephone<span className="text-red-500">*</span>
-                                    </Label>
-                                    <Input
-                                        id="telephone"
-                                        type="tel"
-                                        value={telephone}
-                                        onChange={(e) => setTelephone(e.target.value)}
-                                        placeholder="+2348012345678"
-                                        className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
-                                        required
-                                    />
-                                </div>
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="telephone" className="block text-sm font-medium text-gray-700">
+                                            Telephone<span className="text-red-500">*</span>
+                                        </Label>
+                                        <Input
+                                            id="telephone"
+                                            type="tel"
+                                            value={telephone}
+                                            onChange={(e) => setTelephone(e.target.value)}
+                                            placeholder="+2348012345678"
+                                            className="w-full px-4 py-2 h-10 rounded-sm border border-gray-300 bg-gray-50"
+                                            required
+                                        />
+                                    </div>
 
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                                        Country<span className="text-red-500">*</span>
-                                    </Label>
-                                    <Select value={country} onValueChange={setCountry}>
-                                        <SelectTrigger className="w-full h-10 rounded-sm border border-gray-300 bg-gray-50">
-                                            <SelectValue placeholder="Select country" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {COUNTRY_OPTIONS.map((country) => (
-                                                <SelectItem key={country} value={country}>
-                                                    {country}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                                            Country<span className="text-red-500">*</span>
+                                        </Label>
+                                        <Select value={country} onValueChange={setCountry}>
+                                            <SelectTrigger className="w-full h-10 rounded-sm border border-gray-300 bg-gray-50">
+                                                <SelectValue placeholder="Select country" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {COUNTRY_OPTIONS.map((country) => (
+                                                    <SelectItem key={country} value={country}>
+                                                        {country}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
                                 </div>
 
                                 {/* Password - full width */}
