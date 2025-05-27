@@ -6,13 +6,15 @@ interface ActionButtonProps {
   text: string;
   onClick?: () => void;
   variant?: 'primary' | 'secondary';
+  className?: string; // Allow extra className to be passed
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({ 
   icon, 
   text, 
   onClick,
-  variant = 'secondary'
+  variant = 'secondary',
+  className = ""
 }) => {
   const baseStyles = "flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors";
   const variantStyles = variant === 'primary' 
@@ -21,7 +23,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
 
   return (
     <button
-      className={`${baseStyles} ${variantStyles}`}
+      className={`${baseStyles} ${variantStyles} ${className}`}
       onClick={onClick}
     >
       {icon}
