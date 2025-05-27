@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import EditDonorDialog from "./EditDonorDialog";
 import AddEngagementDialog from "./AddEngagementDialog";
 import GivingHistoryDialog from "./GivingHistoryDialog";
+import { X } from "lucide-react";
 
 interface DonorDetailDialogProps {
   open: boolean;
