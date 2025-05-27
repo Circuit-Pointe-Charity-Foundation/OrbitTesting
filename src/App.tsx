@@ -163,7 +163,7 @@ const App = () => (
             <Route path="" element={<Navigate to="/modules/fundraising/dashboard" replace />} />
             <Route path="/modules" element={<Navigate to="/modules/fundraising" replace />} />
           </Route>
-          
+          {/* Not found route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
