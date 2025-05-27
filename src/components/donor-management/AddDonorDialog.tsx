@@ -41,7 +41,7 @@ const AddDonorDialog: React.FC<AddDonorDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto bg-white text-black rounded-lg p-0 relative flex flex-col items-center **fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2**">
+      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto bg-white text-black rounded-lg p-0 relative flex flex-col items-center">
         {/* Remove custom close button, rely on shadcn built-in! */}
         <DialogHeader>
           <DialogTitle className="text-xl text-center">Add new donor</DialogTitle>
