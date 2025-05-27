@@ -1,45 +1,53 @@
-
 import React, { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "@/components/auth/LoginForm";
 import LeftColumnContent from "@/components/auth/LeftColumnContent";
 
 const Login: React.FC = () => {
-  const mounted = useRef(false);
-  const navigate = useNavigate();
+    const mounted = useRef(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  // Set mounted ref when component mounts
-  useEffect(() => {
-    mounted.current = true;
-    return () => {
-      mounted.current = false;
+    // Set mounted ref when component mounts
+    useEffect(() => {
+        mounted.current = true;
+        return () => {
+            mounted.current = false;
+        };
+    }, [navigate]);
+
+    // Force a re-render if the forceUpdate state is present
+    useEffect(() => {
+        if (location.state?.forceUpdate) {
+            // You might want to trigger a state update here if needed
+            console.log("Login component re-rendered due to logout.");
+        }
+    }, [location.state]);
+
+    const handleLoginSuccess = () => {
+        if (mounted.current) {
+            // Redirect to the modules/fundraising page
+            navigate("/modules/fundraising/dashboard");
+        }
     };
-  }, [navigate]);
 
-  const handleLoginSuccess = () => {
-    if (mounted.current) {
-      // Redirect to the modules/fundraising page
-      navigate("/modules/fundraising/dashboard");
-    }
-  };
+    return (
+        <div className="flex h-screen w-full bg-white overflow-hidden">
+            {/* Left Column - Custom Image */}
+            <div className="hidden md:flex md:w-1/2 items-center justify-end px-8">
+                <div className="max-w-md w-full">
+                    <LeftColumnContent />
+                </div>
+            </div>
 
-  return (
-    <div className="flex h-screen w-full bg-white overflow-hidden">
-      {/* Left Column - Custom Image */}
-      <div className="hidden md:flex md:w-1/2 items-center justify-end px-8">
-        <div className="max-w-md w-full">
-          <LeftColumnContent />
+            {/* Right Column - Login Form */}
+            <div className="w-full md:w-1/2 flex items-center justify-start px-8">
+                <div className="max-w-sm w-full">
+                    <LoginForm onLoginSuccess={handleLoginSuccess} />
+                </div>
+            </div>
         </div>
-      </div>
-
-      {/* Right Column - Login Form */}
-      <div className="w-full md:w-1/2 flex items-center justify-start px-8">
-        <div className="max-w-sm w-full">
-          <LoginForm onLoginSuccess={handleLoginSuccess} />
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Login;
