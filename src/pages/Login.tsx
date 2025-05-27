@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "@/components/auth/LoginForm";
 import LeftColumnContent from "@/components/auth/LeftColumnContent";
@@ -7,7 +7,6 @@ const Login: React.FC = () => {
     const mounted = useRef(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const [key, setKey] = useState(Date.now()); // Force re-render
 
     // Set mounted ref when component mounts
     useEffect(() => {
@@ -17,12 +16,6 @@ const Login: React.FC = () => {
         };
     }, [navigate]);
 
-    // Force a re-render if the location changes (including after logout)
-    useEffect(() => {
-        setKey(Date.now()); // Changing the key forces a full re-render
-        console.log("Login component re-rendered due to location change.");
-    }, [location]);
-
     const handleLoginSuccess = () => {
         if (mounted.current) {
             navigate("/modules/fundraising/dashboard");
@@ -30,7 +23,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div key={key} className="flex h-screen w-full bg-white overflow-hidden">
+        <div className="flex h-screen w-full bg-white overflow-hidden">
             {/* Left Column - Custom Image */}
             <div className="hidden md:flex md:w-1/2 items-center justify-end px-8">
                 <div className="max-w-md w-full">
@@ -41,7 +34,7 @@ const Login: React.FC = () => {
             {/* Right Column - Login Form */}
             <div className="w-full md:w-1/2 flex items-center justify-start px-8">
                 <div className="max-w-sm w-full">
-                    <LoginForm onLoginSuccess={handleLoginSuccess} />
+                    <LoginForm key={location.pathname} onLoginSuccess={handleLoginSuccess} />
                 </div>
             </div>
         </div>
