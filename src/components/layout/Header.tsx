@@ -28,7 +28,9 @@ export const Header: React.FC = () => {
   const { activeModule } = useModuleContext();
 
   const handleLogout = () => {
-    navigate("/");
+    localStorage.removeItem("activeModuleId");
+    toast.success("Logged out successfully");
+    navigate("/", { replace: true, state: { forceUpdate: Date.now() } });
 };
 
   return (
