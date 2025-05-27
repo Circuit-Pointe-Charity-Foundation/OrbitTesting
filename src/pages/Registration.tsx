@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import LeftColumnContent from "@/components/auth/LeftColumnContent";
-import blackLogo from "../../assets/images/black_logo.png";
+import blackLogo from "../../../assets/images/black_logo.png";
 import {
   Select,
   SelectTrigger,
