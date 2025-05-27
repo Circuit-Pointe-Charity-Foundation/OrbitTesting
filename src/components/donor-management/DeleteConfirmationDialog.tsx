@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   AlertDialog,
@@ -10,7 +9,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface DeleteConfirmationDialogProps {
@@ -39,15 +37,6 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="bg-white text-black relative max-w-md p-8 rounded-lg shadow-xl flex flex-col items-center">
-        {/* Close button absolutely positioned in top-right */}
-        <button
-          aria-label="Close"
-          onClick={() => onOpenChange(false)}
-          className="absolute right-3 top-3 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
-          type="button"
-        >
-          <X className="w-5 h-5" />
-        </button>
         <AlertDialogHeader>
           <AlertDialogTitle className="text-lg font-semibold text-center">
             Are you sure?

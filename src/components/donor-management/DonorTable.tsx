@@ -1,4 +1,3 @@
-
 import React from "react";
 import DonorTableRow from "./DonorTableRow";
 import { Donor } from "@/types/donor";
@@ -13,12 +12,12 @@ const DonorTable: React.FC<DonorTableProps> = ({ donors }) => {
       <table className="w-full">
         <thead>
           <tr className="border-b border-[#E9E9E9]">
-            <th className="py-3 px-4 text-left table-header text-[#A273F2]">SL No</th>
-            <th className="py-3 px-4 text-left table-header text-[#A273F2]">Donor Name</th>
-            <th className="py-3 px-4 text-left table-header text-[#A273F2]">Contact Info</th>
-            <th className="py-3 px-4 text-left table-header text-[#A273F2]">Last Donation</th>
-            <th className="py-3 px-4 text-left table-header text-[#A273F2]">Interest Tags</th>
-            <th className="py-3 px-4 text-left table-header text-[#A273F2]">Action</th>
+            <th className="py-3 px-4 text-left table-header text-black">SL No</th>
+            <th className="py-3 px-4 text-left table-header text-black">Donor Name</th>
+            <th className="py-3 px-4 text-left table-header text-black">Contact Info</th>
+            <th className="py-3 px-4 text-left table-header text-black">Last Donation</th>
+            <th className="py-3 px-4 text-left table-header text-black">Interest Tags</th>
+            <th className="py-3 px-4 text-left table-header text-black">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +26,6 @@ const DonorTable: React.FC<DonorTableProps> = ({ donors }) => {
           ))}
         </tbody>
       </table>
-      
       {donors.length === 0 && (
         <div className="text-center py-8 text-gray-500 body-text">
           No donors found matching your search criteria.

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -29,14 +28,6 @@ const AddEngagementDialog: React.FC<AddEngagementDialogProps> = ({ open, onOpenC
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-white text-black relative p-8 rounded-lg shadow-xl flex flex-col items-center">
-        <button
-          aria-label="Close"
-          onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
-          type="button"
-        >
-          <X className="w-5 h-5" />
-        </button>
         <DialogHeader>
           <DialogTitle className="text-center text-lg">Add Engagement Entry</DialogTitle>
         </DialogHeader>

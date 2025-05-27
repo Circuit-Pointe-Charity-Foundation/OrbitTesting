@@ -49,16 +49,7 @@ const GivingHistoryDialog: React.FC<GivingHistoryDialogProps> = ({ open, onOpenC
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-8 bg-white rounded-lg shadow-xl text-black relative flex flex-col items-center">
-        {/* Absolute close button, top-right */}
-        <button
-          aria-label="Close"
-          onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
-          type="button"
-        >
-          <X className="w-5 h-5" />
-        </button>
-        
+        {/* Remove custom close, rely on shadcn */}
         <DialogHeader>
           <DialogTitle className="flex justify-between items-center">
             <span className="text-xl font-bold">Giving History</span>
@@ -166,7 +157,7 @@ const GivingHistoryDialog: React.FC<GivingHistoryDialogProps> = ({ open, onOpenC
               </div>
               
               <div className="flex justify-center">
-                <Button type="submit" className="bg-[#A273F2] hover:bg-[#8b5cf6]">
+                <Button type="submit" className="bg-black text-white hover:bg-gray-900">
                   Add New Entry
                 </Button>
               </div>

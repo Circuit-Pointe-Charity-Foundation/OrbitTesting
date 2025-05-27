@@ -21,7 +21,6 @@ const EditDonorDialog: React.FC<EditDonorDialogProps> = ({ open, onOpenChange, d
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here we would normally save the data
     toast({
       title: "Donor updated",
       description: "The donor information has been updated successfully",
@@ -32,15 +31,6 @@ const EditDonorDialog: React.FC<EditDonorDialogProps> = ({ open, onOpenChange, d
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-8 relative bg-white rounded-lg shadow-xl flex flex-col items-center">
-        {/* Absolute close button, top-right */}
-        <button
-          aria-label="Close"
-          onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
-          type="button"
-        >
-          <X className="w-5 h-5" />
-        </button>
         <DialogHeader>
           <DialogTitle className="flex items-center text-xl font-bold mb-4 w-full">
             <Button
