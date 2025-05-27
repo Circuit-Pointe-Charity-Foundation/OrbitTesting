@@ -9,7 +9,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogClose,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 
@@ -41,16 +40,13 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
       <AlertDialogContent className="bg-white text-black relative">
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-          <AlertDialogClose aria-label="Close" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <span className="sr-only">Close</span>
-          </AlertDialogClose>
           <AlertDialogDescription>
             This will permanently delete {donorName} (ID: {donorId}) and all associated data from the system. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} className="bg-red-500 hover:bg-red-600">
+          <AlertDialogCancel aria-label="Close">Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete} className="bg-red-500 hover:bg-red-600 text-white">
             Yes, delete
           </AlertDialogAction>
         </AlertDialogFooter>
