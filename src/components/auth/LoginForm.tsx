@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import ForgotPasswordDialog from "./ForgotPasswordDialog";
-// FIX: use correct Vite alias for asset import
-import blackLogo from "@/assets/images/black_logo.png";
 
 interface LoginFormProps {
   onLoginSuccess: () => void;
@@ -41,14 +39,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
   return (
     <div className="w-full max-w-sm ml-auto">
-      {/* Logo */}
-      <div className="flex justify-center mb-8">
-        <img
-          src={blackLogo}
-          alt="Orbit ERP Logo"
-          className="w-16 h-16"
-        />
-      </div>
       
       {/* Welcome message */}
       <div className="mb-6">

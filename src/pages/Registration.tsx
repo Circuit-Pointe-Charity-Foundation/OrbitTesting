@@ -7,7 +7,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import LeftColumnContent from "@/components/auth/LeftColumnContent";
-import blackLogo from "@/assets/images/black_logo.png";
 import {
   Select,
   SelectTrigger,
@@ -109,14 +108,6 @@ const Registration: React.FC = () => {
       {/* Right Column - Registration Form */}
       <div className="w-full md:w-1/2 flex items-center justify-start px-8">
         <div className="max-w-sm w-full">
-          {/* Logo */}
-          <div className="flex justify-center mb-8">
-            <img
-              src={blackLogo}
-              alt="Orbit ERP Logo"
-              className="w-16 h-16"
-            />
-          </div>
 
           {step === "form" ? (
             // Registration Form
