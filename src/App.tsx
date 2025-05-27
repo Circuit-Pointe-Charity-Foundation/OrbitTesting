@@ -27,6 +27,12 @@ import LearningDashboard from "./modules/learning/pages/Dashboard";
 import DocumentDashboard from "./modules/document/pages/Dashboard";
 import HRDashboard from "./modules/hr/pages/Dashboard";
 
+// User Management module pages
+import UserManagementDashboard from "./modules/user-management/pages/Dashboard";
+
+// Grants Management module pages
+import GrantsManagementDashboard from "./modules/grants-management/pages/Dashboard";
+
 // Force component remount when navigating to Login
 const LoginWithReset: React.FC = () => {
   const location = useLocation();
@@ -127,6 +133,22 @@ const App = () => (
               <Route path="feature-1" element={<FeaturePlaceholder moduleName="HR Management" featureName="Feature 1" />} />
               <Route path="feature-2" element={<FeaturePlaceholder moduleName="HR Management" featureName="Feature 2" />} />
               <Route index element={<Navigate to="/modules/hr/dashboard" replace />} />
+            </Route>
+            
+            {/* User Management module routes */}
+            <Route path="/modules/user-management">
+              <Route path="dashboard" element={<UserManagementDashboard />} />
+              <Route path="roles" element={<FeaturePlaceholder moduleName="User Management" featureName="User Roles" />} />
+              <Route path="permissions" element={<FeaturePlaceholder moduleName="User Management" featureName="User Permissions" />} />
+              <Route index element={<Navigate to="/modules/user-management/dashboard" replace />} />
+            </Route>
+            
+            {/* Grants Management module routes */}
+            <Route path="/modules/grants-management">
+              <Route path="dashboard" element={<GrantsManagementDashboard />} />
+              <Route path="applications" element={<FeaturePlaceholder moduleName="Grants Management" featureName="Grant Applications" />} />
+              <Route path="funding" element={<FeaturePlaceholder moduleName="Grants Management" featureName="Grant Funding" />} />
+              <Route index element={<Navigate to="/modules/grants-management/dashboard" replace />} />
             </Route>
             
             {/* Backward compatibility for old routes */}

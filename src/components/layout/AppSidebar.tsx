@@ -93,6 +93,16 @@ const moduleNavigationLinks = {
     { icon: <Users size={16} />, label: "Feature 1", to: "/feature-1" },
     { icon: <Users size={16} />, label: "Feature 2", to: "/feature-2" },
   ],
+  "user-management": [
+    { icon: <Users size={16} />, label: "Dashboard", to: "/dashboard" },
+    { icon: <FileText size={16} />, label: "User Roles", to: "/roles" },
+    { icon: <FileText size={16} />, label: "User Permissions", to: "/permissions" },
+  ],
+  "grants-management": [
+    { icon: <Award size={16} />, label: "Dashboard", to: "/dashboard" },
+    { icon: <FileText size={16} />, label: "Grant Applications", to: "/applications" },
+    { icon: <FileText size={16} />, label: "Grant Funding", to: "/funding" },
+  ],
 };
 
 interface SidebarLinkProps {
@@ -189,6 +199,10 @@ const AppSidebar: React.FC<{
         return <FileText size={20} className={iconColorClass} />;
       case "hr":
         return <Users size={20} className={iconColorClass} />;
+      case "user-management":
+        return <Users size={20} className={iconColorClass} />;
+      case "grants-management":
+        return <Award size={20} className={iconColorClass} />;
       default:
         return <DollarSign size={20} className={iconColorClass} />;
     }

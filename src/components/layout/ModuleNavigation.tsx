@@ -52,6 +52,16 @@ const modules = [
     path: "/modules/hr",
     description: "Staff management and HR functions" 
   },
+  { 
+    name: "User Management", 
+    path: "/modules/user-management",
+    description: "Manage user accounts and permissions"
+  },
+  { 
+    name: "Grants Management", 
+    path: "/modules/grants-management",
+    description: "Manage grant applications and funding" 
+  },
 ];
 
 export const ModuleNavigation: React.FC = () => {

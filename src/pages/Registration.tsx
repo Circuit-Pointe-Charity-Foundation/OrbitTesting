@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -30,7 +29,7 @@ const COUNTRY_OPTIONS = [
   "India",
 ];
 
-// List of application modules
+// Update MODULES to include User Management and Grants Management
 const MODULES = [
   { id: "fundraising", name: "Fundraising", description: "Manage donors, track opportunities, create proposals" },
   { id: "program-management", name: "Program Management", description: "Plan and execute programs and projects" },
@@ -40,6 +39,8 @@ const MODULES = [
   { id: "learning-management", name: "Learning Management", description: "Training and knowledge base systems" },
   { id: "document-management", name: "Document Management", description: "Store and organize important documents" },
   { id: "hr-management", name: "Human Resource Management", description: "Staff management and HR functions" },
+  { id: "user-management", name: "User Management", description: "Manage user accounts and permissions" },
+  { id: "grants-management", name: "Grants Management", description: "Manage grant applications and funding" },
 ];
 
 const Registration: React.FC = () => {

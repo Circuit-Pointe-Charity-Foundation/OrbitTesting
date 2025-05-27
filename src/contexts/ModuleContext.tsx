@@ -57,6 +57,18 @@ export const AVAILABLE_MODULES: Module[] = [
     path: "/modules/hr", 
     description: "Staff management and HR functions" 
   },
+  { 
+    id: "user-management", 
+    name: "User Management", 
+    path: "/modules/user-management", 
+    description: "Manage user accounts and permissions"
+  },
+  { 
+    id: "grants-management", 
+    name: "Grants Management", 
+    path: "/modules/grants-management", 
+    description: "Manage grant applications and funding" 
+  },
 ];
 
 type ModuleContextType = {
