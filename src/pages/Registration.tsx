@@ -265,7 +265,7 @@ const Registration: React.FC = () => {
                                                 }
                                                 className="mt-1"
                                               />
-                                              <Label htmlFor={module.id} className="text-sm cursor-pointer">
+                                              <Label htmlFor={module.id} className="**text-xs** cursor-pointer">
                                                 {module.name}
                                               </Label>
                                             </div>
