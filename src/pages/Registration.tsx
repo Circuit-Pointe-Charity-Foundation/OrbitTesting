@@ -254,18 +254,18 @@ const Registration: React.FC = () => {
                                     <Label className="block text-sm font-medium text-gray-700">
                                         Choose the modules your organization needs:
                                     </Label>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-gray-50 rounded-md border border-gray-200">
+                                    <div className="grid grid-cols-1 gap-3 p-3 bg-gray-50 rounded-md border border-gray-200">
                                         {MODULES.map((module) => (
-                                            <div key={module.id} className="flex items-start gap-2 **whitespace-nowrap overflow-hidden**" title={module.description}>
+                                            <div key={module.id} className="flex items-start gap-2" title={module.description}>
                                               <Checkbox
                                                 id={module.id}
                                                 checked={selectedModules.includes(module.id)}
                                                 onCheckedChange={(checked) =>
                                                   handleModuleToggle(module.id, checked === true)
                                                 }
-                                                className="mt-1"
+                                                className="mt-1 flex-shrink-0"
                                               />
-                                              <Label htmlFor={module.id} className="**text-xs** cursor-pointer">
+                                              <Label htmlFor={module.id} className="text-sm cursor-pointer leading-tight">
                                                 {module.name}
                                               </Label>
                                             </div>
