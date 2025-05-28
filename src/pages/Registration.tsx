@@ -256,18 +256,18 @@ const Registration: React.FC = () => {
                                     </Label>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-gray-50 rounded-md border border-gray-200">
                                         {MODULES.map((module) => (
-                                            <div key={module.id} className="flex items-start gap-2" title={module.description}>
-                                                <Checkbox
-                                                    id={module.id}
-                                                    checked={selectedModules.includes(module.id)}
-                                                    onCheckedChange={(checked) =>
-                                                        handleModuleToggle(module.id, checked === true)
-                                                    }
-                                                    className="mt-1"
-                                                />
-                                                <Label htmlFor={module.id} className="text-sm cursor-pointer">
-                                                    {module.name}
-                                                </Label>
+                                            <div key={module.id} className="flex items-start gap-2 **whitespace-nowrap overflow-hidden**" title={module.description}>
+                                              <Checkbox
+                                                id={module.id}
+                                                checked={selectedModules.includes(module.id)}
+                                                onCheckedChange={(checked) =>
+                                                  handleModuleToggle(module.id, checked === true)
+                                                }
+                                                className="mt-1"
+                                              />
+                                              <Label htmlFor={module.id} className="text-sm cursor-pointer">
+                                                {module.name}
+                                              </Label>
                                             </div>
                                         ))}
                                     </div>
