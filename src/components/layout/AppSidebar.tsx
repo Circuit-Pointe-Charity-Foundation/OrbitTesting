@@ -125,7 +125,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
   const isActive = location.pathname === fullPath;
   
   const textColor = isActive ? "text-white" : "text-gray-700";
-  const hoverBg = "hover:bg-violet-600 hover:text-white";
+  const hoverBg = "hover:bg-gray-100 hover:text-gray-700";
   const activeBg = isActive ? "bg-violet-600" : "";
   const iconColorClass = isActive ? "text-white" : "text-gray-500";
 
@@ -145,7 +145,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
         />
       ) : (
         <div
-          className={`w-5 h-5 flex items-center justify-center shrink-0 ${iconColorClass} group-hover:text-white ${isActive ? 'text-white' : ''}`}
+          className={`w-5 h-5 flex items-center justify-center shrink-0 ${iconColorClass} group-hover:text-gray-500 ${isActive ? 'text-white' : ''}`}
         >
           {icon}
         </div>
