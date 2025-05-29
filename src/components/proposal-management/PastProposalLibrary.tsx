@@ -20,7 +20,7 @@ const sampleProposals: Proposal[] = [
     description: "Hey there! Have you ever thought about exploring new horizons together?",
     fileType: "Word",
     uses: 742,
-    imageSrc: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop",
+    imageSrc: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
     rating: 5,
   },
   {
@@ -28,7 +28,7 @@ const sampleProposals: Proposal[] = [
     description: "Imagine the possibilities if we teamed up on this project!",
     fileType: "PowerPoint",
     uses: 1256,
-    imageSrc: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop",
+    imageSrc: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
     rating: 5,
   },
   {
@@ -36,7 +36,7 @@ const sampleProposals: Proposal[] = [
     description: "What if we joined forces to create something truly amazing?",
     fileType: "Word",
     uses: 934,
-    imageSrc: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop",
+    imageSrc: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop",
     rating: 5,
   },
   {
@@ -44,7 +44,7 @@ const sampleProposals: Proposal[] = [
     description: "Let's brainstorm some exciting ideas that could transform our community.",
     fileType: "Word",
     uses: 389,
-    imageSrc: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop",
+    imageSrc: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400&h=300&fit=crop",
     rating: 5,
   },
   {
@@ -52,7 +52,7 @@ const sampleProposals: Proposal[] = [
     description: "How about we collaborate and bring innovative solutions to life?",
     fileType: "PowerPoint",
     uses: 1024,
-    imageSrc: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop",
+    imageSrc: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
     rating: 5,
   },
   {
@@ -60,7 +60,7 @@ const sampleProposals: Proposal[] = [
     description: "I have a vision that I think we could turn into reality together.",
     fileType: "Word",
     uses: 562,
-    imageSrc: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop",
+    imageSrc: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
     rating: 5,
   },
 ];

@@ -6,6 +6,7 @@ import ProposalTable from "@/components/proposal-management/ProposalTable";
 import CreateProposalDialog from "@/components/proposal-management/CreateProposalDialog";
 import ProposalCalendarTab from "@/components/proposal-management/ProposalCalendarTab";
 import PastProposalLibrary from "@/components/proposal-management/PastProposalLibrary";
+import BrowseTemplatesTab from "@/components/proposal-management/BrowseTemplatesTab";
 
 const ProposalManagement: React.FC = () => {
   // Tabs: 0=Overview, 1=Past Proposal Library, 2=Browse Templates, 3=Calendar
@@ -30,8 +31,8 @@ const ProposalManagement: React.FC = () => {
           </div>
         )}
         {activeTab === 2 && (
-          <div className="mt-20 flex items-center justify-center text-lg text-gray-400">
-            Browse Templates (To be implemented)
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <BrowseTemplatesTab />
           </div>
         )}
         {activeTab === 3 && (
