@@ -25,8 +25,8 @@ const QuickAction: React.FC<QuickActionProps> = ({
     <div
       className={`flex items-center gap-2 px-3 py-2 rounded-md transition-colors cursor-pointer ${
         isActive
-          ? "bg-violet-600/10 text-violet-600 font-medium border-b-2 border-violet-600"
-          : "hover:bg-gray-100"
+          ? "text-violet-600 border-violet-600 bg-white"
+          : "text-[#383839a6] border-transparent hover:bg-gray-100"
       }`}
       onClick={onClick}
     >
