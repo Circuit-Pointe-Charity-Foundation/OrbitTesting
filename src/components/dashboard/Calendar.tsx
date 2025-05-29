@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CalendarEvent {
   id: string;
@@ -12,7 +13,7 @@ interface DayProps {
   events: CalendarEvent[];
   onDateClick: (date: Date) => void;
   currentDate: Date;
-  onEventClick: (event: CalendarEvent) => void; // New prop for event click
+  onEventClick: (event: CalendarEvent) => void;
 }
 
 const Day: React.FC<DayProps> = ({
@@ -39,10 +40,10 @@ const Day: React.FC<DayProps> = ({
         {events.map((event) => (
           <div
             key={event.id}
-            className="text-xs p-1 rounded truncate cursor-pointer" // Added cursor-pointer
+            className="text-xs p-1 rounded truncate cursor-pointer"
             style={{ backgroundColor: event.color }}
             onClick={(e) => {
-              e.stopPropagation(); // Prevent date click
+              e.stopPropagation();
               onEventClick(event);
             }}
           >
@@ -59,7 +60,7 @@ export const Calendar: React.FC = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [newEventTitle, setNewEventTitle] = useState("");
-  const [clickedEvent, setClickedEvent] = useState<CalendarEvent | null>(null); // State for clicked event
+  const [clickedEvent, setClickedEvent] = useState<CalendarEvent | null>(null);
 
   const generateCalendar = (date: Date) => {
     const year = date.getFullYear();
@@ -88,7 +89,7 @@ export const Calendar: React.FC = () => {
 
   const handleDeleteEvent = (eventId: string) => {
     setEvents(events.filter((event) => event.id !== eventId));
-    setClickedEvent(null); // Close the preview after deletion
+    setClickedEvent(null);
   };
 
   const handlePrevMonth = () => {
@@ -133,15 +134,15 @@ export const Calendar: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrevMonth}
-              className="p-1 hover:bg-gray-100 rounded-full"
+              className="p-2 hover:bg-gray-100 rounded-full border border-gray-300 bg-white"
             >
-              ◀
+              <ChevronLeft className="h-4 w-4 text-gray-600" />
             </button>
             <button
               onClick={handleNextMonth}
-              className="p-1 hover:bg-gray-100 rounded-full"
+              className="p-2 hover:bg-gray-100 rounded-full border border-gray-300 bg-white"
             >
-              ▶
+              <ChevronRight className="h-4 w-4 text-gray-600" />
             </button>
           </div>
         </div>
@@ -167,7 +168,7 @@ export const Calendar: React.FC = () => {
             )}
             onDateClick={setSelectedDate}
             currentDate={currentDate}
-            onEventClick={setClickedEvent} // Pass the setClickedEvent function
+            onEventClick={setClickedEvent}
           />
         ))}
       </div>
