@@ -4,18 +4,13 @@ import ProposalTabs from "@/components/proposal-management/ProposalTabs";
 import StatCards from "@/components/proposal-management/StatCards";
 import ProposalTable from "@/components/proposal-management/ProposalTable";
 import CreateProposalDialog from "@/components/proposal-management/CreateProposalDialog";
-import ProposalCalendarTab from "@/components/proposal-management/ProposalCalendarTab";
-import PastProposalLibrary from "@/components/proposal-management/PastProposalLibrary";
+import ProposalCalendarTab from "@/components/proposal-management/ProposalCalendarTab"; // NEW
 
 const ProposalManagement: React.FC = () => {
-  console.log("Rendering ProposalManagement page");
-  
   // Tabs: 0=Overview, 1=Past Proposal Library, 2=Browse Templates, 3=Calendar
   const [activeTab, setActiveTab] = useState(0);
   // Move create dialog state to here
   const [showCreate, setShowCreate] = useState(false);
-
-  console.log("Active tab:", activeTab);
 
   return (
     <div className="bg-[#f4f6f9] min-h-screen p-6 flex flex-col items-center">
@@ -30,7 +25,9 @@ const ProposalManagement: React.FC = () => {
           </>
         )}
         {activeTab === 1 && (
-          <PastProposalLibrary />
+          <div className="mt-20 flex items-center justify-center text-lg text-gray-400">
+            Past Proposal Library (To be implemented)
+          </div>
         )}
         {activeTab === 2 && (
           <div className="mt-20 flex items-center justify-center text-lg text-gray-400">
@@ -45,5 +42,4 @@ const ProposalManagement: React.FC = () => {
     </div>
   );
 };
-
 export default ProposalManagement;
