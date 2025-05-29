@@ -81,7 +81,7 @@ const AddDonorDialog: React.FC<AddDonorDialogProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl text-center">Add new donor</DialogTitle>
+          <DialogTitle className="text-xl text-center">Add New Donor</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="p-6 space-y-4 w-full">
           <div className="space-y-2">
