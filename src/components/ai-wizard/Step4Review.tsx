@@ -65,7 +65,7 @@ const Step4Review: React.FC = () => {
         {/* Right Column - Export Options */}
         <div className="w-64">
           <div className="space-y-4">
-            <h4 className="font-medium text-gray-600">Export Options</h4>
+            <h4 className="font-bold text-gray-600">Export Options</h4>
             <div className="flex flex-col gap-3">
               <Button className="bg-violet-600 hover:bg-violet-700 w-full">
                 Export to Proposal Builder
