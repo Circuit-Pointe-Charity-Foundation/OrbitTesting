@@ -1,15 +1,32 @@
+
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useToast } from "@/hooks/use-toast";
 import { focusAreas, availableInterestTags } from "@/data/donorData";
 import { FocusArea } from "@/types/donor";
 import { EditIcon } from "../icons/EditIcon";
 import { DeleteIcon } from "../icons/DeleteIcon";
-import { X } from "lucide-react";
 
 interface FocusAreaDialogProps {
   open: boolean;
@@ -21,6 +38,14 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
   const [focusAreaList, setFocusAreaList] = useState<FocusArea[]>([...focusAreas]);
   const [editingArea, setEditingArea] = useState<FocusArea | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  // Calculate pagination
+  const totalPages = Math.ceil(focusAreaList.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = focusAreaList.slice(startIndex, endIndex);
 
   const handleSaveSegment = (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,9 +131,13 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
     }
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] h-[80vh] overflow-y-auto p-8 bg-white rounded-lg shadow-xl text-black relative flex flex-col items-center">
+      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto p-8 bg-white rounded-lg shadow-xl text-black">
         <DialogHeader>
           <DialogTitle className="text-xl flex items-center">
             <Button 
@@ -178,42 +207,78 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
 
           <div className="bg-white rounded-lg shadow-sm p-6">
             <h3 className="font-medium mb-4">Focus Areas List</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-[#A273F2]">
-                    <th className="py-3 px-2">SL No</th>
-                    <th className="py-3 px-2">Segment Name</th>
-                    <th className="py-3 px-2">Criteria Summary</th>
-                    <th className="py-3 px-2">Number of Donors</th>
-                    <th className="py-3 px-2">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {focusAreaList.map((area) => (
-                    <tr key={area.id} className="border-b border-gray-100">
-                      <td className="py-3 px-2">{area.id}</td>
-                      <td className="py-3 px-2">{area.name}</td>
-                      <td className="py-3 px-2">{area.criteriaSummary}</td>
-                      <td className="py-3 px-2">{area.donorCount}</td>
-                      <td className="py-3 px-2 flex gap-2">
-                        <button 
-                          aria-label="Edit focus area" 
-                          onClick={() => handleEditArea(area)}
-                        >
-                          <EditIcon />
-                        </button>
-                        <button 
-                          aria-label="Delete focus area" 
-                          onClick={() => handleDeleteArea(area.id)}
-                        >
-                          <DeleteIcon />
-                        </button>
-                      </td>
-                    </tr>
+            <div className="w-full">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-[#A273F2]">SL No</TableHead>
+                    <TableHead className="text-[#A273F2]">Segment Name</TableHead>
+                    <TableHead className="text-[#A273F2]">Criteria Summary</TableHead>
+                    <TableHead className="text-[#A273F2]">Number of Donors</TableHead>
+                    <TableHead className="text-[#A273F2]">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {currentItems.map((area) => (
+                    <TableRow key={area.id}>
+                      <TableCell>{area.id}</TableCell>
+                      <TableCell>{area.name}</TableCell>
+                      <TableCell className="max-w-xs">{area.criteriaSummary}</TableCell>
+                      <TableCell>{area.donorCount}</TableCell>
+                      <TableCell>
+                        <div className="flex gap-2">
+                          <button 
+                            aria-label="Edit focus area" 
+                            onClick={() => handleEditArea(area)}
+                          >
+                            <EditIcon />
+                          </button>
+                          <button 
+                            aria-label="Delete focus area" 
+                            onClick={() => handleDeleteArea(area.id)}
+                          >
+                            <DeleteIcon />
+                          </button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
+              
+              {totalPages > 1 && (
+                <div className="mt-4">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious 
+                          onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                          className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                        />
+                      </PaginationItem>
+                      
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            onClick={() => handlePageChange(page)}
+                            isActive={currentPage === page}
+                            className="cursor-pointer"
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      
+                      <PaginationItem>
+                        <PaginationNext 
+                          onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                          className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
             </div>
           </div>
         </div>
