@@ -88,7 +88,7 @@ const OpportunityForm: React.FC<OpportunityFormProps> = ({
             </PopoverTrigger>
             <PopoverContent className="w-[300px] p-0">
               <Command>
-                <CommandInput placeholder="Search donors..." />
+                <CommandInput placeholder="Search donors..." className="h-9" />
                 <CommandList>
                   <CommandEmpty>No donor found.</CommandEmpty>
                   <CommandGroup>

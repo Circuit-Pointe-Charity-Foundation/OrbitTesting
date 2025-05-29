@@ -52,7 +52,7 @@ const AddNoteDialog: React.FC<AddNoteDialogProps> = ({
       opportunityId,
       id: `note-${Date.now()}`,
       createdAt: new Date().toISOString(),
-      createdBy: "Current User",
+      createdBy: "Chioma Ike", // Updated to show actual user name
     });
     
     form.reset();
