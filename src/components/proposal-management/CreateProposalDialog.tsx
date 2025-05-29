@@ -10,9 +10,10 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Upload, FileText, FilePlus, X } from "lucide-react";
+import { Upload, FileText, FilePlus, Bot } from "lucide-react";
 import { mockOpportunities } from "@/types/opportunity";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   open: boolean;
@@ -23,11 +24,50 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
   const [title, setTitle] = useState("");
   const [opportunityId, setOpportunityId] = useState<string>("");
   const [isTemplate, setIsTemplate] = useState(false);
+  const [creationMethod, setCreationMethod] = useState<string>("");
+  const navigate = useNavigate();
 
   // Get sorted opportunity options for select
   const opportunityOptions = mockOpportunities
     .slice()
     .sort((a, b) => a.title.localeCompare(b.title));
+
+  const creationOptions = [
+    { value: "ai-wizard", label: "Use AI Wizard", icon: Bot },
+    { value: "upload-template", label: "Upload Donor Template", icon: Upload },
+    { value: "reuse-library", label: "Reuse Proposal from Library", icon: FileText },
+    { value: "create-manually", label: "Create Manually", icon: FilePlus },
+  ];
+
+  const handleCreate = () => {
+    if (!creationMethod) return;
+
+    // Close the dialog first
+    onOpenChange(false);
+
+    // Navigate based on creation method
+    switch (creationMethod) {
+      case "ai-wizard":
+        navigate("/modules/fundraising/ai-proposal-wizard");
+        break;
+      case "upload-template":
+        // TODO: Implement upload template functionality
+        console.log("Upload template selected");
+        break;
+      case "reuse-library":
+        // TODO: Implement reuse from library functionality
+        console.log("Reuse from library selected");
+        break;
+      case "create-manually":
+        // TODO: Implement manual creation functionality
+        console.log("Create manually selected");
+        break;
+      default:
+        break;
+    }
+  };
+
+  const selectedOption = creationOptions.find(option => option.value === creationMethod);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -39,7 +79,7 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
           className="mt-6 flex flex-col gap-8 w-full"
           onSubmit={e => {
             e.preventDefault();
-            // No submit logic yet
+            handleCreate();
           }}
         >
           {/* Proposal Title */}
@@ -55,6 +95,7 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
               required
             />
           </div>
+          
           {/* Opportunity Select */}
           <div className="flex flex-col gap-2">
             <Label htmlFor="opportunity-select">
@@ -76,6 +117,35 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
               </SelectContent>
             </Select>
           </div>
+
+          {/* Creation Method Select */}
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="creation-method">
+              Creation Method
+            </Label>
+            <Select
+              value={creationMethod}
+              onValueChange={setCreationMethod}
+            >
+              <SelectTrigger id="creation-method" className="bg-[#f6f6fa]">
+                <SelectValue placeholder="Choose how to create proposal" />
+              </SelectTrigger>
+              <SelectContent>
+                {creationOptions.map((option) => {
+                  const IconComponent = option.icon;
+                  return (
+                    <SelectItem key={option.value} value={option.value}>
+                      <div className="flex items-center gap-2">
+                        <IconComponent className="w-4 h-4" />
+                        {option.label}
+                      </div>
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* Make Available as Template */}
           <div className="flex items-center gap-3">
             <Checkbox
@@ -87,31 +157,17 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
               Make available as template
             </Label>
           </div>
-          {/* Action Buttons */}
+
+          {/* Create Button */}
           <div className="flex flex-row gap-4 mt-2">
             <Button
-              type="button"
+              type="submit"
               variant="default"
               className="flex-1 flex items-center justify-center"
+              disabled={!creationMethod}
             >
-              <Upload className="mr-2 w-5 h-5" />
-              Upload Donor Template
-            </Button>
-            <Button
-              type="button"
-              variant="secondary"
-              className="flex-1 flex items-center justify-center"
-            >
-              <FileText className="mr-2 w-5 h-5" />
-              Reuse Proposal from Library
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="flex-1 flex items-center justify-center"
-            >
-              <FilePlus className="mr-2 w-5 h-5" />
-              Create Manually
+              {selectedOption && <selectedOption.icon className="mr-2 w-5 h-5" />}
+              Create Proposal
             </Button>
           </div>
         </form>

@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,7 @@ import FeaturePlaceholder from "./components/common/FeaturePlaceholder";
 import OpportunityTracking from "./pages/OpportunityTracking";
 import OpportunityPipeline from "./pages/OpportunityPipeline";
 import ProposalManagement from "./pages/ProposalManagement";
+import AIProposalWizard from "./pages/AIProposalWizard";
 
 // Fundraising module pages - Only these are fully implemented
 import FundraisingDashboard from "./modules/fundraising/pages/Dashboard";
@@ -60,6 +62,7 @@ const App = () => (
               <Route path="opportunity-pipeline" element={<OpportunityPipeline />} />
 
               <Route path="proposal-management" element={<ProposalManagement />} />
+              <Route path="ai-proposal-wizard" element={<AIProposalWizard />} />
 
               <Route path="fundraising-analytics" element={<FundraisingAnalytics />} />
               <Route path="settings" element={<FeaturePlaceholder moduleName="Fundraising" featureName="Settings" />} />
