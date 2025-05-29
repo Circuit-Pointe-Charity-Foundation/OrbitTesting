@@ -14,16 +14,20 @@ import ProposalLibraryCard from "./ProposalLibraryCard";
 import { sampleProposals, ProposalLibraryItem } from "./ProposalLibraryData";
 
 const PastProposalLibrary: React.FC = () => {
+  console.log("Rendering PastProposalLibrary component");
+  console.log("Sample proposals:", sampleProposals);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [fileTypeFilter, setFileTypeFilter] = useState<string>("all");
 
   const fileTypes = useMemo(() => {
     const types = Array.from(new Set(sampleProposals.map(p => p.fileType)));
+    console.log("Available file types:", types);
     return types;
   }, []);
 
   const filteredProposals = useMemo(() => {
-    return sampleProposals.filter((proposal) => {
+    const filtered = sampleProposals.filter((proposal) => {
       const matchesSearch = 
         proposal.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         proposal.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -32,6 +36,8 @@ const PastProposalLibrary: React.FC = () => {
       
       return matchesSearch && matchesFileType;
     });
+    console.log("Filtered proposals:", filtered.length);
+    return filtered;
   }, [searchTerm, fileTypeFilter]);
 
   const handleViewProposal = (proposal: ProposalLibraryItem) => {

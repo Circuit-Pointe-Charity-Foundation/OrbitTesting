@@ -12,6 +12,8 @@ const ProposalLibraryCard: React.FC<ProposalLibraryCardProps> = ({
   proposal,
   onViewProposal,
 }) => {
+  console.log("Rendering ProposalLibraryCard:", proposal.title);
+
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <div
@@ -61,11 +63,11 @@ const ProposalLibraryCard: React.FC<ProposalLibraryCardProps> = ({
 
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <p className="font-medium text-gray-900 text-base leading-normal line-clamp-2">
-              {proposal.title}
+            <p className="font-medium text-gray-900 text-base leading-normal overflow-hidden">
+              <span className="block truncate">{proposal.title}</span>
             </p>
-            <p className="text-gray-500 text-xs leading-normal line-clamp-1">
-              {proposal.description}
+            <p className="text-gray-500 text-xs leading-normal overflow-hidden">
+              <span className="block truncate">{proposal.description}</span>
             </p>
           </div>
 

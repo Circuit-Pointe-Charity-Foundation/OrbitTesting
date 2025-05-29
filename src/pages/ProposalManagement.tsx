@@ -8,10 +8,14 @@ import ProposalCalendarTab from "@/components/proposal-management/ProposalCalend
 import PastProposalLibrary from "@/components/proposal-management/PastProposalLibrary";
 
 const ProposalManagement: React.FC = () => {
+  console.log("Rendering ProposalManagement page");
+  
   // Tabs: 0=Overview, 1=Past Proposal Library, 2=Browse Templates, 3=Calendar
   const [activeTab, setActiveTab] = useState(0);
   // Move create dialog state to here
   const [showCreate, setShowCreate] = useState(false);
+
+  console.log("Active tab:", activeTab);
 
   return (
     <div className="bg-[#f4f6f9] min-h-screen p-6 flex flex-col items-center">
@@ -41,4 +45,5 @@ const ProposalManagement: React.FC = () => {
     </div>
   );
 };
+
 export default ProposalManagement;
