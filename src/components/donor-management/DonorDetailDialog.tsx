@@ -66,15 +66,6 @@ const DonorDetailDialog: React.FC<DonorDetailDialogProps> = ({ open, onOpenChang
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-8">
-          {/* Close button, absolute top-right */}
-          <button
-            aria-label="Close"
-            onClick={() => onOpenChange(false)}
-            className="absolute right-4 top-4 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
-            type="button"
-          >
-            <X className="w-5 h-5" />
-          </button>
           <DialogHeader>
             <DialogTitle className="flex items-center justify-between">
               <Button 
