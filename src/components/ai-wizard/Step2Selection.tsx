@@ -44,10 +44,10 @@ const Step2Selection: React.FC<Step2SelectionProps> = ({
             <button
               key={keyword}
               onClick={() => onKeywordToggle(keyword)}
-              className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
+              className={`px-3 py-1.5 rounded text-sm border transition-colors ${
                 selectedKeywords.includes(keyword)
                   ? "bg-violet-600 text-white border-violet-600"
-                  : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
               }`}
             >
               {keyword}

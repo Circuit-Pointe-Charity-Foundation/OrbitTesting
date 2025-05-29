@@ -35,27 +35,27 @@ const AIProposalWizard: React.FC = () => {
     "Budget Certification", "Cultural Efforts", "Training Events", "Program Sustainability"
   ];
 
-  // Mock previous proposals data
+  // Mock previous proposals data with future dates
   const previousProposals = [
     {
       id: "1",
       title: "Health Care Access Project",
       environment: "Environment",
-      lastModified: "April 30, 2023",
+      lastModified: "June 15, 2025",
       tags: ["Health", "Community", "Policy"]
     },
     {
       id: "2",
       title: "Health Care Access Project",
       environment: "Environment", 
-      lastModified: "April 30, 2023",
+      lastModified: "July 22, 2025",
       tags: ["Health", "Sustainability", "Policy"]
     },
     {
       id: "3",
       title: "Health Care Access Project",
       environment: "Environment",
-      lastModified: "April 30, 2023",
+      lastModified: "August 10, 2025",
       tags: ["Health", "Community", "Policy"]
     }
   ];
@@ -146,7 +146,7 @@ const AIProposalWizard: React.FC = () => {
 
   return (
     <div className="bg-[#f4f6f9] min-h-screen p-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-8">
         {/* Header */}
         <div className="mb-6">
           <Button
@@ -172,7 +172,7 @@ const AIProposalWizard: React.FC = () => {
 
         {/* Main Content */}
         <Card>
-          <CardContent className="p-8">
+          <CardContent className="p-8 mx-8">
             {step === 1 && (
               <Step1Upload
                 uploadedFile={uploadedFile}
