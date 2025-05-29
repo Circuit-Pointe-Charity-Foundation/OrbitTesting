@@ -62,7 +62,7 @@ const Step4Review: React.FC = () => {
               {/* Document Statistics */}
               <div className="bg-gray-50 p-4 rounded-lg">
                 <h5 className="font-medium mb-3">Document Statistics</h5>
-                <div className="flex gap-8 text-sm">
+                <div className="flex flex-col gap-8 text-sm">
                   <div>
                     <span className="text-gray-600">Word Count:</span>
                     <span className="ml-2 font-medium">2,640</span>
