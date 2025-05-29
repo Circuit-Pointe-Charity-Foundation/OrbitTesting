@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -115,6 +114,16 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
     }, 0);
   };
 
+  const handleCancelEdit = () => {
+    setEditingArea(null);
+    setSelectedTags([]);
+    // Reset form
+    (document.getElementById('focusAreaName') as HTMLInputElement).value = '';
+    (document.getElementById('donationAmount') as HTMLInputElement).value = '';
+    (document.getElementById('startDate') as HTMLInputElement).value = '';
+    (document.getElementById('endDate') as HTMLInputElement).value = '';
+  };
+
   const handleDeleteArea = (areaId: string) => {
     setFocusAreaList(prev => prev.filter(area => area.id !== areaId));
     toast({
@@ -137,7 +146,7 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto p-8 bg-white rounded-lg shadow-xl text-black">
+      <DialogContent className="sm:max-w-[1000px] max-h-[90vh] overflow-y-auto p-8 bg-white rounded-lg shadow-xl text-black">
         <DialogHeader>
           <DialogTitle className="text-xl flex items-center">
             <h3 className="font-medium mb-4">{editingArea ? 'Edit' : 'Create New'} Focus Area</h3>
@@ -189,7 +198,17 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
                 </div>
               </div>
 
-              <div className="flex justify-center mt-6">
+              <div className="flex justify-center gap-4 mt-6">
+                {editingArea && (
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={handleCancelEdit}
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                  >
+                    Cancel
+                  </Button>
+                )}
                 <Button type="submit" className="bg-black text-white hover:bg-gray-900">
                   {editingArea ? 'Update' : 'Save'} Focus Area
                 </Button>

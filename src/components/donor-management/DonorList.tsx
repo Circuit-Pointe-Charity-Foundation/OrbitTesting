@@ -12,6 +12,8 @@ const DonorList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [addDonorOpen, setAddDonorOpen] = useState(false);
   const [focusAreaOpen, setFocusAreaOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const filteredDonors = donorData.filter(
     (donor) =>
@@ -22,8 +24,19 @@ const DonorList: React.FC = () => {
       )
   );
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredDonors.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentDonors = filteredDonors.slice(startIndex, endIndex);
+
   const handleSearch = (term: string) => {
     setSearchTerm(term);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -49,7 +62,12 @@ const DonorList: React.FC = () => {
             />
           </div>
         </div>
-        <DonorTable donors={filteredDonors} />
+        <DonorTable 
+          donors={currentDonors} 
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </section>
 
       <AddDonorDialog open={addDonorOpen} onOpenChange={setAddDonorOpen} />
