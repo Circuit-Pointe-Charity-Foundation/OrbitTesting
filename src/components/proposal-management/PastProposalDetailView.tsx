@@ -39,7 +39,7 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
   proposal,
   onBack,
 }) => {
-  const [selectedTeamMember, setSelectedTeamMember] = useState<string>("1"); // Default to first team member
+  const [selectedTeamMember, setSelectedTeamMember] = useState<string>("1");
   const [selectedAttachments, setSelectedAttachments] = useState<string[]>([]);
 
   const handleAttachmentSelect = (attachmentId: string) => {
@@ -52,12 +52,10 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
 
   const handleDownloadSelected = () => {
     console.log("Downloading selected attachments:", selectedAttachments);
-    // Download logic would go here
   };
 
   const handleDownloadAll = () => {
     console.log("Downloading all attachments");
-    // Download all logic would go here
   };
 
   const selectedMember = teamMembers.find(
@@ -90,14 +88,14 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
         <p className="text-gray-600">{proposal.description}</p>
       </div>
 
-      {/* Content Grid - More compact layout */}
+      {/* Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column */}
         <div className="space-y-6">
           {/* Overview Card */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 space-y-4">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4 backdrop-blur-sm bg-opacity-80">
             <h2 className="text-lg font-semibold text-gray-900">Overview</h2>
-            <div className="space-y-3">
+            <div className="space-y-3 p-3 border border-gray-100 rounded-lg">
               <h3 className="font-medium text-gray-900">Summary</h3>
               <p className="text-gray-700 text-sm leading-relaxed">
                 Lorem ipsum dolor sit amet consectetur. Ultrices amet semectus
@@ -105,7 +103,7 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
                 posuruent velit.
               </p>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-3 p-3 border border-gray-100 rounded-lg">
               <h3 className="font-medium text-gray-900">Objectives</h3>
               <p className="text-gray-700 text-sm leading-relaxed">
                 Lorem ipsum dolor sit amet consectetur. Ultrices amet semectus
@@ -116,23 +114,23 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
           </div>
 
           {/* Logframe Card */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 space-y-4">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4 backdrop-blur-sm bg-opacity-80">
             <h2 className="text-lg font-semibold text-gray-900">Logframe</h2>
-            <div className="space-y-3">
+            <div className="space-y-3 p-3 border border-gray-100 rounded-lg">
               <h3 className="font-medium text-gray-900">Outcome</h3>
               <p className="text-gray-700 text-sm leading-relaxed">
                 Lorem ipsum dolor sit amet consectetur. Ultrices amet semectus
                 et ultrices.
               </p>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-3 p-3 border border-gray-100 rounded-lg">
               <h3 className="font-medium text-gray-900">Indicator</h3>
               <p className="text-gray-700 text-sm leading-relaxed">
                 Lorem ipsum dolor sit amet consectetur. Ultrices amet semectus
                 et ultrices.
               </p>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-3 p-3 border border-gray-100 rounded-lg">
               <h3 className="font-medium text-gray-900">Assumption</h3>
               <p className="text-gray-700 text-sm leading-relaxed">
                 Lorem ipsum dolor sit amet consectetur. Ultrices amet semectus
@@ -145,9 +143,9 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
         {/* Right Column */}
         <div className="space-y-6">
           {/* Narrative Card */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 space-y-4">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4 backdrop-blur-sm bg-opacity-80">
             <h2 className="text-lg font-semibold text-gray-900">Narrative</h2>
-            <div className="space-y-3">
+            <div className="space-y-3 p-3 border border-gray-100 rounded-lg">
               <h3 className="font-medium text-gray-900">Proposal Narrative</h3>
               <p className="text-gray-700 text-sm leading-relaxed">
                 Lorem ipsum dolor sit amet consectetur. Ultrices amet semectus
@@ -158,9 +156,9 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
           </div>
 
           {/* Budget Card */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 space-y-4">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4 backdrop-blur-sm bg-opacity-80">
             <h2 className="text-lg font-semibold text-gray-900">Budget</h2>
-            <div className="space-y-3">
+            <div className="space-y-3 p-3 border border-gray-100 rounded-lg">
               <h3 className="font-medium text-gray-900">
                 Budget Figure (Naira)
               </h3>
@@ -170,7 +168,7 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
           </div>
 
           {/* Team Card */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 space-y-4">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4 backdrop-blur-sm bg-opacity-80">
             <h2 className="text-lg font-semibold text-gray-900">Team</h2>
             <div className="space-y-3">
               <h3 className="font-medium text-gray-900">Team Member</h3>
@@ -189,7 +187,7 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
                   ))}
                 </SelectContent>
               </Select>
-              <div className="mt-3 p-3 bg-gray-50 rounded-md">
+              <div className="mt-3 p-3 border border-gray-100 rounded-lg bg-gray-50">
                 <p className="font-medium text-gray-900">
                   {selectedMember?.name}
                 </p>
@@ -201,7 +199,7 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
       </div>
 
       {/* Attachments Card */}
-      <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 space-y-4">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4 backdrop-blur-sm bg-opacity-80">
         <h2 className="text-lg font-semibold text-gray-900">Attachments</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -211,7 +209,7 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
               className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
                 selectedAttachments.includes(attachment.id)
                   ? "bg-violet-50 border-2 border-violet-200"
-                  : "bg-gray-50 hover:bg-gray-100 border-2 border-transparent"
+                  : "bg-gray-50 hover:bg-gray-100 border border-gray-200"
               }`}
               onClick={() => handleAttachmentSelect(attachment.id)}
             >
@@ -226,7 +224,7 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
           ))}
         </div>
 
-        {/* Download buttons moved below attachments */}
+        {/* Download buttons */}
         <div className="flex gap-2 pt-4">
           {selectedAttachments.length > 0 && (
             <Button
