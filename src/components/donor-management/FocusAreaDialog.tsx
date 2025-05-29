@@ -140,18 +140,11 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
       <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto p-8 bg-white rounded-lg shadow-xl text-black">
         <DialogHeader>
           <DialogTitle className="text-xl flex items-center">
-            <Button 
-              variant="ghost" 
-              className="mr-2 hover:bg-gray-100 hover:text-black" 
-              onClick={() => onOpenChange(false)}
-            >
-              ← Back to Donor Management
-            </Button>
             <span className="flex-1">Focus Area</span>
           </DialogTitle>
         </DialogHeader>
         
-        <div className="p-6">
+        <div className="p-6 pt-2">
           <div className="bg-white rounded-lg shadow-sm mb-6 p-6">
             <h3 className="font-medium mb-4">{editingArea ? 'Edit' : 'Create New'} Focus Area</h3>
             <form onSubmit={handleSaveSegment} className="space-y-4">
