@@ -32,6 +32,7 @@ const DonorList: React.FC = () => {
             <ActionButton
               icon={<UserPlus className="h-4 w-4" />}
               text="New Donor"
+              variant="primary"
               onClick={() => setAddDonorOpen(true)}
               className="bg-black text-white hover:bg-gray-900 border-none"
             />
