@@ -1,12 +1,14 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import AddDonorDialog from "@/components/donor-management/AddDonorDialog";
 
 interface QuickActionProps {
   icon: string;
   label: string;
-  to: string;
+  to?: string;
   isActive?: boolean;
+  onClick?: () => void;
 }
 
 const QuickAction: React.FC<QuickActionProps> = ({
@@ -14,15 +16,16 @@ const QuickAction: React.FC<QuickActionProps> = ({
   label,
   to,
   isActive = false,
+  onClick,
 }) => {
-  return (
-    <Link
-      to={to}
+  const content = (
+    <div
       className={`flex items-center gap-2 px-3 py-2 rounded-md transition-colors cursor-pointer ${
         isActive
           ? "bg-violet-600/10 text-violet-600 font-medium border-b-2 border-violet-600"
-          : "..."
+          : "hover:bg-gray-100"
       }`}
+      onClick={onClick}
     >
       <img
         src={icon}
@@ -30,37 +33,56 @@ const QuickAction: React.FC<QuickActionProps> = ({
         alt=""
       />
       <div className="whitespace-nowrap text-sm">{label}</div>
-    </Link>
+    </div>
   );
+
+  if (to && !onClick) {
+    return <Link to={to}>{content}</Link>;
+  }
+
+  return content;
 };
 
 export const QuickActions: React.FC = () => {
+  const [addDonorOpen, setAddDonorOpen] = useState(false);
+
   return (
-    <div className="w-full mt-4 mb-2 px-4">
-      <div className="flex items-center gap-2 flex-wrap">
-        <QuickAction
-          icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/965a4a1f3ca576e6aa56ae0709d67302d74873cd?placeholderIfAbsent=true"
-          label="New Donor"
-          to="/donor-management/new"
-        />
-        <QuickAction
-          icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/317b4486ebc32b2db7308b7bccd5be2891c14934?placeholderIfAbsent=true"
-          label="New Opportunity"
-          to="/opportunity-tracking/new"
-        />
-        <QuickAction
-          icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/e4db9bc09fc3b27f400f30eb3535efe627699f5d?placeholderIfAbsent=true"
-          label="Create Proposal"
-          to="/proposal-development/new"
-          isActive={true}
-        />
-        <QuickAction
-          icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/c45e474da37deb864af93438f814f567fcfba3f7?placeholderIfAbsent=true"
-          label="Generate Reports"
-          to="/reports"
-        />
+    <>
+      <div className="w-full mt-4 mb-2 px-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          <QuickAction
+            icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/965a4a1f3ca576e6aa56ae0709d67302d74873cd?placeholderIfAbsent=true"
+            label="New Donor"
+            onClick={() => setAddDonorOpen(true)}
+          />
+          <QuickAction
+            icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/317b4486ebc32b2db7308b7bccd5be2891c14934?placeholderIfAbsent=true"
+            label="New Opportunity"
+            to="/opportunity-tracking/new"
+          />
+          <QuickAction
+            icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/e4db9bc09fc3b27f400f30eb3535efe627699f5d?placeholderIfAbsent=true"
+            label="Create Proposal"
+            to="/proposal-development/new"
+            isActive={true}
+          />
+          <QuickAction
+            icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/c45e474da37deb864af93438f814f567fcfba3f7?placeholderIfAbsent=true"
+            label="Generate Reports"
+            to="/reports"
+          />
+        </div>
+        <div className="bg-violet-100 h-px w-full mt-2" />
       </div>
-      <div className="bg-violet-100 h-px w-full mt-2" />
-    </div>
+
+      <AddDonorDialog 
+        open={addDonorOpen} 
+        onOpenChange={setAddDonorOpen}
+        onSuccess={() => {
+          // Optionally navigate to donor management after adding
+          console.log("Donor added successfully");
+        }}
+      />
+    </>
   );
 };
