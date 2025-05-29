@@ -58,25 +58,6 @@ const Step4Review: React.FC = () => {
                   </p>
                 </div>
               </div>
-
-              {/* Document Statistics */}
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h5 className="font-medium mb-3">Document Statistics</h5>
-                <div className="flex flex-col gap-1 text-sm">
-                  <div>
-                    <span className="text-gray-600">Word Count:</span>
-                    <span className="ml-2 font-medium">2,640</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Modified sections:</span>
-                    <span className="ml-2 font-medium">1</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">AI-generated sections:</span>
-                    <span className="ml-2 font-medium">4</span>
-                  </div>
-                </div>
-              </div>
             </CardContent>
           </Card>
         </div>
@@ -98,6 +79,24 @@ const Step4Review: React.FC = () => {
                 Download as PDF
               </Button>
             </div>
+            {/* Document Statistics */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h5 className="font-medium mb-3">Document Statistics</h5>
+                <div className="flex flex-col gap-1 text-sm">
+                  <div>
+                    <span className="text-gray-600">Word Count:</span>
+                    <span className="ml-2 font-medium">2,640</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Modified sections:</span>
+                    <span className="ml-2 font-medium">1</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">AI-generated sections:</span>
+                    <span className="ml-2 font-medium">4</span>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
       </div>
