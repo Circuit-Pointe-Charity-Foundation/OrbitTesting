@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowLeft, FileText, Download, Repeat } from "lucide-react";
+import { ArrowLeft, FileText, Download, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -77,7 +77,7 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
         </button>
 
         <Button className="bg-black hover:bg-gray-800 text-white px-6">
-          <Repeat className="h-4 w-4 mr-2" />
+          <RotateCcw className="h-4 w-4 mr-2" />
           Reuse Proposal
         </Button>
       </div>
