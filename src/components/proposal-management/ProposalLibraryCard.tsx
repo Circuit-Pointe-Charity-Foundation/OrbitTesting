@@ -13,9 +13,13 @@ interface Proposal {
 
 interface ProposalLibraryCardProps {
   proposal: Proposal;
+  onView?: (proposal: Proposal) => void;
 }
 
-const ProposalLibraryCard: React.FC<ProposalLibraryCardProps> = ({ proposal }) => {
+const ProposalLibraryCard: React.FC<ProposalLibraryCardProps> = ({ 
+  proposal, 
+  onView 
+}) => {
   const renderStars = (rating: number = 0) => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
@@ -35,6 +39,12 @@ const ProposalLibraryCard: React.FC<ProposalLibraryCardProps> = ({ proposal }) =
         return "bg-orange-100 text-orange-800";
       default:
         return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const handleViewClick = () => {
+    if (onView) {
+      onView(proposal);
     }
   };
 
@@ -78,7 +88,10 @@ const ProposalLibraryCard: React.FC<ProposalLibraryCardProps> = ({ proposal }) =
           <span className="text-sm text-gray-500">
             {proposal.uses} uses
           </span>
-          <button className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-violet-600 bg-violet-50 rounded hover:bg-violet-100 transition-colors">
+          <button 
+            onClick={handleViewClick}
+            className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-violet-600 bg-violet-50 rounded hover:bg-violet-100 transition-colors"
+          >
             <Eye className="h-4 w-4" />
             View Proposal
           </button>

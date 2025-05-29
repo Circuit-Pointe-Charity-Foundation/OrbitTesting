@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Search, Filter } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ProposalLibraryCard from "./ProposalLibraryCard";
+import PastProposalDetailView from "./PastProposalDetailView";
 
 interface Proposal {
   title: string;
@@ -67,6 +68,7 @@ const sampleProposals: Proposal[] = [
 const PastProposalLibrary: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [fileTypeFilter, setFileTypeFilter] = useState("all");
+  const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(null);
 
   const filteredProposals = sampleProposals.filter((proposal) => {
     const matchesSearch = 
@@ -81,6 +83,25 @@ const PastProposalLibrary: React.FC = () => {
 
   const uniqueFileTypes = Array.from(new Set(sampleProposals.map(p => p.fileType)));
 
+  const handleViewProposal = (proposal: Proposal) => {
+    setSelectedProposal(proposal);
+  };
+
+  const handleBackToLibrary = () => {
+    setSelectedProposal(null);
+  };
+
+  // Show detail view if a proposal is selected
+  if (selectedProposal) {
+    return (
+      <PastProposalDetailView
+        proposal={selectedProposal}
+        onBack={handleBackToLibrary}
+      />
+    );
+  }
+
+  // Show library view
   return (
     <div className="w-full">
       {/* Header with Search and Filter */}
@@ -129,6 +150,7 @@ const PastProposalLibrary: React.FC = () => {
           <ProposalLibraryCard
             key={index}
             proposal={proposal}
+            onView={handleViewProposal}
           />
         ))}
       </div>
