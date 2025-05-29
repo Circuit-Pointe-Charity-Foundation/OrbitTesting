@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogClose
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -32,18 +31,9 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[700px] w-full p-8 bg-white text-black relative rounded-lg shadow-xl flex flex-col items-center">
-        {/* Close button, absolute top-right */}
-        <button
-          aria-label="Close"
-          onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 text-gray-600 hover:text-black bg-white rounded-full p-1 transition-opacity"
-          type="button"
-        >
-          <X className="w-5 h-5" />
-        </button>
+      <DialogContent className="max-w-[700px] w-full bg-white text-black rounded-lg shadow-xl">
         <DialogHeader>
-          <DialogTitle>Create a New Proposal</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-center">Create a New Proposal</DialogTitle>
         </DialogHeader>
         <form
           className="mt-6 flex flex-col gap-8 w-full"

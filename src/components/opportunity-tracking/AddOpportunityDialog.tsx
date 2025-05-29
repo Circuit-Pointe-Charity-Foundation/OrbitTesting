@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,6 +43,17 @@ const TYPE_OPTIONS = [
   { value: "CFP", label: "CFP - Call for Proposal" },
 ];
 
+const CURRENCY_OPTIONS = [
+  { value: "USD", label: "USD" },
+  { value: "EUR", label: "EUR" },
+  { value: "GBP", label: "GBP" },
+  { value: "NGN", label: "NGN" },
+  { value: "CAD", label: "CAD" },
+  { value: "AUD", label: "AUD" },
+  { value: "JPY", label: "JPY" },
+  { value: "CHF", label: "CHF" },
+];
+
 const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
   isOpen,
   onClose,
@@ -51,6 +63,7 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
   const [title, setTitle] = useState("");
   const [donorId, setDonorId] = useState("");
   const [amount, setAmount] = useState("");
+  const [currency, setCurrency] = useState("USD");
   const [type, setType] = useState<"RFP" | "LOI" | "CFP">("RFP");
   const [deadline, setDeadline] = useState<Date>();
   const [assignedTo, setAssignedTo] = useState("");
@@ -91,6 +104,7 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
     setTitle("");
     setDonorId("");
     setAmount("");
+    setCurrency("USD");
     setType("RFP");
     setDeadline(undefined);
     setAssignedTo("");
@@ -152,9 +166,25 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="amount">Amount (USD)</Label>
+              <Label htmlFor="currency">Currency</Label>
+              <Select value={currency} onValueChange={setCurrency}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select currency" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CURRENCY_OPTIONS.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2 col-span-2">
+              <Label htmlFor="amount">Amount</Label>
               <Input
                 id="amount"
                 type="number"
@@ -162,37 +192,37 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
                 onChange={(e) => setAmount(e.target.value)}
               />
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="deadline">Deadline *</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !deadline && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {deadline ? (
-                      format(deadline, "PPP")
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={deadline}
-                    onSelect={setDeadline}
-                    initialFocus
-                    className={cn("p-3 pointer-events-auto")}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="deadline">Deadline *</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !deadline && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {deadline ? (
+                    format(deadline, "PPP")
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={deadline}
+                  onSelect={setDeadline}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -233,5 +263,3 @@ const AddOpportunityDialog: React.FC<AddOpportunityDialogProps> = ({
 };
 
 export default AddOpportunityDialog;
-
-// This file now uses the shared StaffSelect component for staff assignment.

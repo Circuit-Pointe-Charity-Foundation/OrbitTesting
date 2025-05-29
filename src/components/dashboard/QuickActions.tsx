@@ -2,6 +2,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AddDonorDialog from "@/components/donor-management/AddDonorDialog";
+import AddOpportunityDialog from "@/components/opportunity-tracking/AddOpportunityDialog";
+import CreateProposalDialog from "@/components/proposal-management/CreateProposalDialog";
+import { mockOpportunities } from "@/types/opportunity";
 
 interface QuickActionProps {
   icon: string;
@@ -45,6 +48,17 @@ const QuickAction: React.FC<QuickActionProps> = ({
 
 export const QuickActions: React.FC = () => {
   const [addDonorOpen, setAddDonorOpen] = useState(false);
+  const [addOpportunityOpen, setAddOpportunityOpen] = useState(false);
+  const [createProposalOpen, setCreateProposalOpen] = useState(false);
+
+  // Create dummy donors for the opportunity dialog
+  const donorsForDropdown = mockOpportunities
+    .map((opp) => ({ id: opp.donorId, name: opp.donorName }))
+    .filter((donor, idx, self) => idx === self.findIndex((d) => d.id === donor.id));
+
+  const handleAddOpportunity = (opportunity: any) => {
+    console.log("Opportunity added:", opportunity);
+  };
 
   return (
     <>
@@ -58,12 +72,12 @@ export const QuickActions: React.FC = () => {
           <QuickAction
             icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/317b4486ebc32b2db7308b7bccd5be2891c14934?placeholderIfAbsent=true"
             label="New Opportunity"
-            to="/opportunity-tracking/new"
+            onClick={() => setAddOpportunityOpen(true)}
           />
           <QuickAction
             icon="https://cdn.builder.io/api/v1/image/assets/1c76b562a1a146688b16ac6584a89363/e4db9bc09fc3b27f400f30eb3535efe627699f5d?placeholderIfAbsent=true"
             label="Create Proposal"
-            to="/proposal-development/new"
+            onClick={() => setCreateProposalOpen(true)}
             isActive={true}
           />
           <QuickAction
@@ -79,9 +93,20 @@ export const QuickActions: React.FC = () => {
         open={addDonorOpen} 
         onOpenChange={setAddDonorOpen}
         onSuccess={() => {
-          // Optionally navigate to donor management after adding
           console.log("Donor added successfully");
         }}
+      />
+
+      <AddOpportunityDialog
+        isOpen={addOpportunityOpen}
+        onClose={() => setAddOpportunityOpen(false)}
+        onAddOpportunity={handleAddOpportunity}
+        donors={donorsForDropdown}
+      />
+
+      <CreateProposalDialog
+        open={createProposalOpen}
+        onOpenChange={setCreateProposalOpen}
       />
     </>
   );
