@@ -140,13 +140,12 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
       <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto p-8 bg-white rounded-lg shadow-xl text-black">
         <DialogHeader>
           <DialogTitle className="text-xl flex items-center">
-            <span className="flex-1">Focus Area</span>
+            <h3 className="font-medium mb-4">{editingArea ? 'Edit' : 'Create New'} Focus Area</h3>
           </DialogTitle>
         </DialogHeader>
         
         <div className="p-6 pt-2">
           <div className="bg-white rounded-lg shadow-sm mb-6 p-6">
-            <h3 className="font-medium mb-4">{editingArea ? 'Edit' : 'Create New'} Focus Area</h3>
             <form onSubmit={handleSaveSegment} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
