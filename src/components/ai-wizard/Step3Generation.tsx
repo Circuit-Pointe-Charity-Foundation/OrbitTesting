@@ -91,7 +91,7 @@ const Step3Generation: React.FC<Step3GenerationProps> = ({ generatedProposal }) 
             {/* Original Content */}
             <div className="flex-1">
               <h4 className="font-medium text-gray-600 mb-4">Original Content</h4>
-              <div className="bg-white rounded-lg shadow-md p-6 h-96 flex flex-col">
+              <div className="bg-white rounded-lg shadow-md p-6 h-96 flex flex-col overflow-y-auto">
                 <p className="text-gray-700 text-sm leading-relaxed">
                   This detailed fundraising proposal articulates our ambitious vision to uplift local communities through a variety of innovative and impactful programs. Our primary goal is to raise substantial funds that will significantly enhance educational resources, deliver essential services, and empower individuals to realize their full potential. We invite you to join us in this transformative journey to make a meaningful difference in the lives of many!
                 </p>
