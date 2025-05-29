@@ -60,7 +60,10 @@ const OpportunityPipeline: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <StaffOverloadCard />
-        <OpportunitiesByStaffCard onViewAll={() => setShowStaffDialog(true)} />
+        <OpportunitiesByStaffCard 
+          onViewAll={() => setShowStaffDialog(true)} 
+          month={selectedMonth}
+        />
       </div>
       <OpportunitiesByStaffDialog
         isOpen={showStaffDialog}
