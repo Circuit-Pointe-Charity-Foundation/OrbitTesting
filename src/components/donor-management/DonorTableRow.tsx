@@ -9,9 +9,10 @@ import EditDonorDialog from "./EditDonorDialog";
 
 interface DonorTableRowProps {
   donor: Donor;
+  serialNumber: number;
 }
 
-const DonorTableRow: React.FC<DonorTableRowProps> = ({ donor }) => {
+const DonorTableRow: React.FC<DonorTableRowProps> = ({ donor, serialNumber }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -36,7 +37,7 @@ const DonorTableRow: React.FC<DonorTableRowProps> = ({ donor }) => {
         className="border-b border-[#E9E9E9] hover:bg-gray-50 cursor-pointer"
         onClick={handleViewDetails}
       >
-        <td className="py-3 px-4 text-[#232323] table-cell">{donor.id}.</td>
+        <td className="py-3 px-4 text-[#232323] table-cell">{serialNumber}.</td>
         <td className="py-3 px-4 text-[#232323] table-cell">{donor.name}</td>
         <td className="py-3 px-4 text-[#232323] table-cell">
           {donor.email || donor.contact}
