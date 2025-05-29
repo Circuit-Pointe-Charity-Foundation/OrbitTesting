@@ -144,7 +144,7 @@ const FocusAreaDialog: React.FC<FocusAreaDialogProps> = ({ open, onOpenChange })
           </DialogTitle>
         </DialogHeader>
         
-        <div className="p-6 pt-2">
+        <div>
           <div className="bg-white rounded-lg shadow-sm mb-6 p-6">
             <form onSubmit={handleSaveSegment} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
