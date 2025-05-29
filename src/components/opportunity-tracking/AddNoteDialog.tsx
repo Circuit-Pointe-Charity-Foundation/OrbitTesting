@@ -3,7 +3,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { X } from "lucide-react";
 
 import {
   Dialog,
@@ -11,7 +10,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogClose
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -63,12 +61,9 @@ const AddNoteDialog: React.FC<AddNoteDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-white text-black relative">
-        <DialogHeader>
-          <DialogTitle>Add Note</DialogTitle>
-          <DialogClose aria-label="Close" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <span className="sr-only">Close</span>
-          </DialogClose>
+      <DialogContent className="sm:max-w-[500px] bg-white text-black border shadow-lg">
+        <DialogHeader className="pb-4">
+          <DialogTitle className="text-lg font-semibold">Add Note</DialogTitle>
         </DialogHeader>
         
         <Form {...form}>
@@ -78,11 +73,11 @@ const AddNoteDialog: React.FC<AddNoteDialogProps> = ({
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Note</FormLabel>
+                  <FormLabel className="text-sm font-medium text-gray-700">Note</FormLabel>
                   <FormControl>
                     <Textarea 
                       placeholder="Enter your note here..." 
-                      className="min-h-[150px] resize-none" 
+                      className="min-h-[150px] resize-none border-gray-300 focus:border-violet-500 focus:ring-violet-500" 
                       {...field} 
                     />
                   </FormControl>
@@ -91,11 +86,13 @@ const AddNoteDialog: React.FC<AddNoteDialogProps> = ({
               )}
             />
             
-            <DialogFooter className="mt-6">
+            <DialogFooter className="pt-4 gap-2">
               <Button type="button" variant="outline" onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="submit" className="bg-black text-white hover:bg-gray-900">Add Note</Button>
+              <Button type="submit" className="bg-black text-white hover:bg-gray-900">
+                Add Note
+              </Button>
             </DialogFooter>
           </form>
         </Form>
