@@ -61,7 +61,7 @@ const Step3Generation: React.FC<Step3GenerationProps> = ({ generatedProposal }) 
         {/* Sidebar with sections */}
         <div className="w-48 space-y-2">
           <div className="mb-4">
-            <h4 className="font-medium text-gray-600 mb-3">Sections</h4>
+            <h4 className="font-bold text-gray-600 mb-3">Sections</h4>
             <div className="bg-white rounded-lg shadow-md p-4 space-y-2">
               {sections.map((section) => {
                 const IconComponent = section.icon;
@@ -90,7 +90,7 @@ const Step3Generation: React.FC<Step3GenerationProps> = ({ generatedProposal }) 
           <div className="flex gap-6">
             {/* Original Content */}
             <div className="flex-1">
-              <h4 className="font-medium text-gray-600 mb-4">Original Content</h4>
+              <h4 className="font-bold text-gray-600 mb-4">Original Content</h4>
               <div className="bg-white rounded-lg shadow-md p-6 h-96 flex flex-col overflow-y-auto">
                 <p className="text-gray-700 text-sm leading-relaxed">
                   This detailed fundraising proposal articulates our ambitious vision to uplift local communities through a variety of innovative and impactful programs. Our primary goal is to raise substantial funds that will significantly enhance educational resources, deliver essential services, and empower individuals to realize their full potential. We invite you to join us in this transformative journey to make a meaningful difference in the lives of many!
@@ -100,7 +100,7 @@ const Step3Generation: React.FC<Step3GenerationProps> = ({ generatedProposal }) 
 
             {/* AI Generated Content */}
             <div className="flex-1">
-              <h4 className="font-medium text-gray-600 mb-4">AI Generated Content</h4>
+              <h4 className="font-bold text-gray-600 mb-4">AI Generated Content</h4>
               <div className="bg-white rounded-lg shadow-md p-6 h-96 flex flex-col">
                 <div className="flex-1 mb-4">
                   <div className="prose max-w-none">
