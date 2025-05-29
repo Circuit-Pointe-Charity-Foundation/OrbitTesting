@@ -21,17 +21,34 @@ const devStaffMetric = [
   },
 ];
 
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 interface OpportunitiesByStaffCardProps {
   onViewAll: () => void;
+  month: number;
 }
 
 const OpportunitiesByStaffCard: React.FC<OpportunitiesByStaffCardProps> = ({
   onViewAll,
+  month,
 }) => {
   return (
     <Card className="p-6 h-full flex flex-col">
       <div className="flex justify-between items-center mb-4">
-        <span className="font-semibold">Opportunities by Staff</span>
+        <span className="font-semibold">Opportunities by Staff - {MONTHS[month]}</span>
         <button
           className="text-violet-600 text-sm underline hover:font-semibold"
           onClick={onViewAll}

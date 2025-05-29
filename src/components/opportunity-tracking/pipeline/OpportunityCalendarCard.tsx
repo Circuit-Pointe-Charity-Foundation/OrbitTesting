@@ -1,9 +1,9 @@
+
 import React, { useState } from "react";
 import {
   Calendar as CalendarIcon,
   ArrowLeft,
   ArrowRight,
-  BellPlus,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
@@ -92,9 +92,6 @@ const OpportunityCalendarCard: React.FC<OpportunityCalendarCardProps> = ({
         style={{ minWidth: 24, minHeight: 24 }}
       >
         <span>{props.date.getDate()}</span>
-        {reminder && (
-          <BellPlus className="absolute left-2 top-2 h-4 w-4 text-white bg-violet-500 rounded-full" />
-        )}
       </div>
     );
   };

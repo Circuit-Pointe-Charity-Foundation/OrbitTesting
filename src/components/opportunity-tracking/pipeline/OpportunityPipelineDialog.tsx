@@ -7,6 +7,7 @@ import OpportunityCalendarCard from "./OpportunityCalendarCard";
 import StaffOverloadCard from "./StaffOverloadCard";
 import OpportunitiesByStaffCard from "./OpportunitiesByStaffCard";
 import OpportunitiesByStaffDialog from "./OpportunitiesByStaffDialog";
+import UpcomingFundingCyclesCard from "./UpcomingFundingCyclesCard";
 
 interface OpportunityPipelineDialogProps {
   isOpen: boolean;
@@ -50,7 +51,14 @@ const OpportunityPipelineDialog: React.FC<OpportunityPipelineDialogProps> = ({
           {/* Row 3: Staff Overload / Opportunities by Staff */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
             <StaffOverloadCard />
-            <OpportunitiesByStaffCard onViewAll={() => setShowStaffDialog(true)} />
+            <OpportunitiesByStaffCard 
+              onViewAll={() => setShowStaffDialog(true)} 
+              month={month}
+            />
+          </div>
+          {/* Row 4: Upcoming Funding Cycles */}
+          <div className="mt-8">
+            <UpcomingFundingCyclesCard />
           </div>
         </div>
         <OpportunitiesByStaffDialog
