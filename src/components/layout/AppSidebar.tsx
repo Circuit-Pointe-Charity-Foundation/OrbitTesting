@@ -123,25 +123,18 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
   const location = useLocation();
   const fullPath = `${baseUrl}${to}`;
   const isActive = location.pathname === fullPath;
-  const textColor = isActive
-    ? "text-violet-700"
-    : collapsed
-    ? "text-white"
-    : "text-gray-700";
-  const hoverBg = collapsed ? "hover:bg-violet-700/50" : "hover:bg-gray-100";
-  const activeBg = isActive
-    ? collapsed
-      ? "bg-violet-700/50"
-      : "bg-gray-100"
-    : "";
-  const iconColorClass = collapsed ? "text-white" : "text-gray-500";
+  
+  const textColor = isActive ? "text-white" : "text-gray-700";
+  const hoverBg = "hover:bg-violet-600 hover:text-white";
+  const activeBg = isActive ? "bg-violet-600" : "";
+  const iconColorClass = isActive ? "text-white" : "text-gray-500";
 
   return (
     <Link
       to={fullPath}
       className={`flex items-center gap-4 py-2 px-2 rounded-md cursor-pointer transition-colors ${textColor} ${hoverBg} ${activeBg} ${
         collapsed ? "justify-center" : ""
-      }`}
+      } group`}
       style={{ minHeight: "44px" }}
     >
       {typeof icon === "string" ? (
@@ -152,7 +145,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
         />
       ) : (
         <div
-          className={`w-5 h-5 flex items-center justify-center shrink-0 ${iconColorClass}`}
+          className={`w-5 h-5 flex items-center justify-center shrink-0 ${iconColorClass} group-hover:text-white ${isActive ? 'text-white' : ''}`}
         >
           {icon}
         </div>
@@ -181,7 +174,7 @@ const AppSidebar: React.FC<{
   };
 
   const getModuleIcon = (moduleId: string) => {
-    const iconColorClass = collapsed ? "text-white" : "text-gray-500";
+    const iconColorClass = "text-gray-500";
     switch (moduleId) {
       case "fundraising":
         return <DollarSign size={20} className={iconColorClass} />;
@@ -216,29 +209,29 @@ const AppSidebar: React.FC<{
 
   return (
     <div
-      className={`fixed h-full z-10 flex-col font-medium overflow-hidden transition-all duration-300 ease-in-out shadow-md ${
-        collapsed ? "w-[70px] bg-violet-600" : "w-[22%] max-w-[280px] bg-white"
+      className={`fixed h-full z-10 flex-col font-medium overflow-hidden transition-all duration-300 ease-in-out shadow-md bg-white ${
+        collapsed ? "w-[70px]" : "w-[22%] max-w-[280px]"
       }`}
     >
       <div className="flex items-center justify-between px-6 pt-[31px]">
-        <div className="flex items-center gap-2 text-lg text-gray-800">
-          <img
-            src={collapsed ? blackLogo : blackLogo}
-            className="aspect-[1] object-contain w-[30px] shrink-0 my-auto"
-            alt="Orbit Logo"
-          />
-          {!collapsed && <div className="self-stretch my-auto">Orbit ERP</div>}
-        </div>
+        {!collapsed && (
+          <div className="flex items-center gap-2 text-lg text-gray-800">
+            <img
+              src={blackLogo}
+              className="aspect-[1] object-contain w-[30px] shrink-0 my-auto"
+              alt="Orbit Logo"
+            />
+            <div className="self-stretch my-auto">Orbit ERP</div>
+          </div>
+        )}
         <button
           onClick={onToggle}
-          className={`rounded-full p-1 transition-colors ${
-            collapsed
-              ? "text-white hover:bg-violet-700"
-              : "text-gray-500 hover:bg-gray-100"
+          className={`rounded-full p-1 transition-colors text-gray-500 hover:bg-gray-100 ${
+            collapsed ? "mx-auto" : ""
           }`}
         >
           {collapsed ? (
-            <ChevronRight size={20} className="text-white" />
+            <ChevronRight size={20} className="text-gray-500" />
           ) : (
             <ChevronLeft size={20} />
           )}
@@ -274,22 +267,17 @@ const AppSidebar: React.FC<{
 
       {/* Module Switcher */}
       <div
-        className={`absolute bottom-0 left-0 right-0 border-t ${
-          collapsed ? "border-violet-500" : "border-gray-200"
-        } py-2 ${collapsed ? "px-2" : "px-4"}`}
+        className={`absolute bottom-0 left-0 right-0 border-t border-gray-200 py-2 ${
+          collapsed ? "px-2" : "px-4"
+        }`}
       >
         <button
           onClick={toggleModuleSwitcher}
-          className={`w-full rounded-md py-3 flex items-center transition-colors ${
-            collapsed
-              ? "justify-center text-white hover:bg-violet-700"
-              : "justify-between px-4 text-gray-700 hover:bg-gray-100"
+          className={`w-full rounded-md py-3 flex items-center transition-colors text-gray-700 hover:bg-gray-100 ${
+            collapsed ? "justify-center" : "justify-between px-4"
           }`}
         >
-          <Menu
-            size={20}
-            className={collapsed ? "text-white" : "text-gray-500"}
-          />
+          <Menu size={20} className="text-gray-500" />
           {!collapsed && (
             <>
               <span>Switch Module</span>
@@ -297,8 +285,8 @@ const AppSidebar: React.FC<{
                 size={16}
                 className={
                   showModuleSwitcher
-                    ? `rotate-90 ${collapsed ? "text-white" : "text-gray-500"}`
-                    : `${collapsed ? "text-white" : "text-gray-500"}`
+                    ? "rotate-90 text-gray-500"
+                    : "text-gray-500"
                 }
               />
             </>
@@ -307,10 +295,10 @@ const AppSidebar: React.FC<{
 
         {showModuleSwitcher && (
           <ScrollArea
-            className={`mt-2 p-2 rounded-md shadow-inner ${
+            className={`mt-2 p-2 rounded-md shadow-inner bg-gray-100 ${
               collapsed
-                ? "absolute bottom-16 left-0 w-[220px] bg-violet-700"
-                : "bg-gray-100"
+                ? "absolute bottom-16 left-0 w-[220px]"
+                : ""
             }`}
             style={{ maxHeight: "400px" }}
           >
@@ -318,18 +306,10 @@ const AppSidebar: React.FC<{
               <button
                 key={module.id}
                 onClick={() => handleModuleChange(module)}
-                className={`w-full text-left p-2 rounded-md mb-1 flex items-center gap-2 ${
-                  collapsed
-                    ? `text-violet-200 hover:bg-violet-800/50 ${
-                        activeModule.id === module.id
-                          ? "bg-violet-800 text-white"
-                          : ""
-                      }`
-                    : `text-gray-700 hover:bg-gray-200 ${
-                        activeModule.id === module.id
-                          ? "bg-gray-200 font-semibold"
-                          : ""
-                      }`
+                className={`w-full text-left p-2 rounded-md mb-1 flex items-center gap-2 text-gray-700 hover:bg-gray-200 ${
+                  activeModule.id === module.id
+                    ? "bg-gray-200 font-semibold"
+                    : ""
                 }`}
               >
                 {getModuleIcon(module.id)}
