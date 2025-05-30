@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -27,11 +26,22 @@ export const Header: React.FC = () => {
   const navigate = useNavigate();
   const { activeModule } = useModuleContext();
 
+  // const handleLogout = () => {
+  //   localStorage.removeItem("activeModuleId");
+  //   toast.success("Logged out successfully");
+  //   navigate("/", {
+  //     replace: true,
+  //     state: { forceUpdate: Date.now() }, // This will trigger a remount
+  //   });
+  // };
+
   const handleLogout = () => {
     localStorage.removeItem("activeModuleId");
-    toast.success("Logged out successfully");
-    navigate("/", { replace: true, state: { forceUpdate: Date.now() } });
-};
+    toast.success("Logging out...");
+    setTimeout(() => {
+      window.location.href = "/"; // Ensures a clean state
+    }, 1000); // Gives time for toast to show
+  };
 
   return (
     <div className="bg-white w-full flex items-center justify-between px-6 py-4 shadow-sm">
@@ -73,7 +83,7 @@ export const Header: React.FC = () => {
               Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem 
+            <DropdownMenuItem
               className="cursor-pointer text-red-500 flex items-center gap-2"
               onClick={() => setLogoutDialogOpen(true)}
             >
@@ -86,14 +96,18 @@ export const Header: React.FC = () => {
         <AlertDialog open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+              <AlertDialogTitle>
+                Are you sure you want to logout?
+              </AlertDialogTitle>
               <AlertDialogDescription>
                 You will be redirected to the login page.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+              <AlertDialogAction onClick={handleLogout}>
+                Logout
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
