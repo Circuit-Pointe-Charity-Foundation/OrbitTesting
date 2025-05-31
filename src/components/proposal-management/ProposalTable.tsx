@@ -1,9 +1,8 @@
+
 import React, { useState } from "react";
 import { proposals as initialProposals, reviewerOptions, Proposal } from "./ProposalData";
 import { Search } from "lucide-react";
 import ProposalRowActions from "./ProposalRowActions";
-import CreateProposalDialog from "./CreateProposalDialog";
-import EditProposalDialog from "./EditProposalDialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   AlertDialog,
@@ -16,20 +15,20 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const ProposalTable: React.FC<{
   onOpenCreate: () => void;
 }> = ({ onOpenCreate }) => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [proposals, setProposals] = useState<Proposal[]>(initialProposals);
 
   // State for dialogs
-  const [editId, setEditId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   // For delete confirmation dialog
   const proposalToDelete = deleteId ? proposals.find(p => p.id === deleteId) : undefined;
-  const proposalToEdit = editId ? proposals.find(p => p.id === editId) : undefined;
 
   // Filtering
   const filtered = !search
@@ -50,7 +49,26 @@ const ProposalTable: React.FC<{
 
   // Action menu handlers
   const handleDelete = (id: string) => setDeleteId(id);
-  const handleEdit = (id: string) => setEditId(id);
+  
+  const handleEdit = (id: string) => {
+    const proposalToEdit = proposals.find(p => p.id === id);
+    if (proposalToEdit) {
+      // Navigate to manual proposal creation with pre-filled data
+      navigate("/modules/fundraising/proposal-creation", {
+        state: {
+          prefilledData: {
+            source: "proposal",
+            proposal: proposalToEdit,
+            creationContext: {
+              title: proposalToEdit.name,
+              description: `Continue working on ${proposalToEdit.name}`,
+              type: "editing"
+            }
+          }
+        }
+      });
+    }
+  };
 
   // Confirm deletion
   const confirmDelete = () => {
@@ -64,9 +82,8 @@ const ProposalTable: React.FC<{
   // Defensive cleanup
   React.useEffect(() => {
     // If proposal got deleted while dialog open, close dialog
-    if (editId && !proposals.find(p => p.id === editId)) setEditId(null);
     if (deleteId && !proposals.find(p => p.id === deleteId)) setDeleteId(null);
-  }, [proposals, editId, deleteId]);
+  }, [proposals, deleteId]);
 
   return (
     <div className="bg-white mt-12 pt-8 pb-4 px-6 rounded-[5px] shadow-sm">
@@ -164,9 +181,7 @@ const ProposalTable: React.FC<{
         )}
       </div>
 
-      {/* Dialogs */}
-      {/* Remove CreateProposalDialog from here */}
-      <EditProposalDialog open={!!proposalToEdit} onOpenChange={o => o ? undefined : setEditId(null)} proposalName={proposalToEdit?.name} />
+      {/* Delete confirmation dialog */}
       <AlertDialog open={!!proposalToDelete} onOpenChange={o => o ? undefined : setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>

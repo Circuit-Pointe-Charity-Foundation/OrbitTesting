@@ -39,19 +39,37 @@ const ManualProposalCreation: React.FC = () => {
         if (source === "template") {
           setPageTitle(`${creationContext.title} - From Template`);
         } else if (source === "proposal") {
-          setPageTitle(`${creationContext.title} - From Previous Proposal`);
+          if (creationContext.type === "editing") {
+            setPageTitle(`Edit: ${creationContext.title}`);
+          } else {
+            setPageTitle(`${creationContext.title} - From Previous Proposal`);
+          }
         }
       }
     }
   }, [prefilledData]);
 
   const handleBack = () => {
-    // Navigate back to proposal management if coming from creation flow
-    if (prefilledData?.creationContext) {
-      navigate("/modules/fundraising/proposal-management");
-    } else {
-      navigate("/modules/fundraising/proposal-management");
+    // Navigate back to proposal management
+    navigate("/modules/fundraising/proposal-management");
+  };
+
+  const getSubtitleText = () => {
+    if (!prefilledData) return null;
+    
+    const { source, template, proposal, creationContext } = prefilledData;
+    
+    if (source === "template" && template) {
+      return `Using template: ${template.title}`;
+    } else if (source === "proposal" && proposal) {
+      if (creationContext?.type === "editing") {
+        return `Continue editing proposal`;
+      } else {
+        return `Based on proposal: ${proposal.name}`;
+      }
     }
+    
+    return null;
   };
 
   return (
@@ -72,12 +90,9 @@ const ManualProposalCreation: React.FC = () => {
               <h1 className="text-lg font-semibold text-gray-900">
                 {pageTitle}
               </h1>
-              {prefilledData && (
+              {getSubtitleText() && (
                 <p className="text-sm text-gray-600">
-                  {prefilledData.source === "template" 
-                    ? `Using template: ${prefilledData.template?.title}` 
-                    : `Based on proposal: ${prefilledData.proposal?.title}`
-                  }
+                  {getSubtitleText()}
                 </p>
               )}
             </div>
