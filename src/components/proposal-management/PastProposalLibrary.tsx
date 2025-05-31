@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Search, Filter } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -12,6 +11,17 @@ interface Proposal {
   uses: number;
   imageSrc: string;
   rating?: number;
+}
+
+interface CreationContext {
+  method: string;
+  title: string;
+  opportunityId: string;
+  isTemplate: boolean;
+}
+
+interface PastProposalLibraryProps {
+  creationContext?: CreationContext;
 }
 
 const sampleProposals: Proposal[] = [
@@ -65,7 +75,7 @@ const sampleProposals: Proposal[] = [
   },
 ];
 
-const PastProposalLibrary: React.FC = () => {
+const PastProposalLibrary: React.FC<PastProposalLibraryProps> = ({ creationContext }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [fileTypeFilter, setFileTypeFilter] = useState("all");
   const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(null);
@@ -97,6 +107,7 @@ const PastProposalLibrary: React.FC = () => {
       <PastProposalDetailView
         proposal={selectedProposal}
         onBack={handleBackToLibrary}
+        creationContext={creationContext}
       />
     );
   }
@@ -106,7 +117,14 @@ const PastProposalLibrary: React.FC = () => {
     <div className="w-full">
       {/* Header with Search and Filter */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Past Proposal Library</h2>
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900">Past Proposal Library</h2>
+          {creationContext && (
+            <p className="text-sm text-gray-600 mt-1">
+              Select a proposal to reuse for "{creationContext.title}"
+            </p>
+          )}
+        </div>
         
         <div className="flex items-center gap-4">
           {/* Filter Dropdown */}

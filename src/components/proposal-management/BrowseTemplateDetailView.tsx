@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Download } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import ProposalDetailHeader from "./ProposalDetailHeader";
 import ProposalOverviewCard from "./ProposalOverviewCard";
 import ProposalLogframeCard from "./ProposalLogframeCard";
@@ -8,6 +9,13 @@ import ProposalNarrativeCard from "./ProposalNarrativeCard";
 import ProposalBudgetCard from "./ProposalBudgetCard";
 import ProposalTeamCard from "./ProposalTeamCard";
 import ProposalAttachmentsCard from "./ProposalAttachmentsCard";
+
+interface CreationContext {
+  method: string;
+  title: string;
+  opportunityId: string;
+  isTemplate: boolean;
+}
 
 interface BrowseTemplateDetailViewProps {
   template: {
@@ -19,14 +27,27 @@ interface BrowseTemplateDetailViewProps {
     rating?: number;
   };
   onBack: () => void;
+  creationContext?: CreationContext;
 }
 
 const BrowseTemplateDetailView: React.FC<BrowseTemplateDetailViewProps> = ({
   template,
   onBack,
+  creationContext,
 }) => {
+  const navigate = useNavigate();
+
   const handleUseTemplate = () => {
-    console.log("Using template:", template.title);
+    // Navigate to manual proposal creation with template data
+    const templateData = {
+      source: "template",
+      template: template,
+      creationContext: creationContext
+    };
+    
+    navigate("/modules/fundraising/manual-proposal-creation", {
+      state: { prefilledData: templateData }
+    });
   };
 
   return (
@@ -35,7 +56,7 @@ const BrowseTemplateDetailView: React.FC<BrowseTemplateDetailViewProps> = ({
         onBack={onBack}
         onReuse={handleUseTemplate}
         title={template.title}
-        description={template.description}
+        description={creationContext ? `Using template for "${creationContext.title}"` : template.description}
         buttonText="Use Template"
         buttonIcon={<Download className="h-4 w-4 mr-2" />}
       />

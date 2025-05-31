@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   Dialog,
@@ -50,12 +51,30 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
         navigate("/modules/fundraising/ai-proposal-wizard");
         break;
       case "upload-template":
-        // TODO: Implement upload template functionality
-        console.log("Upload template selected");
+        // Navigate to proposal management with browse templates tab active
+        navigate("/modules/fundraising/proposal-management?tab=browse-templates&mode=create", {
+          state: { 
+            creationContext: {
+              method: "template",
+              title,
+              opportunityId,
+              isTemplate
+            }
+          }
+        });
         break;
       case "reuse-library":
-        // TODO: Implement reuse from library functionality
-        console.log("Reuse from library selected");
+        // Navigate to proposal management with past proposal library tab active
+        navigate("/modules/fundraising/proposal-management?tab=past-proposals&mode=create", {
+          state: { 
+            creationContext: {
+              method: "reuse",
+              title,
+              opportunityId,
+              isTemplate
+            }
+          }
+        });
         break;
       case "create-manually":
         navigate("/modules/fundraising/manual-proposal-creation");

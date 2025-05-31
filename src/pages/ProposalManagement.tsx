@@ -1,5 +1,6 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import ProposalTabs from "@/components/proposal-management/ProposalTabs";
 import StatCards from "@/components/proposal-management/StatCards";
 import ProposalTable from "@/components/proposal-management/ProposalTable";
@@ -9,10 +10,34 @@ import PastProposalLibrary from "@/components/proposal-management/PastProposalLi
 import BrowseTemplatesTab from "@/components/proposal-management/BrowseTemplatesTab";
 
 const ProposalManagement: React.FC = () => {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  
+  // Get tab from URL parameters
+  const urlTab = searchParams.get('tab');
+  const mode = searchParams.get('mode');
+  
+  // Map URL tab names to tab indices
+  const getTabIndex = (tabName: string | null) => {
+    switch (tabName) {
+      case 'past-proposals': return 1;
+      case 'browse-templates': return 2;
+      case 'calendar': return 3;
+      default: return 0;
+    }
+  };
+
   // Tabs: 0=Overview, 1=Past Proposal Library, 2=Browse Templates, 3=Calendar
-  const [activeTab, setActiveTab] = useState(0);
-  // Move create dialog state to here
+  const [activeTab, setActiveTab] = useState(getTabIndex(urlTab));
   const [showCreate, setShowCreate] = useState(false);
+
+  // Update active tab when URL changes
+  useEffect(() => {
+    setActiveTab(getTabIndex(urlTab));
+  }, [urlTab]);
+
+  // Get creation context from navigation state
+  const creationContext = location.state?.creationContext;
 
   return (
     <div className="bg-[#f4f6f9] min-h-screen p-6 flex flex-col items-center">
@@ -27,12 +52,12 @@ const ProposalManagement: React.FC = () => {
         )}
         {activeTab === 1 && (
           <div className="bg-white rounded-lg p-6 shadow-sm">
-            <PastProposalLibrary />
+            <PastProposalLibrary creationContext={mode === 'create' ? creationContext : undefined} />
           </div>
         )}
         {activeTab === 2 && (
           <div className="bg-white rounded-lg p-6 shadow-sm">
-            <BrowseTemplatesTab />
+            <BrowseTemplatesTab creationContext={mode === 'create' ? creationContext : undefined} />
           </div>
         )}
         {activeTab === 3 && (

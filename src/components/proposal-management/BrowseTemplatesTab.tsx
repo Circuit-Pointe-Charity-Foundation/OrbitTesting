@@ -1,7 +1,7 @@
-
 import React, { useState } from "react";
 import { Search, Filter, Eye, Download } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
 import BrowseTemplateDetailView from "./BrowseTemplateDetailView";
 
 interface Template {
@@ -11,6 +11,17 @@ interface Template {
   uses: number;
   imageSrc: string;
   rating?: number;
+}
+
+interface CreationContext {
+  method: string;
+  title: string;
+  opportunityId: string;
+  isTemplate: boolean;
+}
+
+interface BrowseTemplatesTabProps {
+  creationContext?: CreationContext;
 }
 
 const sampleTemplates: Template[] = [
@@ -68,7 +79,8 @@ const BrowseTemplateCard: React.FC<{
   template: Template; 
   onPreview: (template: Template) => void;
   onUseTemplate: (template: Template) => void;
-}> = ({ template, onPreview, onUseTemplate }) => {
+  creationContext?: CreationContext;
+}> = ({ template, onPreview, onUseTemplate, creationContext }) => {
   const renderStars = (rating: number = 0) => {
     return Array.from({ length: 5 }, (_, index) => (
       <svg
@@ -142,7 +154,7 @@ const BrowseTemplateCard: React.FC<{
               className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-white bg-violet-600 rounded hover:bg-violet-700 transition-colors"
             >
               <Download className="h-4 w-4" />
-              Use Template
+              {creationContext ? "Use Template" : "Use Template"}
             </button>
           </div>
         </div>
@@ -151,10 +163,11 @@ const BrowseTemplateCard: React.FC<{
   );
 };
 
-const BrowseTemplatesTab: React.FC = () => {
+const BrowseTemplatesTab: React.FC<BrowseTemplatesTabProps> = ({ creationContext }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [fileTypeFilter, setFileTypeFilter] = useState("all");
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+  const navigate = useNavigate();
 
   const filteredTemplates = sampleTemplates.filter((template) => {
     const matchesSearch = 
@@ -174,7 +187,16 @@ const BrowseTemplatesTab: React.FC = () => {
   };
 
   const handleUseTemplate = (template: Template) => {
-    console.log("Using template:", template.title);
+    // Navigate to manual proposal creation with template data
+    const templateData = {
+      source: "template",
+      template: template,
+      creationContext: creationContext
+    };
+    
+    navigate("/modules/fundraising/manual-proposal-creation", {
+      state: { prefilledData: templateData }
+    });
   };
 
   const handleBackToLibrary = () => {
@@ -186,6 +208,7 @@ const BrowseTemplatesTab: React.FC = () => {
       <BrowseTemplateDetailView
         template={selectedTemplate}
         onBack={handleBackToLibrary}
+        creationContext={creationContext}
       />
     );
   }
@@ -193,7 +216,14 @@ const BrowseTemplatesTab: React.FC = () => {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Browse Templates</h2>
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900">Browse Templates</h2>
+          {creationContext && (
+            <p className="text-sm text-gray-600 mt-1">
+              Select a template to use for "{creationContext.title}"
+            </p>
+          )}
+        </div>
         
         <div className="flex items-center gap-4">
           <Select value={fileTypeFilter} onValueChange={setFileTypeFilter}>
@@ -235,6 +265,7 @@ const BrowseTemplatesTab: React.FC = () => {
             template={template}
             onPreview={handlePreviewTemplate}
             onUseTemplate={handleUseTemplate}
+            creationContext={creationContext}
           />
         ))}
       </div>

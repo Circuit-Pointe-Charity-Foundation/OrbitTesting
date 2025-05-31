@@ -1,6 +1,7 @@
 
 import React from "react";
 import { RotateCcw } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import ProposalDetailHeader from "./ProposalDetailHeader";
 import ProposalOverviewCard from "./ProposalOverviewCard";
 import ProposalLogframeCard from "./ProposalLogframeCard";
@@ -8,6 +9,13 @@ import ProposalNarrativeCard from "./ProposalNarrativeCard";
 import ProposalBudgetCard from "./ProposalBudgetCard";
 import ProposalTeamCard from "./ProposalTeamCard";
 import ProposalAttachmentsCard from "./ProposalAttachmentsCard";
+
+interface CreationContext {
+  method: string;
+  title: string;
+  opportunityId: string;
+  isTemplate: boolean;
+}
 
 interface PastProposalDetailViewProps {
   proposal: {
@@ -19,14 +27,27 @@ interface PastProposalDetailViewProps {
     rating?: number;
   };
   onBack: () => void;
+  creationContext?: CreationContext;
 }
 
 const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
   proposal,
   onBack,
+  creationContext,
 }) => {
+  const navigate = useNavigate();
+
   const handleReuseProposal = () => {
-    console.log("Reusing proposal:", proposal.title);
+    // Navigate to manual proposal creation with proposal data
+    const proposalData = {
+      source: "proposal",
+      proposal: proposal,
+      creationContext: creationContext
+    };
+    
+    navigate("/modules/fundraising/manual-proposal-creation", {
+      state: { prefilledData: proposalData }
+    });
   };
 
   return (
@@ -35,7 +56,7 @@ const PastProposalDetailView: React.FC<PastProposalDetailViewProps> = ({
         onBack={onBack}
         onReuse={handleReuseProposal}
         title={proposal.title}
-        description={proposal.description}
+        description={creationContext ? `Reusing proposal for "${creationContext.title}"` : proposal.description}
         buttonText="Reuse Proposal"
         buttonIcon={<RotateCcw className="h-4 w-4 mr-2" />}
       />
