@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,10 +13,32 @@ interface CustomField {
   type: 'text' | 'textarea';
 }
 
-const ProposalOverviewTab: React.FC = () => {
+interface PrefilledData {
+  source?: string;
+  template?: any;
+  proposal?: any;
+  creationContext?: any;
+}
+
+interface ProposalOverviewTabProps {
+  prefilledData?: PrefilledData;
+}
+
+const ProposalOverviewTab: React.FC<ProposalOverviewTabProps> = ({ prefilledData }) => {
   const [summary, setSummary] = useState("");
   const [objectives, setObjectives] = useState("");
   const [customFields, setCustomFields] = useState<CustomField[]>([]);
+
+  // Pre-fill data when component mounts
+  useEffect(() => {
+    if (prefilledData) {
+      const sourceData = prefilledData.template || prefilledData.proposal;
+      if (sourceData) {
+        setSummary(sourceData.description || "");
+        setObjectives(`Objectives for ${sourceData.title}`);
+      }
+    }
+  }, [prefilledData]);
 
   const addNewField = () => {
     const newField: CustomField = {

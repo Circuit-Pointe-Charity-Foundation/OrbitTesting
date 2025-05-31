@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -13,9 +13,31 @@ const currencies = [
   { value: "aud", label: "AUD - Australian Dollar" },
 ];
 
-const ProposalBudgetTab: React.FC = () => {
+interface PrefilledData {
+  source?: string;
+  template?: any;
+  proposal?: any;
+  creationContext?: any;
+}
+
+interface ProposalBudgetTabProps {
+  prefilledData?: PrefilledData;
+}
+
+const ProposalBudgetTab: React.FC<ProposalBudgetTabProps> = ({ prefilledData }) => {
   const [currency, setCurrency] = useState("");
   const [budgetAmount, setBudgetAmount] = useState("");
+
+  // Pre-fill data when component mounts
+  useEffect(() => {
+    if (prefilledData) {
+      const sourceData = prefilledData.template || prefilledData.proposal;
+      if (sourceData) {
+        setCurrency("usd");
+        setBudgetAmount("250,000");
+      }
+    }
+  }, [prefilledData]);
 
   const formatNumber = (value: string) => {
     const number = value.replace(/,/g, '');

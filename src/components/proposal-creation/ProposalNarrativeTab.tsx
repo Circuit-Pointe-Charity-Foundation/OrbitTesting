@@ -1,29 +1,49 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Plus, X, Bold, Italic, Underline, List, ListOrdered } from "lucide-react";
+import { Plus, X } from "lucide-react";
 
 interface CustomField {
   id: string;
   label: string;
   value: string;
-  type: 'text' | 'textarea';
 }
 
-const ProposalNarrativeTab: React.FC = () => {
+interface PrefilledData {
+  source?: string;
+  template?: any;
+  proposal?: any;
+  creationContext?: any;
+}
+
+interface ProposalNarrativeTabProps {
+  prefilledData?: PrefilledData;
+}
+
+const ProposalNarrativeTab: React.FC<ProposalNarrativeTabProps> = ({ prefilledData }) => {
   const [narrative, setNarrative] = useState("");
-  const [workPlan, setWorkPlan] = useState("");
+  const [methodology, setMethodology] = useState("");
   const [customFields, setCustomFields] = useState<CustomField[]>([]);
+
+  // Pre-fill data when component mounts
+  useEffect(() => {
+    if (prefilledData) {
+      const sourceData = prefilledData.template || prefilledData.proposal;
+      if (sourceData) {
+        setNarrative(`Narrative content from ${sourceData.title}`);
+        setMethodology("Methodology and approach for the project implementation");
+      }
+    }
+  }, [prefilledData]);
 
   const addNewField = () => {
     const newField: CustomField = {
       id: Date.now().toString(),
       label: `Custom Field ${customFields.length + 1}`,
-      value: "",
-      type: 'textarea'
+      value: ""
     };
     setCustomFields([...customFields, newField]);
   };
@@ -38,48 +58,34 @@ const ProposalNarrativeTab: React.FC = () => {
     ));
   };
 
-  const ToolbarButton = ({ icon: Icon, title }: { icon: any, title: string }) => (
-    <Button variant="ghost" size="sm" title={title} className="h-8 w-8 p-0">
-      <Icon className="w-4 h-4" />
-    </Button>
-  );
-
   return (
     <div className="space-y-6">
       <div className="space-y-4">
         <div>
-          <Label htmlFor="narrative" className="text-sm font-medium mb-2 block">
-            Project Narrative
+          <Label htmlFor="narrative" className="text-sm font-medium">
+            Narrative <span className="text-red-500">*</span>
           </Label>
-          <div className="border rounded-md">
-            <div className="flex items-center gap-1 p-2 border-b bg-gray-50">
-              <ToolbarButton icon={Bold} title="Bold" />
-              <ToolbarButton icon={Italic} title="Italic" />
-              <ToolbarButton icon={Underline} title="Underline" />
-              <div className="w-px h-4 bg-gray-300 mx-1" />
-              <ToolbarButton icon={List} title="Bullet List" />
-              <ToolbarButton icon={ListOrdered} title="Numbered List" />
-            </div>
-            <Textarea
-              id="narrative"
-              placeholder="Enter project narrative..."
-              value={narrative}
-              onChange={(e) => setNarrative(e.target.value)}
-              className="min-h-[200px] border-0 focus-visible:ring-0"
-            />
-          </div>
+          <Textarea
+            id="narrative"
+            placeholder="Enter proposal narrative..."
+            value={narrative}
+            onChange={(e) => setNarrative(e.target.value)}
+            className="mt-1 min-h-[200px]"
+            required
+          />
         </div>
 
         <div>
-          <Label htmlFor="workPlan" className="text-sm font-medium">
-            Work Plan
+          <Label htmlFor="methodology" className="text-sm font-medium">
+            Methodology <span className="text-red-500">*</span>
           </Label>
           <Textarea
-            id="workPlan"
-            placeholder="Enter project work plan..."
-            value={workPlan}
-            onChange={(e) => setWorkPlan(e.target.value)}
+            id="methodology"
+            placeholder="Enter methodology and approach..."
+            value={methodology}
+            onChange={(e) => setMethodology(e.target.value)}
             className="mt-1 min-h-[150px]"
+            required
           />
         </div>
 
@@ -105,7 +111,7 @@ const ProposalNarrativeTab: React.FC = () => {
               value={field.value}
               onChange={(e) => updateField(field.id, { value: e.target.value })}
               placeholder={`Enter ${field.label.toLowerCase()}...`}
-              className="min-h-[100px]"
+              className="min-h-[80px]"
             />
           </div>
         ))}

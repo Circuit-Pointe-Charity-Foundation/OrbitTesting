@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,11 +12,34 @@ interface CustomField {
   value: string;
 }
 
-const ProposalLogframeTab: React.FC = () => {
+interface PrefilledData {
+  source?: string;
+  template?: any;
+  proposal?: any;
+  creationContext?: any;
+}
+
+interface ProposalLogframeTabProps {
+  prefilledData?: PrefilledData;
+}
+
+const ProposalLogframeTab: React.FC<ProposalLogframeTabProps> = ({ prefilledData }) => {
   const [outcome, setOutcome] = useState("");
   const [indicator, setIndicator] = useState("");
   const [assumption, setAssumption] = useState("");
   const [customFields, setCustomFields] = useState<CustomField[]>([]);
+
+  // Pre-fill data when component mounts
+  useEffect(() => {
+    if (prefilledData) {
+      const sourceData = prefilledData.template || prefilledData.proposal;
+      if (sourceData) {
+        setOutcome(`Expected outcome from ${sourceData.title}`);
+        setIndicator("Key performance indicators and measurable results");
+        setAssumption("Project assumptions and risk mitigation strategies");
+      }
+    }
+  }, [prefilledData]);
 
   const addNewField = () => {
     const newField: CustomField = {

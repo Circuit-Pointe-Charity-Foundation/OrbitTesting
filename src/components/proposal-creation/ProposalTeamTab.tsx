@@ -8,140 +8,144 @@ import { Plus, X } from "lucide-react";
 
 interface TeamMember {
   id: string;
-  memberId: string;
+  name: string;
   role: string;
+  email: string;
 }
 
-const availableMembers = [
-  { id: "1", name: "John Doe" },
-  { id: "2", name: "Jane Smith" },
-  { id: "3", name: "Mike Johnson" },
-  { id: "4", name: "Sarah Wilson" },
-  { id: "5", name: "David Brown" },
+interface PrefilledData {
+  source?: string;
+  template?: any;
+  proposal?: any;
+  creationContext?: any;
+}
+
+interface ProposalTeamTabProps {
+  prefilledData?: PrefilledData;
+}
+
+const roles = [
+  "Project Manager",
+  "Technical Lead",
+  "Financial Manager",
+  "Research Coordinator",
+  "Field Coordinator",
+  "Data Analyst",
+  "Communications Specialist",
+  "Consultant",
 ];
 
-const ProposalTeamTab: React.FC = () => {
+const ProposalTeamTab: React.FC<ProposalTeamTabProps> = ({ prefilledData }) => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
-  const [selectedMember, setSelectedMember] = useState("");
-  const [memberRole, setMemberRole] = useState("");
 
-  const addNewMember = () => {
-    if (selectedMember && memberRole) {
-      const newMember: TeamMember = {
-        id: Date.now().toString(),
-        memberId: selectedMember,
-        role: memberRole
-      };
-      setTeamMembers([...teamMembers, newMember]);
-      setSelectedMember("");
-      setMemberRole("");
-    }
+  const addTeamMember = () => {
+    const newMember: TeamMember = {
+      id: Date.now().toString(),
+      name: "",
+      role: "",
+      email: ""
+    };
+    setTeamMembers([...teamMembers, newMember]);
   };
 
-  const removeMember = (id: string) => {
+  const removeTeamMember = (id: string) => {
     setTeamMembers(teamMembers.filter(member => member.id !== id));
   };
 
-  const updateMemberRole = (id: string, role: string) => {
+  const updateTeamMember = (id: string, updates: Partial<TeamMember>) => {
     setTeamMembers(teamMembers.map(member => 
-      member.id === id ? { ...member, role } : member
+      member.id === id ? { ...member, ...updates } : member
     ));
-  };
-
-  const getMemberName = (memberId: string) => {
-    return availableMembers.find(member => member.id === memberId)?.name || "";
-  };
-
-  const getAvailableMembers = () => {
-    const selectedMemberIds = teamMembers.map(member => member.memberId);
-    return availableMembers.filter(member => !selectedMemberIds.includes(member.id));
   };
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="member-select" className="text-sm font-medium">
-            Select team member
-          </Label>
-          <Select value={selectedMember} onValueChange={setSelectedMember}>
-            <SelectTrigger id="member-select" className="mt-1">
-              <SelectValue placeholder="Select member" />
-            </SelectTrigger>
-            <SelectContent>
-              {getAvailableMembers().map((member) => (
-                <SelectItem key={member.id} value={member.id}>
-                  {member.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <Label className="text-sm font-medium">Team Members</Label>
+          <Button
+            variant="outline"
+            onClick={addTeamMember}
+            className="flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Add Team Member
+          </Button>
         </div>
 
-        <div>
-          <Label htmlFor="member-role" className="text-sm font-medium">
-            Role
-          </Label>
-          <Input
-            id="member-role"
-            placeholder="Enter role"
-            value={memberRole}
-            onChange={(e) => setMemberRole(e.target.value)}
-            className="mt-1"
-          />
-        </div>
-      </div>
-
-      <Button
-        onClick={addNewMember}
-        disabled={!selectedMember || !memberRole}
-        className="flex items-center gap-2"
-      >
-        <Plus className="w-4 h-4" />
-        Add New Member
-      </Button>
-
-      {teamMembers.length > 0 && (
-        <div>
-          <h4 className="text-sm font-medium mb-3">Team Members ({teamMembers.length})</h4>
-          <div className="space-y-3">
-            {teamMembers.map((member) => (
-              <div
-                key={member.id}
-                className="flex items-center justify-between p-4 border rounded-lg bg-gray-50"
-              >
-                <div className="flex-1 grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm font-medium">{getMemberName(member.memberId)}</p>
-                    <p className="text-xs text-gray-500">Team Member</p>
-                  </div>
-                  <Input
-                    value={member.role}
-                    onChange={(e) => updateMemberRole(member.id, e.target.value)}
-                    placeholder="Role"
-                    className="text-sm"
-                  />
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => removeMember(member.id)}
-                  className="text-red-500 hover:text-red-700 ml-2"
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            ))}
+        {teamMembers.length === 0 && (
+          <div className="text-center py-8 border border-dashed border-gray-300 rounded-lg">
+            <p className="text-gray-500">No team members added yet.</p>
+            <p className="text-sm text-gray-400 mt-1">Click "Add Team Member" to get started.</p>
           </div>
-        </div>
-      )}
+        )}
 
-      {teamMembers.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-gray-500">No team members added yet.</p>
-          <p className="text-xs text-gray-400 mt-1">At least one team member is required.</p>
-        </div>
-      )}
+        {teamMembers.map((member) => (
+          <div key={member.id} className="p-4 border border-gray-200 rounded-lg space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="font-medium text-gray-900">Team Member</h4>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => removeTeamMember(member.id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor={`name-${member.id}`} className="text-sm font-medium">
+                  Full Name
+                </Label>
+                <Input
+                  id={`name-${member.id}`}
+                  value={member.name}
+                  onChange={(e) => updateTeamMember(member.id, { name: e.target.value })}
+                  placeholder="Enter full name"
+                  className="mt-1"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor={`role-${member.id}`} className="text-sm font-medium">
+                  Role
+                </Label>
+                <Select
+                  value={member.role}
+                  onValueChange={(value) => updateTeamMember(member.id, { role: value })}
+                >
+                  <SelectTrigger id={`role-${member.id}`} className="mt-1">
+                    <SelectValue placeholder="Select role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {roles.map((role) => (
+                      <SelectItem key={role} value={role}>
+                        {role}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor={`email-${member.id}`} className="text-sm font-medium">
+                Email Address
+              </Label>
+              <Input
+                id={`email-${member.id}`}
+                type="email"
+                value={member.email}
+                onChange={(e) => updateTeamMember(member.id, { email: e.target.value })}
+                placeholder="Enter email address"
+                className="mt-1"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
