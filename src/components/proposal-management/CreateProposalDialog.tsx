@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Dialog,
@@ -59,8 +58,7 @@ const CreateProposalDialog: React.FC<Props> = ({ open, onOpenChange }) => {
         console.log("Reuse from library selected");
         break;
       case "create-manually":
-        // TODO: Implement manual creation functionality
-        console.log("Create manually selected");
+        navigate("/modules/fundraising/manual-proposal-creation");
         break;
       default:
         break;

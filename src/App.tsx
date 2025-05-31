@@ -20,6 +20,7 @@ import OpportunityTracking from "./pages/OpportunityTracking";
 import OpportunityPipeline from "./pages/OpportunityPipeline";
 import ProposalManagement from "./pages/ProposalManagement";
 import AIProposalWizard from "./pages/AIProposalWizard";
+import ManualProposalCreation from "./pages/ManualProposalCreation";
 
 // Fundraising module pages - Only these are fully implemented
 import FundraisingDashboard from "./modules/fundraising/pages/Dashboard";
@@ -83,6 +84,7 @@ const App = () => (
                 element={<ProposalManagement />}
               />
               <Route path="ai-proposal-wizard" element={<AIProposalWizard />} />
+              <Route path="manual-proposal-creation" element={<ManualProposalCreation />} />
 
               <Route
                 path="fundraising-analytics"
