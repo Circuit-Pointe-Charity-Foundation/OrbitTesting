@@ -12,7 +12,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -27,6 +26,7 @@ import {
   Download,
   Calendar as CalendarIcon,
   FileText,
+  Loader2,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { format } from "date-fns";
@@ -53,6 +53,7 @@ const FundraisingAnalytics: React.FC = () => {
   const [customPeriodOpen, setCustomPeriodOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleExport() {
     toast({
@@ -62,48 +63,81 @@ const FundraisingAnalytics: React.FC = () => {
     });
   }
 
-  const handlePeriodChange = (value: string) => {
-    setSelectedPeriod(value);
-    if (value === "custom") {
-      setCustomPeriodOpen(true);
+  const handlePeriodChange = async (value: string) => {
+    setIsLoading(true);
+    try {
+      setSelectedPeriod(value);
+      if (value === "custom") {
+        setCustomPeriodOpen(true);
+      }
+      // Simulate data loading
+      await new Promise((resolve) => setTimeout(resolve, 800));
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleCustomPeriodApply = () => {
+  const handleCustomPeriodApply = async () => {
     if (startDate && endDate) {
-      setCustomPeriodOpen(false);
-      toast({
-        title: "Custom Period Applied",
-        description: `Analytics updated for ${format(
-          startDate,
-          "PPP"
-        )} to ${format(endDate, "PPP")}`,
-      });
+      setIsLoading(true);
+      try {
+        setCustomPeriodOpen(false);
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        toast({
+          title: "Custom Period Applied",
+          description: `Analytics updated for ${format(
+            startDate,
+            "PPP"
+          )} to ${format(endDate, "PPP")}`,
+        });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
+
+  // Get current period display text
+  const currentPeriodText =
+    periodOptions.find((opt) => opt.value === selectedPeriod)?.label ||
+    (startDate && endDate
+      ? `${format(startDate, "MMM d")} - ${format(endDate, "MMM d, yyyy")}`
+      : "Select Period");
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Top bar with period selector and actions */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
-        {/* Period selector replaces the old tab */}
+        {/* Period selector with loading state */}
         <div className="flex items-center gap-2 bg-white px-3 py-2 rounded border-b-2 border-violet-700">
           <CalendarIcon size={16} className="text-violet-700" />
-          <Select value={selectedPeriod} onValueChange={handlePeriodChange}>
-            <SelectTrigger className="w-40 border-0 p-0 h-auto shadow-none">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {periodOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {isLoading ? (
+            <div className="flex items-center gap-2 w-40">
+              <Loader2 className="h-4 w-4 animate-spin text-violet-700" />
+              <span className="text-sm">Loading...</span>
+            </div>
+          ) : (
+            <>
+              <Select value={selectedPeriod} onValueChange={handlePeriodChange}>
+                <SelectTrigger className="w-40 border-0 p-0 h-auto shadow-none">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {periodOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {/* Current period indicator badge */}
+              <span className="ml-2 text-xs bg-violet-100 text-violet-800 px-2 py-1 rounded-full">
+                {currentPeriodText}
+              </span>
+            </>
+          )}
         </div>
 
-        {/* Tabs - now only contains Generate Report */}
+        {/* Tabs - Generate Report only */}
         <div className="flex gap-3">
           {tabDefs.map((tab) => (
             <button
@@ -230,14 +264,25 @@ const FundraisingAnalytics: React.FC = () => {
               </Button>
               <Button
                 onClick={handleCustomPeriodApply}
-                disabled={!startDate || !endDate}
+                disabled={!startDate || !endDate || isLoading}
               >
-                Apply
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Apply"
+                )}
               </Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Loading overlay */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center z-10">
+          <Loader2 className="h-8 w-8 animate-spin text-violet-700" />
+        </div>
+      )}
 
       {/* Stat cards */}
       <AnalyticsStatCards
