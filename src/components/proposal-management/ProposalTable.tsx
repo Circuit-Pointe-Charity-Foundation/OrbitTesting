@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { proposals as initialProposals, reviewerOptions, Proposal } from "./ProposalData";
 import { Search } from "lucide-react";

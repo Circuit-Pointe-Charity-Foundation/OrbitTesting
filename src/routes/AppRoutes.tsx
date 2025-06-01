@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
@@ -51,7 +50,7 @@ export const AppRoutes: React.FC = () => {
           <Route path="opportunity-pipeline" element={<OpportunityPipeline />} />
           <Route path="proposal-management" element={<ProposalManagement />} />
           <Route path="ai-proposal-wizard" element={<AIProposalWizard />} />
-          <Route path="manual-proposal-creation" element={<ManualProposalCreation />} />
+          <Route path="proposal-creation" element={<ManualProposalCreation />} />
           <Route path="fundraising-analytics" element={<FundraisingAnalytics />} />
           <Route
             path="settings"
