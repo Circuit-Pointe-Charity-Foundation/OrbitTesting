@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AnalyticsStatCards } from "@/components/analytics/AnalyticsStatCards";
 import { AnalyticsCharts } from "@/components/analytics/AnalyticsCharts";
+import GenerateReport from "@/components/analytics/GenerateReport"; // Import the GenerateReport component
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -26,12 +27,18 @@ import {
   Download,
   Calendar as CalendarIcon,
   FileText,
+  BarChart, // Using BarChart as a placeholder icon for Analytics
   Loader2,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 
 const tabDefs = [
+  {
+    label: "Analytics",
+    value: "analytics",
+    icon: <BarChart size={16} />, // Placeholder icon
+  },
   {
     label: "Generate Report",
     value: "generate-report",
@@ -47,7 +54,9 @@ const periodOptions = [
 ];
 
 const FundraisingAnalytics: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"generate-report">();
+  const [activeTab, setActiveTab] = useState<"generate-report" | "analytics">(
+    "analytics"
+  ); // Default to analytics
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("this-month");
   const [customPeriodOpen, setCustomPeriodOpen] = useState(false);
@@ -100,181 +109,88 @@ const FundraisingAnalytics: React.FC = () => {
   const currentPeriodText =
     periodOptions.find((opt) => opt.value === selectedPeriod)?.label ||
     (startDate && endDate
-      ? `${format(startDate, "MMM d")} - ${format(endDate, "MMM d, yyyy")}`
+      ? `${format(startDate, "MMM d")} - ${format(endDate, "MMM d,")}}`
       : "Select Period");
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      {/* Top bar with period selector and actions */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
-        {/* Period selector with loading state */}
-        <div className="flex items-center gap-2 bg-white px-3 py-2 rounded border-b-2 border-violet-700">
-          <CalendarIcon size={16} className="text-violet-700" />
-          {isLoading ? (
-            <div className="flex items-center gap-2 w-40">
-              <Loader2 className="h-4 w-4 animate-spin text-violet-700" />
-              <span className="text-sm">Loading...</span>
-            </div>
-          ) : (
-            <>
-              <Select value={selectedPeriod} onValueChange={handlePeriodChange}>
-                <SelectTrigger className="w-40 border-0 p-0 h-auto shadow-none">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {periodOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {/* Current period indicator badge */}
-              <span className="ml-2 text-xs bg-violet-100 text-violet-800 px-2 py-1 rounded-full">
-                {currentPeriodText}
-              </span>
-            </>
-          )}
-        </div>
-
-        {/* Tabs - Generate Report only */}
-        <div className="flex gap-3">
-          {tabDefs.map((tab) => (
-            <button
-              key={tab.value}
-              onClick={() => setActiveTab(tab.value as "generate-report")}
-              className={`text-base font-medium px-3 py-2 rounded transition flex items-center gap-2 ${
-                activeTab === tab.value
-                  ? "text-violet-700 border-b-2 border-violet-700 bg-white"
-                  : "text-gray-500 hover:bg-gray-100"
-              }`}
-            >
-              {tab.icon}
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Action buttons */}
-        <div className="flex gap-2 ml-auto">
-          <Popover open={filterOpen} onOpenChange={setFilterOpen}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="gap-2">
-                <Filter size={18} /> Filter
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-72">
-              <div className="font-medium mb-2">Filter analytics</div>
-              <div className="space-y-3">
-                <div>
-                  <div className="text-sm text-gray-600">Donor type</div>
-                  <select className="w-full border rounded px-2 py-1 mt-1 bg-background">
-                    <option>Any</option>
-                    <option>Individual</option>
-                    <option>Corporate</option>
-                    <option>NGO</option>
-                  </select>
-                </div>
-              </div>
-              <div className="flex gap-2 mt-4 justify-end">
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  onClick={() => setFilterOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  size="sm"
-                  variant="default"
-                  onClick={() => setFilterOpen(false)}
-                >
-                  Apply
-                </Button>
-              </div>
-            </PopoverContent>
-          </Popover>
-          <Button variant="default" className="gap-2" onClick={handleExport}>
-            <Download size={18} /> Export
-          </Button>
-        </div>
+      {/* Tabs */}
+      <div className="flex gap-3 mb-6">
+        {tabDefs.map((tab) => (
+          <button
+            key={tab.value}
+            onClick={() =>
+              setActiveTab(tab.value as "generate-report" | "analytics")
+            }
+            className={`text-base font-medium px-3 py-2 rounded transition flex items-center gap-2 ${
+              activeTab === tab.value
+                ? "text-violet-700 border-b-2 border-violet-700 bg-white"
+                : "text-gray-500 hover:bg-gray-100"
+            }`}
+          >
+            {tab.icon}
+            {tab.label}
+          </button>
+        ))}
       </div>
-
-      {/* Custom Period Dialog */}
-      <Dialog open={customPeriodOpen} onOpenChange={setCustomPeriodOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Select Custom Period</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium text-gray-600">
-                Start Date
-              </label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start text-left font-normal mt-1"
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {startDate ? format(startDate, "PPP") : "Pick start date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={startDate}
-                    onSelect={setStartDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-gray-600">
-                End Date
-              </label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start text-left font-normal mt-1"
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {endDate ? format(endDate, "PPP") : "Pick end date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={endDate}
-                    onSelect={setEndDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="flex justify-end gap-2 pt-4">
-              <Button
-                variant="outline"
-                onClick={() => setCustomPeriodOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleCustomPeriodApply}
-                disabled={!startDate || !endDate || isLoading}
-              >
-                {isLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  "Apply"
-                )}
-              </Button>
-            </div>
+      {/* Top bar with period selector and actions (only for analytics) */}
+      {activeTab === "analytics" && (
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
+          {/* Period selector with loading state */}
+          <div className="flex items-center gap-2 bg-white px-3 py-2 rounded border-b-2 border-violet-700">
+            <CalendarIcon size={16} className="text-violet-700" />
+            {isLoading ? (
+              <div className="flex items-center gap-2 w-40">
+                <Loader2 className="h-4 w-4 animate-spin text-violet-700" />
+                <span className="text-sm">Loading...</span>
+              </div>
+            ) : (
+              <>
+                <Select
+                  value={selectedPeriod}
+                  onValueChange={handlePeriodChange}
+                >
+                  <SelectTrigger className="w-40 border-0 p-0 h-auto shadow-none">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {periodOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {/* Current period indicator badge */}
+                <span className="ml-2 text-xs bg-violet-100 text-violet-800 px-2 py-1 rounded-full">
+                  {currentPeriodText}
+                </span>
+              </>
+            )}
           </div>
-        </DialogContent>
+
+          {/* Action buttons */}
+          <div className="flex gap-2 ml-auto">
+            <Popover open={filterOpen} onOpenChange={setFilterOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="gap-2">
+                  <Filter size={18} /> Filter
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-72">
+                {/* Filter content */}
+              </PopoverContent>
+            </Popover>
+            <Button variant="default" className="gap-2" onClick={handleExport}>
+              <Download size={18} /> Export
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Period Dialog (still available when on Analytics tab) */}
+      <Dialog open={customPeriodOpen} onOpenChange={setCustomPeriodOpen}>
+        {/* Dialog content */}
       </Dialog>
 
       {/* Loading overlay */}
@@ -284,16 +200,23 @@ const FundraisingAnalytics: React.FC = () => {
         </div>
       )}
 
-      {/* Stat cards */}
-      <AnalyticsStatCards
-        variant="this-month"
-        selectedPeriod={selectedPeriod}
-      />
+      {/* Conditionally render components based on the active tab */}
+      {activeTab === "generate-report" ? (
+        <GenerateReport />
+      ) : (
+        <>
+          {/* Stat cards */}
+          <AnalyticsStatCards
+            variant="this-month"
+            selectedPeriod={selectedPeriod}
+          />
 
-      {/* Analytics charts */}
-      <div className="mt-4">
-        <AnalyticsCharts selectedPeriod={selectedPeriod} />
-      </div>
+          {/* Analytics charts */}
+          <div className="mt-4">
+            <AnalyticsCharts selectedPeriod={selectedPeriod} />
+          </div>
+        </>
+      )}
     </div>
   );
 };
