@@ -1,4 +1,3 @@
-// src/components/analytics/GenerateReport.tsx
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -83,9 +82,9 @@ const GenerateReport: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
-      {/* Left Column - Configuration */}
-      <div className="lg:col-span-2 space-y-6">
+    <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 p-6">
+      {/* Left Column - Configuration (30%) */}
+      <div className="lg:col-span-3 space-y-6">
         {/* Metrics Selection */}
         <Card>
           <CardHeader>
@@ -244,11 +243,112 @@ const GenerateReport: React.FC = () => {
         </Button>
       </div>
 
-      {/* Right Column - Preview */}
-      <div className="lg:col-span-1">
-        <Card className="sticky top-6">
+      {/* Right Column - Preview (70%) */}
+      <div className="lg:col-span-7 space-y-6">
+        {/* File Format Visuals */}
+        <Card>
           <CardHeader>
             <CardTitle className="text-lg">Report Preview</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {reportFormat.pdf && (
+              <div className="border rounded-lg p-4 bg-gray-50">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="font-medium">PDF Preview</div>
+                  <div className="text-sm text-gray-500">Document.pdf</div>
+                </div>
+                <div className="h-96 bg-white border flex items-center justify-center">
+                  <div className="text-center p-6">
+                    <div className="text-lg font-medium mb-2">
+                      PDF Document Preview
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {Object.entries(metrics)
+                        .filter(([_, selected]) => selected)
+                        .map(([key]) => (
+                          <div key={key}>
+                            {
+                              {
+                                proposalsSubmitted: "• Proposals Submitted",
+                                successRate: "• Success Rate (%)",
+                                totalFundsRaised: "• Total Funds Raised",
+                                averageGrantSize: "• Average Grant Size",
+                                turnaroundTime: "• Turnaround Time",
+                                donorSegmentation: "• Donor Segmentation",
+                              }[key]
+                            }
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {reportFormat.csv && (
+              <div className="border rounded-lg p-4 bg-gray-50 mt-4">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="font-medium">CSV Preview</div>
+                  <div className="text-sm text-gray-500">Data.csv</div>
+                </div>
+                <div className="h-64 bg-white border overflow-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        {Object.entries(metrics)
+                          .filter(([_, selected]) => selected)
+                          .map(([key]) => (
+                            <th
+                              key={key}
+                              className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              {
+                                {
+                                  proposalsSubmitted: "Proposals",
+                                  successRate: "Success Rate",
+                                  totalFundsRaised: "Total Funds",
+                                  averageGrantSize: "Avg Grant",
+                                  turnaroundTime: "Turnaround",
+                                  donorSegmentation: "Donor Seg.",
+                                }[key]
+                              }
+                            </th>
+                          ))}
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      <tr>
+                        {Object.entries(metrics)
+                          .filter(([_, selected]) => selected)
+                          .map(([key]) => (
+                            <td
+                              key={key}
+                              className="px-4 py-2 text-sm text-gray-500"
+                            >
+                              Sample
+                            </td>
+                          ))}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {!reportFormat.pdf && !reportFormat.csv && (
+              <div className="h-64 bg-gray-50 border-2 border-dashed rounded-lg flex items-center justify-center">
+                <div className="text-center text-gray-400">
+                  Select PDF or CSV format to see preview
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Current Selections Summary */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Current Selections</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -281,19 +381,6 @@ const GenerateReport: React.FC = () => {
                       endDate,
                       "MMM d, yyyy"
                     )}`
-                  : "Not selected"}
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="font-medium">Output Format</h3>
-              <p className="text-sm text-gray-600">
-                {reportFormat.pdf && reportFormat.csv
-                  ? "PDF & CSV"
-                  : reportFormat.pdf
-                  ? "PDF"
-                  : reportFormat.csv
-                  ? "CSV"
                   : "Not selected"}
               </p>
             </div>
