@@ -4,17 +4,32 @@ import { AnalyticsStatCards } from "@/components/analytics/AnalyticsStatCards";
 import { AnalyticsCharts } from "@/components/analytics/AnalyticsCharts";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Filter, Download } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import { Filter, Download, Calendar as CalendarIcon, FileText } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { format } from "date-fns";
 
 const tabDefs = [
+  { label: "This Month", value: "this-month", icon: <CalendarIcon size={16} /> },
+  { label: "Generate Report", value: "generate-report", icon: <FileText size={16} /> },
+];
+
+const periodOptions = [
   { label: "This Month", value: "this-month" },
-  { label: "Generate Report", value: "generate-report" },
+  { label: "This Quarter", value: "this-quarter" },
+  { label: "Last 12 Months", value: "last-12-months" },
+  { label: "Custom", value: "custom" },
 ];
 
 const FundraisingAnalytics: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"this-month" | "generate-report">("this-month");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState("this-month");
+  const [customPeriodOpen, setCustomPeriodOpen] = useState(false);
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
 
   function handleExport() {
     toast({
@@ -22,6 +37,23 @@ const FundraisingAnalytics: React.FC = () => {
       description: "Your fundraising analytics report has been generated and downloaded.",
     });
   }
+
+  const handlePeriodChange = (value: string) => {
+    setSelectedPeriod(value);
+    if (value === "custom") {
+      setCustomPeriodOpen(true);
+    }
+  };
+
+  const handleCustomPeriodApply = () => {
+    if (startDate && endDate) {
+      setCustomPeriodOpen(false);
+      toast({
+        title: "Custom Period Applied",
+        description: `Analytics updated for ${format(startDate, "PPP")} to ${format(endDate, "PPP")}`,
+      });
+    }
+  };
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -33,12 +65,13 @@ const FundraisingAnalytics: React.FC = () => {
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value as "this-month" | "generate-report")}
-              className={`text-base font-medium px-2 py-1.5 rounded transition ${
+              className={`text-base font-medium px-3 py-2 rounded transition flex items-center gap-2 ${
                 activeTab === tab.value
                   ? "text-violet-700 border-b-2 border-violet-700 bg-white"
                   : "text-gray-500 hover:bg-gray-100"
               }`}
             >
+              {tab.icon}
               {tab.label}
             </button>
           ))}
@@ -52,7 +85,6 @@ const FundraisingAnalytics: React.FC = () => {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-72">
-              {/* Demo filter content */}
               <div className="font-medium mb-2">Filter analytics</div>
               <div className="space-y-3">
                 <div>
@@ -88,12 +120,92 @@ const FundraisingAnalytics: React.FC = () => {
         </div>
       </div>
 
+      {/* Period Selector for This Month tab */}
+      {activeTab === "this-month" && (
+        <div className="mb-4">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-600">Period:</span>
+            <Select value={selectedPeriod} onValueChange={handlePeriodChange}>
+              <SelectTrigger className="w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {periodOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Period Dialog */}
+      <Dialog open={customPeriodOpen} onOpenChange={setCustomPeriodOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Select Custom Period</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-gray-600">Start Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="w-full justify-start text-left font-normal mt-1">
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {startDate ? format(startDate, "PPP") : "Pick start date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={setStartDate}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-gray-600">End Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="w-full justify-start text-left font-normal mt-1">
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {endDate ? format(endDate, "PPP") : "Pick end date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={setEndDate}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="flex justify-end gap-2 pt-4">
+              <Button variant="outline" onClick={() => setCustomPeriodOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleCustomPeriodApply} disabled={!startDate || !endDate}>
+                Apply
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Stat cards */}
-      <AnalyticsStatCards variant={activeTab} />
+      <AnalyticsStatCards variant={activeTab} selectedPeriod={selectedPeriod} />
 
       {/* Analytics charts */}
       <div className="mt-4">
-        <AnalyticsCharts />
+        <AnalyticsCharts selectedPeriod={selectedPeriod} />
       </div>
     </div>
   );
