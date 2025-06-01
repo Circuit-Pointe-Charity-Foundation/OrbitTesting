@@ -5,6 +5,7 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Updated data for Proposals Turnaround Time
 const turnaroundData = [
@@ -65,38 +66,77 @@ const fundingRaisedData = {
   ],
 };
 
-// Updated data for Proposal Activity
+// Updated data for Proposal Activity - full year data
 const proposalActivityData = {
-  Donor: [
-    { month: "Jan", total: 95, submitted: 60, drafted: 45, approved: 28 },
-    { month: "Feb", total: 84, submitted: 53, drafted: 38, approved: 20 },
-    { month: "Mar", total: 90, submitted: 62, drafted: 42, approved: 25 },
-    { month: "Apr", total: 88, submitted: 50, drafted: 35, approved: 28 },
-    { month: "May", total: 93, submitted: 65, drafted: 48, approved: 31 },
-    { month: "Jun", total: 100, submitted: 70, drafted: 52, approved: 25 },
-  ],
-  Sector: [
-    { month: "Jan", total: 85, submitted: 55, drafted: 40, approved: 25 },
-    { month: "Feb", total: 92, submitted: 58, drafted: 43, approved: 22 },
-    { month: "Mar", total: 88, submitted: 60, drafted: 38, approved: 28 },
-    { month: "Apr", total: 95, submitted: 52, drafted: 40, approved: 30 },
-    { month: "May", total: 87, submitted: 62, drafted: 45, approved: 27 },
-    { month: "Jun", total: 98, submitted: 68, drafted: 48, approved: 29 },
-  ],
-  Year: [
+  2024: {
+    Donor: [
+      { month: "Jan", total: 95, submitted: 60, drafted: 45, approved: 28 },
+      { month: "Feb", total: 84, submitted: 53, drafted: 38, approved: 20 },
+      { month: "Mar", total: 90, submitted: 62, drafted: 42, approved: 25 },
+      { month: "Apr", total: 88, submitted: 50, drafted: 35, approved: 28 },
+      { month: "May", total: 93, submitted: 65, drafted: 48, approved: 31 },
+      { month: "Jun", total: 100, submitted: 70, drafted: 52, approved: 25 },
+      { month: "Jul", total: 87, submitted: 55, drafted: 40, approved: 22 },
+      { month: "Aug", total: 92, submitted: 58, drafted: 43, approved: 26 },
+      { month: "Sep", total: 96, submitted: 63, drafted: 47, approved: 29 },
+      { month: "Oct", total: 101, submitted: 72, drafted: 55, approved: 33 },
+      { month: "Nov", total: 89, submitted: 56, drafted: 41, approved: 24 },
+      { month: "Dec", total: 94, submitted: 61, drafted: 44, approved: 27 },
+    ],
+    Sector: [
+      { month: "Jan", total: 85, submitted: 55, drafted: 40, approved: 25 },
+      { month: "Feb", total: 92, submitted: 58, drafted: 43, approved: 22 },
+      { month: "Mar", total: 88, submitted: 60, drafted: 38, approved: 28 },
+      { month: "Apr", total: 95, submitted: 52, drafted: 40, approved: 30 },
+      { month: "May", total: 87, submitted: 62, drafted: 45, approved: 27 },
+      { month: "Jun", total: 98, submitted: 68, drafted: 48, approved: 29 },
+      { month: "Jul", total: 83, submitted: 51, drafted: 37, approved: 21 },
+      { month: "Aug", total: 90, submitted: 57, drafted: 42, approved: 25 },
+      { month: "Sep", total: 94, submitted: 64, drafted: 46, approved: 28 },
+      { month: "Oct", total: 99, submitted: 70, drafted: 53, approved: 32 },
+      { month: "Nov", total: 86, submitted: 54, drafted: 39, approved: 23 },
+      { month: "Dec", total: 91, submitted: 59, drafted: 43, approved: 26 },
+    ],
+  },
+  2023: [
     { month: "Jan", total: 105, submitted: 68, drafted: 55, approved: 32 },
     { month: "Feb", total: 89, submitted: 56, drafted: 42, approved: 24 },
     { month: "Mar", total: 96, submitted: 64, drafted: 48, approved: 30 },
     { month: "Apr", total: 82, submitted: 48, drafted: 38, approved: 26 },
     { month: "May", total: 101, submitted: 72, drafted: 58, approved: 35 },
     { month: "Jun", total: 94, submitted: 65, drafted: 50, approved: 28 },
+    { month: "Jul", total: 91, submitted: 59, drafted: 45, approved: 25 },
+    { month: "Aug", total: 87, submitted: 53, drafted: 41, approved: 23 },
+    { month: "Sep", total: 99, submitted: 67, drafted: 52, approved: 31 },
+    { month: "Oct", total: 93, submitted: 61, drafted: 47, approved: 27 },
+    { month: "Nov", total: 88, submitted: 54, drafted: 42, approved: 24 },
+    { month: "Dec", total: 95, submitted: 63, drafted: 49, approved: 29 },
+  ],
+  2022: [
+    { month: "Jan", total: 78, submitted: 48, drafted: 38, approved: 22 },
+    { month: "Feb", total: 85, submitted: 52, drafted: 41, approved: 19 },
+    { month: "Mar", total: 82, submitted: 55, drafted: 35, approved: 24 },
+    { month: "Apr", total: 89, submitted: 47, drafted: 37, approved: 26 },
+    { month: "May", total: 76, submitted: 58, drafted: 42, approved: 21 },
+    { month: "Jun", total: 91, submitted: 62, drafted: 46, approved: 25 },
+    { month: "Jul", total: 84, submitted: 51, drafted: 39, approved: 20 },
+    { month: "Aug", total: 88, submitted: 54, drafted: 43, approved: 23 },
+    { month: "Sep", total: 93, submitted: 59, drafted: 47, approved: 27 },
+    { month: "Oct", total: 86, submitted: 56, drafted: 41, approved: 24 },
+    { month: "Nov", total: 81, submitted: 49, drafted: 38, approved: 21 },
+    { month: "Dec", total: 87, submitted: 53, drafted: 42, approved: 25 },
   ],
 };
+
+// Get available years (current year and previous years)
+const currentYear = new Date().getFullYear();
+const availableYears = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
 export function AnalyticsCharts({ selectedPeriod }: { selectedPeriod?: string }) {
   const [donorSegmentFilter, setDonorSegmentFilter] = useState("Type");
   const [fundingRaisedFilter, setFundingRaisedFilter] = useState("Sector");
   const [proposalActivityFilter, setProposalActivityFilter] = useState("Donor");
+  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
   const [visibleLines, setVisibleLines] = useState({
     total: true,
     submitted: true,
@@ -106,7 +146,17 @@ export function AnalyticsCharts({ selectedPeriod }: { selectedPeriod?: string })
 
   const currentDonorData = donorSegmentationData[donorSegmentFilter as keyof typeof donorSegmentationData];
   const currentFundingData = fundingRaisedData[fundingRaisedFilter as keyof typeof fundingRaisedData];
-  const currentActivityData = proposalActivityData[proposalActivityFilter as keyof typeof proposalActivityData];
+  
+  // Get proposal activity data based on selected year and filter
+  const getProposalActivityData = () => {
+    const yearData = proposalActivityData[selectedYear as keyof typeof proposalActivityData];
+    if (selectedYear === "2024" && typeof yearData === "object" && !Array.isArray(yearData)) {
+      return yearData[proposalActivityFilter as keyof typeof yearData] || [];
+    }
+    return Array.isArray(yearData) ? yearData : [];
+  };
+
+  const currentActivityData = getProposalActivityData();
 
   const toggleLine = (lineKey: string) => {
     setVisibleLines(prev => ({
@@ -118,20 +168,27 @@ export function AnalyticsCharts({ selectedPeriod }: { selectedPeriod?: string })
   const CustomLegend = (props: any) => {
     const { payload } = props;
     return (
-      <div className="flex flex-wrap gap-4 justify-center mt-4">
+      <div className="flex flex-wrap gap-6 justify-center mt-4">
         {payload.map((entry: any, index: number) => (
           <div
             key={`item-${index}`}
-            className={`flex items-center gap-2 cursor-pointer ${
-              !visibleLines[entry.dataKey as keyof typeof visibleLines] ? 'opacity-50' : ''
-            }`}
-            onClick={() => toggleLine(entry.dataKey)}
+            className="flex items-center gap-2"
           >
-            <div
-              className="w-3 h-3 rounded-sm"
-              style={{ backgroundColor: entry.color }}
+            <Checkbox
+              id={entry.dataKey}
+              checked={visibleLines[entry.dataKey as keyof typeof visibleLines]}
+              onCheckedChange={() => toggleLine(entry.dataKey)}
             />
-            <span className="text-sm">{entry.value}</span>
+            <label 
+              htmlFor={entry.dataKey}
+              className="flex items-center gap-2 cursor-pointer text-sm"
+            >
+              <div
+                className="w-3 h-3 rounded-sm"
+                style={{ backgroundColor: entry.color }}
+              />
+              <span>{entry.value}</span>
+            </label>
           </div>
         ))}
       </div>
@@ -249,16 +306,29 @@ export function AnalyticsCharts({ selectedPeriod }: { selectedPeriod?: string })
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-[16px] font-semibold">Proposal Activity</CardTitle>
-            <Select value={proposalActivityFilter} onValueChange={setProposalActivityFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Donor">Donor</SelectItem>
-                <SelectItem value="Sector">Sector</SelectItem>
-                <SelectItem value="Year">Year</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex gap-2">
+              <Select value={selectedYear} onValueChange={setSelectedYear}>
+                <SelectTrigger className="w-24">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableYears.map((year) => (
+                    <SelectItem key={year} value={year.toString()}>
+                      {year}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select value={proposalActivityFilter} onValueChange={setProposalActivityFilter}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Donor">Donor</SelectItem>
+                  <SelectItem value="Sector">Sector</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="h-64">
