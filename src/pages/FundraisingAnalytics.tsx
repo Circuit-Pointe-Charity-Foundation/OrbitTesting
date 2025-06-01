@@ -1,19 +1,42 @@
-
 import React, { useState } from "react";
 import { AnalyticsStatCards } from "@/components/analytics/AnalyticsStatCards";
 import { AnalyticsCharts } from "@/components/analytics/AnalyticsCharts";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
-import { Filter, Download, Calendar as CalendarIcon, FileText } from "lucide-react";
+import {
+  Filter,
+  Download,
+  Calendar as CalendarIcon,
+  FileText,
+} from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 
 const tabDefs = [
-  { label: "This Month", value: "this-month", icon: <CalendarIcon size={16} /> },
-  { label: "Generate Report", value: "generate-report", icon: <FileText size={16} /> },
+  {
+    label: "Generate Report",
+    value: "generate-report",
+    icon: <FileText size={16} />,
+  },
 ];
 
 const periodOptions = [
@@ -24,7 +47,7 @@ const periodOptions = [
 ];
 
 const FundraisingAnalytics: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"this-month" | "generate-report">("this-month");
+  const [activeTab, setActiveTab] = useState<"generate-report">();
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("this-month");
   const [customPeriodOpen, setCustomPeriodOpen] = useState(false);
@@ -34,7 +57,8 @@ const FundraisingAnalytics: React.FC = () => {
   function handleExport() {
     toast({
       title: "Report Exported",
-      description: "Your fundraising analytics report has been generated and downloaded.",
+      description:
+        "Your fundraising analytics report has been generated and downloaded.",
     });
   }
 
@@ -50,21 +74,41 @@ const FundraisingAnalytics: React.FC = () => {
       setCustomPeriodOpen(false);
       toast({
         title: "Custom Period Applied",
-        description: `Analytics updated for ${format(startDate, "PPP")} to ${format(endDate, "PPP")}`,
+        description: `Analytics updated for ${format(
+          startDate,
+          "PPP"
+        )} to ${format(endDate, "PPP")}`,
       });
     }
   };
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      {/* Top bar with tabs and actions */}
+      {/* Top bar with period selector and actions */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
-        {/* Tabs */}
+        {/* Period selector replaces the old tab */}
+        <div className="flex items-center gap-2 bg-white px-3 py-2 rounded border-b-2 border-violet-700">
+          <CalendarIcon size={16} className="text-violet-700" />
+          <Select value={selectedPeriod} onValueChange={handlePeriodChange}>
+            <SelectTrigger className="w-40 border-0 p-0 h-auto shadow-none">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {periodOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Tabs - now only contains Generate Report */}
         <div className="flex gap-3">
           {tabDefs.map((tab) => (
             <button
               key={tab.value}
-              onClick={() => setActiveTab(tab.value as "this-month" | "generate-report")}
+              onClick={() => setActiveTab(tab.value as "generate-report")}
               className={`text-base font-medium px-3 py-2 rounded transition flex items-center gap-2 ${
                 activeTab === tab.value
                   ? "text-violet-700 border-b-2 border-violet-700 bg-white"
@@ -76,6 +120,7 @@ const FundraisingAnalytics: React.FC = () => {
             </button>
           ))}
         </div>
+
         {/* Action buttons */}
         <div className="flex gap-2 ml-auto">
           <Popover open={filterOpen} onOpenChange={setFilterOpen}>
@@ -88,13 +133,6 @@ const FundraisingAnalytics: React.FC = () => {
               <div className="font-medium mb-2">Filter analytics</div>
               <div className="space-y-3">
                 <div>
-                  <div className="text-sm text-gray-600">Report period</div>
-                  <select className="w-full border rounded px-2 py-1 mt-1 bg-background">
-                    <option>This Month</option>
-                    <option>Last Quarter</option>
-                  </select>
-                </div>
-                <div>
                   <div className="text-sm text-gray-600">Donor type</div>
                   <select className="w-full border rounded px-2 py-1 mt-1 bg-background">
                     <option>Any</option>
@@ -105,10 +143,18 @@ const FundraisingAnalytics: React.FC = () => {
                 </div>
               </div>
               <div className="flex gap-2 mt-4 justify-end">
-                <Button size="sm" variant="secondary" onClick={() => setFilterOpen(false)}>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => setFilterOpen(false)}
+                >
                   Cancel
                 </Button>
-                <Button size="sm" variant="default" onClick={() => setFilterOpen(false)}>
+                <Button
+                  size="sm"
+                  variant="default"
+                  onClick={() => setFilterOpen(false)}
+                >
                   Apply
                 </Button>
               </div>
@@ -120,27 +166,6 @@ const FundraisingAnalytics: React.FC = () => {
         </div>
       </div>
 
-      {/* Period Selector for This Month tab */}
-      {activeTab === "this-month" && (
-        <div className="mb-4">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-600">Period:</span>
-            <Select value={selectedPeriod} onValueChange={handlePeriodChange}>
-              <SelectTrigger className="w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {periodOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      )}
-
       {/* Custom Period Dialog */}
       <Dialog open={customPeriodOpen} onOpenChange={setCustomPeriodOpen}>
         <DialogContent className="sm:max-w-md">
@@ -149,10 +174,15 @@ const FundraisingAnalytics: React.FC = () => {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-600">Start Date</label>
+              <label className="text-sm font-medium text-gray-600">
+                Start Date
+              </label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start text-left font-normal mt-1">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-left font-normal mt-1"
+                  >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {startDate ? format(startDate, "PPP") : "Pick start date"}
                   </Button>
@@ -163,16 +193,20 @@ const FundraisingAnalytics: React.FC = () => {
                     selected={startDate}
                     onSelect={setStartDate}
                     initialFocus
-                    className="p-3 pointer-events-auto"
                   />
                 </PopoverContent>
               </Popover>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">End Date</label>
+              <label className="text-sm font-medium text-gray-600">
+                End Date
+              </label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start text-left font-normal mt-1">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-left font-normal mt-1"
+                  >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {endDate ? format(endDate, "PPP") : "Pick end date"}
                   </Button>
@@ -183,16 +217,21 @@ const FundraisingAnalytics: React.FC = () => {
                     selected={endDate}
                     onSelect={setEndDate}
                     initialFocus
-                    className="p-3 pointer-events-auto"
                   />
                 </PopoverContent>
               </Popover>
             </div>
             <div className="flex justify-end gap-2 pt-4">
-              <Button variant="outline" onClick={() => setCustomPeriodOpen(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setCustomPeriodOpen(false)}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleCustomPeriodApply} disabled={!startDate || !endDate}>
+              <Button
+                onClick={handleCustomPeriodApply}
+                disabled={!startDate || !endDate}
+              >
                 Apply
               </Button>
             </div>
@@ -201,7 +240,10 @@ const FundraisingAnalytics: React.FC = () => {
       </Dialog>
 
       {/* Stat cards */}
-      <AnalyticsStatCards variant={activeTab} selectedPeriod={selectedPeriod} />
+      <AnalyticsStatCards
+        variant="this-month"
+        selectedPeriod={selectedPeriod}
+      />
 
       {/* Analytics charts */}
       <div className="mt-4">
