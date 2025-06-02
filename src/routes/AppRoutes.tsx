@@ -4,6 +4,8 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import NotFound from "@/pages/NotFound";
 import Login from "@/pages/Login";
 import Registration from "@/pages/Registration";
+import NewLogin from "@/pages/NewLogin";
+import NewRegistration from "@/pages/NewRegistration";
 import FeaturePlaceholder from "@/components/common/FeaturePlaceholder";
 import OpportunityTracking from "@/pages/OpportunityTracking";
 import OpportunityPipeline from "@/pages/OpportunityPipeline";
@@ -40,6 +42,10 @@ export const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/" element={<LoginWithReset />} />
       <Route path="/register" element={<Registration />} />
+      
+      {/* New authentication routes */}
+      <Route path="/new-login" element={<NewLogin />} />
+      <Route path="/new-register" element={<NewRegistration />} />
 
       <Route element={<MainLayout />}>
         {/* Fundraising module routes */}
