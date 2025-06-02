@@ -76,7 +76,7 @@ export const QuickActions: React.FC = () => {
           <QuickAction
             icon={<BarChart3 className="w-4 h-4" />}
             label="Generate Reports"
-            to="/reports"
+            to="/modules/fundraising/fundraising-analytics?tab=generate-report"
           />
         </div>
         <div className="bg-violet-100 h-px w-full mt-4" />

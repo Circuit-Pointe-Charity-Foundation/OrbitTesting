@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { AnalyticsStatCards } from "@/components/analytics/AnalyticsStatCards";
 import { AnalyticsCharts } from "@/components/analytics/AnalyticsCharts";
 import GenerateReport from "@/components/analytics/GenerateReport"; // Import the GenerateReport component
@@ -54,15 +56,27 @@ const periodOptions = [
 ];
 
 const FundraisingAnalytics: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get('tab');
+  
   const [activeTab, setActiveTab] = useState<"generate-report" | "analytics">(
-    "analytics"
-  ); // Default to analytics
+    tabFromUrl === "generate-report" ? "generate-report" : "analytics"
+  );
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("this-month");
   const [customPeriodOpen, setCustomPeriodOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [isLoading, setIsLoading] = useState(false);
+
+  // Update active tab when URL changes
+  useEffect(() => {
+    if (tabFromUrl === "generate-report") {
+      setActiveTab("generate-report");
+    } else {
+      setActiveTab("analytics");
+    }
+  }, [tabFromUrl]);
 
   function handleExport() {
     toast({

@@ -51,6 +51,7 @@ export const AppRoutes: React.FC = () => {
           <Route path="proposal-management" element={<ProposalManagement />} />
           <Route path="ai-proposal-wizard" element={<AIProposalWizard />} />
           <Route path="proposal-creation" element={<ManualProposalCreation />} />
+          <Route path="manual-proposal-creation" element={<ManualProposalCreation />} />
           <Route path="fundraising-analytics" element={<FundraisingAnalytics />} />
           <Route
             path="settings"
